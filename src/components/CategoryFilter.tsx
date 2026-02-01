@@ -1,0 +1,92 @@
+import React, { useState } from "react";
+
+const categories = [
+  "All",
+  "Ecommerce",
+  "Food & Beverage",
+  "Real State",
+  "Health & Wellness",
+  "Hospitality & Travel",
+  "Transport",
+  "Tech",
+  "Fashion Apparels",
+  "Beauty & Care",
+  "Manufacturing & Industrial",
+  "Entertainment",
+];
+
+export const CategoryFilter = (): JSX.Element => {
+  const [active, setActive] = useState("All");
+  const [expanded, setExpanded] = useState(false);
+
+  // visible counts
+  const mobileVisible = 5;
+  const tabletVisible = 7;
+
+  return (
+    <section className="w-full py-8 sm:py-10 mb-8">
+      {/* ===== FILTER BUTTONS ===== */}
+      <div className="flex flex-wrap gap-3 sm:gap-4">
+
+        {categories.map((category, index) => {
+          const isActive = active === category;
+
+          // hide logic for mobile & tablet
+          const isHidden =
+            !expanded &&
+            (
+              index >= mobileVisible ||
+              (index >= tabletVisible && window.innerWidth >= 640)
+            );
+
+          return (
+            <button
+              key={index}
+              onClick={() => setActive(category)}
+              className={`
+                rounded-full border
+                transition-all duration-300
+                [font-family:'Poppins',Helvetica]
+                whitespace-nowrap
+
+                text-[14px] sm:text-[16px] lg:text-[18px]
+                px-4 py-2
+                sm:px-5 sm:py-2.5
+                lg:px-6 lg:py-3
+
+                ${isHidden ? "hidden lg:inline-flex" : "inline-flex"}
+
+                ${
+                  isActive
+                    ? "bg-black text-white border-black"
+                    : "bg-transparent text-black border-[#ccc] hover:bg-black hover:text-white"
+                }
+              `}
+            >
+              {category}
+            </button>
+          );
+        })}
+
+        {/* ===== TOGGLE BUTTON (Mobile & Tablet only) ===== */}
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="
+            inline-flex lg:hidden
+            rounded-full border border-dashed
+            text-black
+            [font-family:'Poppins',Helvetica]
+
+            text-[14px] sm:text-[16px]
+            px-4 py-2 sm:px-5 sm:py-2.5
+
+            hover:bg-black hover:text-white
+            transition-all duration-300
+          "
+        >
+          {expanded ? "Show Less" : "+ More"}
+        </button>
+      </div>
+    </section>
+  );
+};
