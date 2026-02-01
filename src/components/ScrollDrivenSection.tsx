@@ -3,7 +3,7 @@ import { useSectionProgress } from "@/hooks/useSectionProgress";
 
 interface ScrollDrivenSectionProps {
   children: ReactNode;
-  title: string;
+  title?: string;
   className?: string;
 }
 
@@ -28,11 +28,13 @@ export const ScrollDrivenSection: React.FC<ScrollDrivenSectionProps> = ({
       className={`relative w-full transition-all duration-300 ${className}`}
     >
       {/* Title - Always visible, never animates */}
-      <div className="sticky top-0 z-40 bg-gradient-to-b from-black to-black/90 backdrop-blur-sm py-6 lg:py-8">
-        <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-white text-[56px] sm:text-[80px] lg:text-[120px] tracking-[0] leading-[1] whitespace-nowrap">
-          {title}
-        </h2>
-      </div>
+      {title && (
+        <div className="sticky top-0 z-40 bg-gradient-to-b from-black to-black/90 backdrop-blur-sm py-6 lg:py-8">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-white text-[56px] sm:text-[80px] lg:text-[120px] tracking-[0] leading-[1] whitespace-nowrap">
+            {title}
+          </h2>
+        </div>
+      )}
 
       {/* Collapsible Content */}
       <div

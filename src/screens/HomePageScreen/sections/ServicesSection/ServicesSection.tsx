@@ -4,7 +4,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "../../../../components/ui/button";
 import { Separator } from "../../../../components/ui/separator";
-import { ScrollDrivenSection } from "../../../../components/ScrollDrivenSection";
 
 import imgResearch from "../../../../../public/client/s_research.png";
 import imgMarket from "../../../../../public/client/s_marketing.png";
@@ -117,7 +116,6 @@ export const ServicesSection = (): JSX.Element => {
         relative w-full bg-black overflow-hidden
         py-[80px] sm:py-[100px] lg:py-[120px]
         px-4 sm:px-8 lg:px-20
-        dark-section
       "
     >
       <div className="max-w-[1280px] mx-auto relative" ref={containerRef}>
@@ -138,15 +136,11 @@ export const ServicesSection = (): JSX.Element => {
           </div>
         )}
 
-        {/* ================= SCROLL DRIVEN SECTION ================= */}
-        <ScrollDrivenSection 
-          title="Services"
-          className="relative"
+        {/* ================= HEADER ================= */}
+        <header
+          ref={headerRef}
+          className="flex flex-col gap-8 lg:gap-12 mb-[40px] lg:mb-[60px]"
         >
-          <header
-            ref={headerRef}
-            className="flex flex-col gap-8 lg:gap-12 mb-[40px] lg:mb-[60px]"
-          >
           <h2
             ref={titleRef}
             className="
@@ -236,7 +230,6 @@ export const ServicesSection = (): JSX.Element => {
           ))}
           <Separator className="bg-[#5d5d5d] h-px" />
         </div>
-        </ScrollDrivenSection>
       </div>
 
       {/* 🔹 Keyframes (unchanged) */}
