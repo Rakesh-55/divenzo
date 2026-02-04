@@ -1,5 +1,4 @@
 import React from "react";
-import { Navbar } from "@/components/Navbar";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -38,8 +37,6 @@ const projectsData = [
 export default function Projects() {
   return (
     <>
-      <Navbar />
-
       <section className="relative w-full bg-white overflow-x-hidden">
         <div className="max-w-[1280px] mx-auto pt-16 sm:pt-20 pb-20 px-4 lg:px-0">
 

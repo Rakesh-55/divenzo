@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
@@ -108,8 +107,6 @@ export default function PrivacyPolicy() {
 
   return (
     <>
-      <Navbar />
-
       <section className="relative w-full bg-white overflow-x-hidden">
         <div className="lg:flex h-auto lg:h-[100vh]">
 

@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
@@ -169,8 +168,6 @@ export default function Services() {
 
   return (
     <>
-      <Navbar />
-
       {/* HERO */}
       <section className="relative w-full bg-white">
         <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
