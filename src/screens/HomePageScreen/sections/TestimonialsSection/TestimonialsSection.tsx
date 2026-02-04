@@ -182,6 +182,7 @@ export const TestimonialsSection = (): JSX.Element => {
             </AnimatedText>
             <BrandMarquee />
           </div>
+          
 
           {/* ===== TESTIMONIALS ===== */}
           <div className="flex flex-col gap-6 md:gap-12">
