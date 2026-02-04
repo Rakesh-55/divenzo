@@ -241,7 +241,7 @@ export const Navbar = (): JSX.Element => {
               to="/discuss"
               onClick={() => handleNavClick("/discuss")}
               className={`
-                relative text-[18px] font-medium
+                relative text-[18px] font-medium group
                 transition-all duration-500
                 ${menuOpen ? "text-white visible" : onDarkSection ? "text-white" : "text-black"}
               `}
@@ -252,7 +252,7 @@ export const Navbar = (): JSX.Element => {
                   absolute left-0 -bottom-1 h-[1.5px] w-full
                   bg-current scale-x-0 origin-left
                   transition-transform duration-500 ease-out
-                  hover:scale-x-100
+                  group-hover:scale-x-100
                 "
               />
             </Link>

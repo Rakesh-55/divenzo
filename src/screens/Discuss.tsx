@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
-import { Navbar } from "@/components/Navbar";
 
 export default function Discuss() {
   const [budget, setBudget] = useState("");
@@ -8,8 +7,6 @@ export default function Discuss() {
 
   return (
     <>
-      <Navbar />
-
       <style>
 {`
   /* ===== Custom Select Styling (No external CSS) ===== */

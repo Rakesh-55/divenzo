@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import { Navbar } from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@radix-ui/react-separator";
 import { AnimatedText } from "@/components/AnimatedText";
@@ -172,8 +171,6 @@ export default function About() {
   }, []);
   return (
     <>
-      <Navbar />
-
       <section className="relative w-full bg-white overflow-x-hidden">
         <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { Navbar } from "@/components/Navbar";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 
 /* ================= DATA ================= */
@@ -85,8 +84,6 @@ export default function TermsAndUse() {
 
   return (
     <>
-      <Navbar />
-
       <section className="relative w-full bg-white overflow-x-hidden">
         <div className="flex flex-col lg:flex-row lg:h-screen">
 
