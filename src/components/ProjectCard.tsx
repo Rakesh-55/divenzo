@@ -5,6 +5,7 @@ interface ProjectCardProps {
   title: string;
   category: string;
   link?: string;
+  disableCursorEffect?: boolean;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -12,6 +13,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   category,
   link = "#",
+  disableCursorEffect = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
@@ -22,8 +24,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const currentPos = useRef({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!cardRef.current) return;
-    
+    if (disableCursorEffect || !cardRef.current) return;
+
     const rect = cardRef.current.getBoundingClientRect();
     targetPos.current = {
       x: e.clientX - rect.left,
@@ -33,7 +35,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
   // Smooth cursor follow with inertia
   useEffect(() => {
-    if (!isHovered) return;
+    if (!isHovered || disableCursorEffect) return;
 
     const animate = () => {
       const lerp = (start: number, end: number, factor: number) => {
@@ -58,7 +60,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         cancelAnimationFrame(requestRef.current);
       }
     };
-  }, [isHovered]);
+  }, [isHovered, disableCursorEffect]);
 
   return (
     <a
@@ -67,46 +69,31 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onMouseMove={handleMouseMove}
-      className="group relative block w-full aspect-[4/3] overflow-hidden rounded-2xl cursor-none"
+      className={`group relative block w-full ${
+        disableCursorEffect ? "cursor-pointer" : "cursor-none"
+      }`}
     >
-      {/* Background Image */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Image */}
+      <div className="relative w-full">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-        />
-        
-        {/* Subtle Overlay */}
-        <div
-          className="absolute inset-0 bg-black transition-opacity duration-500 ease-out"
-          style={{
-            opacity: isHovered ? 0.2 : 0,
-          }}
+          className="w-full h-auto object-contain"
         />
       </div>
 
-      {/* Project Info */}
-      <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-12">
-        <div
-          className="transform transition-all duration-700 ease-out"
-          style={{
-            opacity: isHovered ? 1 : 0,
-            transform: isHovered ? "translateY(0)" : "translateY(12px)",
-            transitionDelay: "150ms",
-          }}
-        >
-          <p className="text-white/70 text-sm lg:text-base font-medium mb-2 uppercase tracking-wider">
-            {category}
-          </p>
-          <h3 className="text-white text-2xl lg:text-4xl font-semibold [font-family:'Poppins',Helvetica]">
-            {title}
-          </h3>
-        </div>
+      {/* Project Info (always visible below) */}
+      <div className="mt-0">
+        <p className="[font-family:'Poppins',Helvetica] font-normal text-[18px] sm:text-[20px] lg:text-[24px] text-black mt-2">
+          {title}
+        </p>
+        <p className="[font-family:'Poppins',Helvetica] font-normal text-[14px] sm:text-[16px] lg:text-[18px] text-[#000000cc]">
+          {category}
+        </p>
       </div>
 
       {/* Custom Cursor */}
-      {isHovered && (
+      {!disableCursorEffect && isHovered && (
         <div
           ref={cursorRef}
           className="pointer-events-none absolute z-50 mix-blend-difference"

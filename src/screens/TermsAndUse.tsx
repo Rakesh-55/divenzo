@@ -92,7 +92,7 @@ export default function TermsAndUse() {
             ref={headingRef}
             className="
               w-full lg:w-[40%]
-              pt-16 lg:pt-20
+              pt-4 sm:pt-6 lg:pt-10
               px-4 sm:px-10 lg:pl-20
             "
           >

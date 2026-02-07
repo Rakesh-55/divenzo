@@ -42,14 +42,8 @@ export const ProcessSection = (): JSX.Element => {
     const sectionRef = useRef<HTMLElement | null>(null);
     const progress = useScrollProgress(sectionRef);
 
-      // background: black → white
-      const bgValue = progress * 255;
-
-      // text: white → black
-      const textValue = 255 - progress * 255;
-
       // header / cursor mode
-      const isDark = bgValue < 128;
+      const isDark = progress > 0.5;
   
 
      useEffect(() => {
@@ -80,8 +74,8 @@ export const ProcessSection = (): JSX.Element => {
     <section
       ref={sectionRef}
       style={{
-        backgroundColor: `rgb(${bgValue}, ${bgValue}, ${bgValue})`,
-        color: `rgb(${textValue}, ${textValue}, ${textValue})`,
+        backgroundColor: isDark ? "#000" : "#fff",
+        color: isDark ? "#fff" : "#000",
       }}
       className={`
         w-full
@@ -95,7 +89,7 @@ export const ProcessSection = (): JSX.Element => {
         {/* ================= HEADER ================= */}
         <h2
           className="
-            [font-family:'Poppins',Helvetica] font-semibold text-black
+            [font-family:'Poppins',Helvetica] font-semibold text-inherit
             text-[56px] sm:text-[80px] lg:text-[120px]
             tracking-[0] leading-normal
             mb-[16px] sm:mb-[20px] lg:mb-[26px]
@@ -109,11 +103,11 @@ export const ProcessSection = (): JSX.Element => {
             max-w-full lg:max-w-[930px]
             ml-0 lg:ml-auto
             [font-family:'Poppins',Helvetica] font-normal opacity-80
-            text-[18px] sm:text-[24px] lg:text-[40px]
+            text-[18px] sm:text-[24px] lg:text-[32px]
             tracking-[0] leading-normal
             mb-[48px] sm:mb-[64px] lg:mb-[86px]
           "
-          isDarkBg={false}
+          isDarkBg={isDark}
         >
           A flexible, adaptive process designed to help businesses launch faster and scale with confidence.
         </AnimatedText>
@@ -136,7 +130,7 @@ export const ProcessSection = (): JSX.Element => {
                 <div className="flex flex-col gap-1 md:gap-4">
                   <div
                     className="
-                      [font-family:'Poppins',Helvetica] font-normal text-black
+                      [font-family:'Poppins',Helvetica] font-normal text-inherit
                       text-lg sm:text-xl lg:text-2xl
                     "
                   >
@@ -145,7 +139,7 @@ export const ProcessSection = (): JSX.Element => {
 
                   <h3
                     className="
-                      [font-family:'Poppins',Helvetica] font-semibold text-black
+                      [font-family:'Poppins',Helvetica] font-semibold text-inherit
                       text-[22px] sm:text-[26px] lg:text-[32px]
                       tracking-[0] leading-normal
                     "
@@ -159,7 +153,7 @@ export const ProcessSection = (): JSX.Element => {
 
               <p
                 className="
-                  [font-family:'Poppins',Helvetica] font-normal text-black opacity-70
+                  [font-family:'Poppins',Helvetica] font-normal text-inherit opacity-70
                   text-base sm:text-lg lg:text-2xl
                   tracking-[0] leading-normal
                 "

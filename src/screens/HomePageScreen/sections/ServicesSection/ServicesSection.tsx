@@ -4,6 +4,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "../../../../components/ui/button";
 import { Separator } from "../../../../components/ui/separator";
+import { AnimatedText } from "../../../../components/AnimatedText";
+import { useScrollProgress } from "@/hooks/useScrollProgress";
 
 import imgResearch from "../../../../../public/client/s_research.png";
 import imgMarket from "../../../../../public/client/s_marketing.png";
@@ -58,7 +60,11 @@ export const ServicesSection = (): JSX.Element => {
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
+
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const progress = useScrollProgress(sectionRef);
+
+  const isDark = progress > 0.5;
 
   const isDesktop =
     typeof window !== "undefined" && window.innerWidth >= 1024;
@@ -79,16 +85,7 @@ export const ServicesSection = (): JSX.Element => {
         opacity: 0,
         duration: 1,
         ease: "power3.out",
-      }).from(
-        descRef.current,
-        {
-          x: 80,
-          opacity: 0,
-          duration: 1.2,
-          ease: "power3.out",
-        },
-        "-=0.6"
-      );
+      });
     }, headerRef);
 
     return () => ctx.revert();
@@ -112,11 +109,18 @@ export const ServicesSection = (): JSX.Element => {
 
   return (
     <section
-      className="
-        relative w-full bg-black overflow-hidden
+      ref={sectionRef}
+      style={{
+        backgroundColor: isDark ? "#000" : "#fff",
+        color: isDark ? "#fff" : "#000",
+      }}
+      className={`
+        relative w-full overflow-hidden
         py-[80px] sm:py-[100px] lg:py-[120px]
         px-4 sm:px-8 lg:px-20
-      "
+        transition-colors duration-500
+        ${isDark ? "dark-section" : ""}
+      `}
     >
       <div className="max-w-[1280px] mx-auto relative" ref={containerRef}>
         {/* 🖼 Hover Image (desktop only) */}
@@ -144,7 +148,7 @@ export const ServicesSection = (): JSX.Element => {
           <h2
             ref={titleRef}
             className="
-              [font-family:'Poppins',Helvetica] font-semibold text-white
+              [font-family:'Poppins',Helvetica] font-semibold text-inherit
               text-[56px] sm:text-[80px] lg:text-[120px]
               tracking-[0] leading-[1]
               whitespace-nowrap
@@ -154,31 +158,31 @@ export const ServicesSection = (): JSX.Element => {
           </h2>
 
           <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
-            <p
-              ref={descRef}
+            <AnimatedText
               className="
-                [font-family:'Poppins',Helvetica] font-normal text-white
-                text-[18px] sm:text-[24px] lg:text-[40px]
+                [font-family:'Poppins',Helvetica] font-normal text-inherit
+                text-[18px] sm:text-[24px] lg:text-[32px]
                 tracking-[0] leading-normal
               "
+              isDarkBg={isDark}
             >
               We start every project by listening to understand your needs so we
               can give you the time, attention and care you deserve.
-            </p>
+            </AnimatedText>
 
             <Button
               variant="link"
-              className="h-auto w-fit p-0 flex flex-col items-start gap-1 mt-4"
+              className="h-auto w-fit p-0 flex flex-col items-start gap-1 mt-4 text-inherit hover:text-inherit"
             >
               <span
                 className="
-                  [font-family:'Poppins',Helvetica] font-normal text-white
+                  [font-family:'Poppins',Helvetica] font-normal text-inherit
                   text-[20px] sm:text-[24px] lg:text-[32px]
                 "
               >
                 Discover More
               </span>
-              <div className="w-[160px] sm:w-[190px] lg:w-[226px] h-0.5 bg-[#ffffff66]" />
+              <div className="w-[160px] sm:w-[190px] lg:w-[226px] h-0.5 bg-current opacity-40" />
             </Button>
           </div>
         </header>
@@ -187,7 +191,7 @@ export const ServicesSection = (): JSX.Element => {
         <div className="flex flex-col relative">
           {servicesData.map((service, index) => (
             <React.Fragment key={index}>
-              <Separator className="bg-[#5d5d5d] h-px" />
+              <Separator className="bg-current opacity-30 h-px" />
               <div
                 className="
                   service-item flex flex-col lg:flex-row
@@ -228,7 +232,6 @@ export const ServicesSection = (): JSX.Element => {
               </div>
             </React.Fragment>
           ))}
-          <Separator className="bg-[#5d5d5d] h-px" />
         </div>
       </div>
 

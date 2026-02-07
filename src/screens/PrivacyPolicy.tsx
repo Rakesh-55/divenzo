@@ -116,7 +116,7 @@ export default function PrivacyPolicy() {
             className="
               w-full lg:w-[40%]
               flex flex-col justify-start
-              py-10 md:py-20
+              pt-3 pb-8 md:pt-8 md:pb-16
               px-4 sm:px-8 lg:pl-20
             "
           >

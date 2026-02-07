@@ -50,12 +50,7 @@ export const ProjectsSection = (): JSX.Element => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const progress = useScrollProgress(sectionRef);
 
-  // Background: black → white
-  const bgValue = progress * 255;
-  // Text: white → black
-  const textValue = 255 - progress * 255;
-
-  const isDark = bgValue < 128;
+  const isDark = progress > 0.5;
 
 
   useEffect(() => {
@@ -214,8 +209,8 @@ export const ProjectsSection = (): JSX.Element => {
     <section
       ref={sectionRef}
       style={{
-        backgroundColor: `rgb(${bgValue}, ${bgValue}, ${bgValue})`,
-        color: `rgb(${textValue}, ${textValue}, ${textValue})`,
+        backgroundColor: isDark ? "#000" : "#fff",
+        color: isDark ? "#fff" : "#000",
       }}
       className={`
         relative w-full overflow-hidden
@@ -247,10 +242,10 @@ export const ProjectsSection = (): JSX.Element => {
             max-w-full lg:max-w-[930px]
             ml-0 lg:ml-auto
             [font-family:'Poppins',Helvetica] font-normal 
-            text-[18px] sm:text-[24px] lg:text-[40px]
+            text-[18px] sm:text-[24px] lg:text-[32px]
             tracking-[0] leading-normal
           "
-          isDarkBg={false}
+          isDarkBg={isDark}
         >
           Dive into our design journey. Our portfolio showcases how we transform concepts into real-world success through thoughtful, tailored design.
         </AnimatedText>

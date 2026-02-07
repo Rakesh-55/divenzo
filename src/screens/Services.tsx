@@ -1,8 +1,11 @@
 import Autoplay from "embla-carousel-autoplay";
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import service_img from "../assets/service_img.png";
 import * as Separator from "@radix-ui/react-separator";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import {
   Carousel,
@@ -13,6 +16,8 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /* ================= DATA ================= */
 
@@ -156,6 +161,218 @@ const servicesData = [
   },
 ];
 
+/* ============ STICKY-STACK SERVICES ============ */
+
+// Prevent mobile address-bar resize from causing scroll jumps
+ScrollTrigger.config({ ignoreMobileResize: true });
+
+function StickyStackServices() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const headerRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const location = useLocation();
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Small delay to let the DOM settle for accurate measurements
+    const raf = requestAnimationFrame(() => {
+      const ctx = gsap.context(() => {
+        const contents = contentRefs.current.filter(Boolean) as HTMLDivElement[];
+        const headers = headerRefs.current.filter(Boolean) as HTMLDivElement[];
+        const items = itemRefs.current.filter(Boolean) as HTMLDivElement[];
+        if (contents.length === 0) return;
+
+        // Measure natural heights of each content block
+        const heights = contents.map((el) => el.scrollHeight);
+
+        // Set initial overflow on content wrappers
+        contents.forEach((content, i) => {
+          gsap.set(content, { height: heights[i], overflow: "hidden" });
+        });
+
+        // ── Navbar elements ──
+        const mobileHeader = document.querySelector<HTMLElement>(
+          "header.lg\\:hidden"
+        );
+        const desktopHeader = document.querySelector<HTMLElement>(
+          "header.fixed:not(.lg\\:hidden)"
+        );
+
+        const hideNav = () => {
+          if (mobileHeader) gsap.to(mobileHeader, { yPercent: -100, duration: 0.4, ease: "power2.inOut" });
+          if (desktopHeader) gsap.to(desktopHeader, { yPercent: -100, duration: 0.4, ease: "power2.inOut" });
+        };
+        const showNav = () => {
+          if (mobileHeader) gsap.to(mobileHeader, { yPercent: 0, duration: 0.4, ease: "power2.inOut" });
+          if (desktopHeader) gsap.to(desktopHeader, { yPercent: 0, duration: 0.4, ease: "power2.inOut" });
+        };
+
+        // ── Dynamic end: based on sum of collapsible content heights ──
+        const collapsibleTotal = heights
+          .slice(0, -1)
+          .reduce((sum, h) => sum + h + 80, 0);
+
+        /* ── Master timeline ── */
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            start: "top top",
+            end: `+=${collapsibleTotal}`,
+            pin: true,
+            pinSpacing: false,
+            scrub: 1,
+            anticipatePin: 1,
+
+            onEnter: () => {
+              gsap.set(container, { zIndex: 10, top: "0px", marginTop: 0 });
+              hideNav();
+            },
+            onLeave: () => {
+              showNav();
+              gsap.set(container, { zIndex: 0 });
+            },
+            onLeaveBack: showNav,
+            onEnterBack: () => {
+              gsap.set(container, { zIndex: 10, top: "0px", marginTop: 0 });
+              hideNav();
+            },
+            onRefresh: (self) => {
+              if (self.pin) gsap.set(self.pin, { top: 0 });
+            },
+          },
+        });
+
+        // ── Build the timeline ──
+        let pos = 0;
+        contents.forEach((content, i) => {
+          const header = headers[i];
+          const item = items[i];
+
+          // Collapse content for all except the last
+          if (i < contents.length - 1) {
+            tl.to(content, { height: 0, opacity: 0, duration: 1, ease: "none" }, pos);
+
+            // Collapse bottom margin for tight stacking
+            if (item) {
+              tl.to(item, { marginBottom: 0, duration: 1, ease: "none" }, pos);
+            }
+          }
+
+          // Shrink & shift ALL headers (including last)
+          if (header) {
+            tl.to(
+              header,
+              {
+                scale: 0.82,
+                x: -20,
+                paddingTop: "6px",
+                paddingBottom: "6px",
+                duration: 1,
+                ease: "none",
+                transformOrigin: "left center",
+              },
+              i < contents.length - 1 ? pos : pos - 0.5
+            );
+          }
+
+          if (i < contents.length - 1) pos += 1;
+        });
+      }, container);
+
+      // ── Cleanup: kill all ScrollTriggers on route change ──
+      return () => {
+        ctx.revert();
+        showNavImmediate();
+      };
+
+      function showNavImmediate() {
+        const mh = document.querySelector<HTMLElement>("header.lg\\:hidden");
+        const dh = document.querySelector<HTMLElement>("header.fixed:not(.lg\\:hidden)");
+        if (mh) gsap.set(mh, { yPercent: 0 });
+        if (dh) gsap.set(dh, { yPercent: 0 });
+      }
+    });
+
+    // Outer cleanup
+    return () => {
+      cancelAnimationFrame(raf);
+      // Force-kill any lingering ScrollTriggers from this section
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.trigger === container) st.kill();
+      });
+      // Restore navbar immediately on unmount / route change
+      const mh = document.querySelector<HTMLElement>("header.lg\\:hidden");
+      const dh = document.querySelector<HTMLElement>("header.fixed:not(.lg\\:hidden)");
+      if (mh) gsap.set(mh, { yPercent: 0 });
+      if (dh) gsap.set(dh, { yPercent: 0 });
+    };
+  }, [location.pathname]);
+
+  return (
+    <section
+      ref={containerRef}
+      className="bg-black text-white dark-section overflow-hidden"
+      
+    >
+      <div className="max-w-[90vw] xl:max-w-[1440px] mx-auto px-4 sm:px-10 md:px-16 py-12 md:py-20">
+        {servicesData.map((service, i) => (
+          <div
+            key={service.id}
+            ref={(el) => { itemRefs.current[i] = el; }}
+            className="mb-6 md:mb-10"
+          >
+            {/* ── STICKY HEADER ── */}
+            <div
+              ref={(el) => { headerRefs.current[i] = el; }}
+              className="sticky top-0 bg-black py-4 md:py-5 will-change-transform"
+              style={{ zIndex: 10 + i }}
+            >
+              <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]">
+                {service.id}. {service.title}
+              </h2>
+              {/* Full-bleed separator */}
+              <div
+                className="absolute bottom-0 left-1/2 h-[2px] bg-white/20"
+                style={{ width: "100vw", transform: "translateX(-50%)" }}
+              />
+            </div>
+
+            {/* ── COLLAPSIBLE CONTENT (pointer-events + select enabled) ── */}
+            <div
+              ref={(el) => { contentRefs.current[i] = el; }}
+              className="will-change-[height,opacity] pointer-events-auto select-text"
+            >
+              <div className="flex flex-col lg:flex-row gap-4 lg:gap-16 py-5 md:py-8">
+                <div className="hidden lg:block lg:w-[280px] xl:w-[340px] shrink-0" />
+
+                <div className="flex-1">
+                  <p className="[font-family:'Poppins',Helvetica] font-normal text-[16px] sm:text-[20px] lg:text-[26px] text-[#cccccc] max-w-[900px] leading-relaxed">
+                    {service.description}
+                  </p>
+
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6 mt-6 list-disc pl-6">
+                    {service.points.map((point, idx) => (
+                      <li
+                        key={idx}
+                        className="[font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#ffffffcc]"
+                      >
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 /* ================= PAGE ================= */
 
 export default function Services() {
@@ -170,13 +387,13 @@ export default function Services() {
     <>
       {/* HERO */}
       <section className="relative w-full bg-white">
-        <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
+        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-0">
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[85px] mb-[36px] md:mb-[56px]">
             Services
           </h2>
 
           <div className="ml-0 lg:ml-[350px]">
-            <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[40px] mb-[36px] md:mb-[56px]">
+            <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]">
               We are a UX/UI design company that crafts scalable, sustainable, and
               innovative solutions to transform extraordinary ideas into reality.
             </p>
@@ -186,35 +403,10 @@ export default function Services() {
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section className="bg-black text-white py-12 md:py-32 px-4 sm:px-10 md:px-20">
-        <div className="max-w-[1280px] mx-auto flex flex-col gap-12 md:gap-24">
-          {servicesData.map((service) => (
-            <div key={service.id} className="flex flex-col gap-4 md:gap-8">
-              <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-[32px] sm:text-[40px] lg:text-[48px]">
-                {service.id}. {service.title}
-              </h2>
+      {/* SERVICES — Sticky Stack */}
+      <StickyStackServices />
 
-              <div className="ml-0 lg:ml-auto">
-                <p className="[font-family:'Poppins',Helvetica] font-normal text-[16px] sm:text-[20px] lg:text-[28px] text-[#cccccc] max-w-[960px]">
-                  {service.description}
-                </p>
-
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 mt-6 list-disc pl-6">
-                  {service.points.map((point, index) => (
-                    <li
-                      key={index}
-                      className="[font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#ffffffcc]"
-                    >
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+    
 
       {/* PROCESS */}
       <section className="relative w-full bg-white pt-10 pb-20  px-4 lg:px-20 ">
@@ -223,7 +415,7 @@ export default function Services() {
             Process
           </h2>
 
-          <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[40px] mb-[46px] md:mb-[86px] max-w-[930px] ml-0 lg:ml-auto">
+          <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[46px] md:mb-[86px] max-w-[930px] ml-0 lg:ml-auto">
             A flexible, adaptive process designed to help businesses launch faster
             and scale with confidence.
           </p>
@@ -257,7 +449,7 @@ export default function Services() {
       Testimonials
     </h2>
 
-    <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[18px] sm:text-[24px] lg:text-[40px] max-w-[930px] ml-0 lg:ml-[350px]">
+    <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[18px] sm:text-[24px] lg:text-[32px] max-w-[930px] ml-0 lg:ml-[350px]">
       We work with forward-thinking clients who value creativity and results.
       Together, we build experiences that inspire and deliver growth.
     </p>

@@ -11,10 +11,11 @@ import { ScrollToTop } from "./components/ScrollToTop.tsx";
 
 import { Navbar } from "./components/Navbar";
 import CustomCursor from "./components/CustomCursor";
+import { CursorProvider } from "./hooks/useCursor";
 
 export default function App() {
   return (
-    <>
+    <CursorProvider>
       <CustomCursor />
       <Navbar />
       <ScrollToTop />
@@ -27,7 +28,7 @@ export default function App() {
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/terms-of-use" element={<TermsAndUse />} />
     </Routes>
-    </>
+    </CursorProvider>
     
   );
 }

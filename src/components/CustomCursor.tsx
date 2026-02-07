@@ -1,74 +1,61 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { useCursor } from "@/hooks/useCursor";
 
 const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDark, setIsDark] = useState(false);
-  const [isProjectHover, setIsProjectHover] = useState(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const { isHovering } = useCursor();
 
   useEffect(() => {
+    const cursorEl = cursorRef.current;
+    if (!cursorEl) return;
+
+    gsap.set(cursorEl, { xPercent: -50, yPercent: -50 });
+
+    const xTo = gsap.quickTo(cursorEl, "x", {
+      duration: 0.2,
+      ease: "power3.out",
+    });
+    const yTo = gsap.quickTo(cursorEl, "y", {
+      duration: 0.2,
+      ease: "power3.out",
+    });
+
     const handleMouseMove = (e: MouseEvent) => {
-      const x = e.clientX;
-      const y = e.clientY;
-      setPosition({ x, y });
-
-      const el = document.elementFromPoint(x, y);
-      const navIsDark = document.body.dataset.navTheme === "dark";
-
-      // Check for dark-section class
-      const isDarkSection = el?.closest(".dark-section");
-      
-      // Check actual background color by traversing up the DOM
-      let isDarkBg = false;
-      let currentEl = el as HTMLElement | null;
-      let depth = 0;
-      
-      while (currentEl && depth < 10) {
-        const bgColor = window.getComputedStyle(currentEl).backgroundColor;
-        
-        // Check if background color is explicitly set (not transparent)
-        if (bgColor && bgColor !== "rgba(0, 0, 0, 0)" && bgColor !== "transparent") {
-          const rgbMatch = bgColor.match(/\d+/g);
-          if (rgbMatch && rgbMatch.length >= 3) {
-            const [r, g, b] = rgbMatch.map(Number);
-            // If average of RGB is less than 128, it's dark
-            isDarkBg = (r + g + b) / 3 < 128;
-            break;
-          }
-        }
-        
-        currentEl = currentEl.parentElement;
-        depth++;
-      }
-
-      if (isDarkSection || navIsDark || isDarkBg) {
-        setIsDark(true);
-      } else {
-        setIsDark(false);
-      }
-
-      // detect hamburger / X hover ONLY
-      if (el?.closest(".hamburger-btn")) {
-        setIsProjectHover(true);
-      } else {
-        setIsProjectHover(false);
-      }
+      xTo(e.clientX);
+      yTo(e.clientY);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  useEffect(() => {
+    const cursorEl = cursorRef.current;
+    if (!cursorEl) return;
+
+    gsap.to(cursorEl, {
+      scale: isHovering ? 3 : 1,
+      duration: 0.35,
+      ease: isHovering ? "power3.out" : "power3.inOut",
+    });
+  }, [isHovering]);
+
+
+  // uncoment this to hide the default cursor and use only the custom one
+  // useEffect(() => {
+  //   const previousCursor = document.body.style.cursor;
+  //   document.body.style.cursor = "none";
+
+  //   return () => {
+  //     document.body.style.cursor = previousCursor;
+  //   };
+  // }, []);
+
   return (
     <div
-      className={`
-        pointer-events-none fixed z-[9999]
-        rounded-full transition-all duration-200 ease-out
-        ${isProjectHover ? "h-16 w-16 border border-white bg-transparent" : "h-3 w-3"}
-        ${isDark ? "bg-white" : "bg-black"}
-      `}
-      style={{
-        transform: `translate(${position.x - 8}px, ${position.y - 8}px)`
-      }}
+      ref={cursorRef}
+      className="pointer-events-none fixed left-0 top-0 z-[9999] h-4 w-4 rounded-full bg-white mix-blend-difference"
     />
   );
 };
