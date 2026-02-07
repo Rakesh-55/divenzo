@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@radix-ui/react-separator";
 import { AnimatedText } from "@/components/AnimatedText";
+import { useScrollProgress } from "@/hooks/useScrollProgress";
 
 import about_img from "../assets/about_img.png";
 import navneeta from "../assets/team/navneeta.png";
@@ -102,6 +103,9 @@ const TeamCard = ({ card }) => {
 export default function About() {
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const cardsRef = useRef<HTMLDivElement | null>(null);
+  const clientsSectionRef = useRef<HTMLElement | null>(null);
+  const clientsProgress = useScrollProgress(clientsSectionRef);
+  const clientsIsDark = clientsProgress < 0.5;
 
   useEffect(() => {
     if (!headingRef.current) return;
@@ -172,7 +176,7 @@ export default function About() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden">
-        <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
+        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-0">
 
           {/* ABOUT */}
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
@@ -181,7 +185,7 @@ export default function About() {
 
           <div className="ml-0 lg:ml-[350px]">
             <AnimatedText
-              className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[40px] mb-[36px] md:mb-[56px]"
+              className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
               isDarkBg={false}
             >
               As global leaders in UX/UI design, technology and marketing solutions, we are dedicated to simplifying, strengthening, and transforming businesses of all sizes. our mission is to bridge the gap between creativity and technology, crafting seamless experiences that inspire users and drive measurable outcomes for our clients.
@@ -191,12 +195,18 @@ export default function About() {
           <img src={about_img} alt="about" className="w-full my-8 md:my-12" />
 
           <div className="ml-0 lg:ml-[350px] space-y-[16px] md:space-y-[56px]">
-            <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[40px]">
+            <AnimatedText
+              className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
+              isDarkBg={false}
+            >
               At Divenzo, we create brand experiences that endure, scale, and connect. Through intentional design systems, we partner with founders to transform ideas into powerful stories that spark emotion and clarity.
-            </p>
-            <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[40px]">
+            </AnimatedText>
+            <AnimatedText
+              className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
+              isDarkBg={false}
+            >
               We believe design should move with purpose. Our vision is to create brands that inspire leadership. By uniting strategy, creativity, and motion, we craft iconic identities that shape culture and drive business forward.
-            </p>
+            </AnimatedText>
           </div>
 
           {/* STATS */}
@@ -237,7 +247,7 @@ export default function About() {
         </div>
 
         {/* ================= TEAM SECTION ================= */}
-        <div className="bg-black">
+        <div className="bg-black dark-section">
           <div className="max-w-[1280px] mx-auto py-[70px] px-4 lg:px-0">
 
             {/* Heading – unchanged */}
@@ -301,7 +311,7 @@ export default function About() {
 
             {/* Bottom paragraph – unchanged */}
             <div className="ml-0 lg:ml-[350px] pt-20">
-              <p className="[font-family:'Poppins',Helvetica] font-normal text-white text-[18px] sm:text-[24px] lg:text-[40px] tracking-[0] leading-[normal]">
+              <p className="[font-family:'Poppins',Helvetica] font-normal text-white text-[18px] sm:text-[24px] lg:text-[32px] tracking-[0] leading-[normal]">
                 We’re a team of designers, product managers, developers, and storytellers
                 dedicated to helping businesses of all sizes bring their next big idea
                 to life.
@@ -312,22 +322,33 @@ export default function About() {
         </div>
 
 
-        <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
+        <section
+          ref={clientsSectionRef}
+          style={{
+            backgroundColor: clientsIsDark ? "#000" : "#fff",
+            color: clientsIsDark ? "#fff" : "#000",
+          }}
+          className={`w-full transition-colors duration-1000 ${clientsIsDark ? "dark-section" : ""}`}
+        >
+          <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
 
-          {/* ABOUT */}
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-[#2b2b2b] text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
-            Clients
-          </h2>
+            {/* ABOUT */}
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
+              Clients
+            </h2>
 
-          <div className="ml-0 lg:ml-[350px]">
-            <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[40px] mb-[36px] md:mb-[56px]">
-              Every client relationship begins with shared passion. That passion fuels the meaningful experiences we create together.            </p>
+            <div className="ml-0 lg:ml-[350px]">
+              <AnimatedText
+                className="[font-family:'Poppins',Helvetica] font-normal text-inherit text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
+                isDarkBg={clientsIsDark}
+              >
+                Every client relationship begins with shared passion. That passion fuels the meaningful experiences we create together.
+              </AnimatedText>
+            </div>
+
+            <BrandMarquee />
           </div>
-
-
-
-          <BrandMarquee />
-        </div>
+        </section>
 
       </section>
 

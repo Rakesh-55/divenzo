@@ -41,8 +41,7 @@ export const AboutSection = (): JSX.Element => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const progress = useScrollProgress(sectionRef);
 
-  const bgValue = 255 - progress * 255;
-  const textValue = progress * 255;
+  const isDark = progress < 0.5;
 
   useEffect(() => {
     // OLD HEADING ANIMATION CODE - Commented out for future use
@@ -119,16 +118,16 @@ export const AboutSection = (): JSX.Element => {
     <section
       ref={sectionRef}
       style={{
-        backgroundColor: `rgb(${bgValue}, ${bgValue}, ${bgValue})`,
-        color: `rgb(${textValue}, ${textValue}, ${textValue})`,
+        backgroundColor: isDark ? "#000" : "#fff",
+        color: isDark ? "#fff" : "#000",
       }}
-      className="
+      className={`
         relative w-full
         py-[40px] sm:py-[120px] lg:py-[150px]
         px-4 sm:px-8 lg:px-20
-        transition-colors duration-300
-        dark-section
-      "
+        transition-colors duration-700
+        ${isDark ? "dark-section" : ""}
+      `}
     >
       <div className="max-w-[1280px] mx-auto">
         {/* ================= ABOUT INTRO ================= */}
@@ -155,11 +154,11 @@ export const AboutSection = (): JSX.Element => {
             <AnimatedText
               className="
                 [font-family:'Poppins',Helvetica] font-normal
-                text-[20px] sm:text-[24px] lg:text-[40px]
+                text-[20px] sm:text-[24px] lg:text-[32px]
                leading-normal
                 mb-[32px] lg:mb-[56px]
               "
-              isDarkBg={true}
+              isDarkBg={isDark}
             >
               As global leaders in UX/UI design, technology and marketing solutions, we are dedicated to simplifying, strengthening, and transforming businesses of all sizes. our mission is to bridge the gap between creativity and technology, crafting seamless experiences that inspire users and drive measurable outcomes for our clients.
             </AnimatedText>
@@ -193,7 +192,7 @@ export const AboutSection = (): JSX.Element => {
             leading-[44px] sm:leading-[70px] lg:leading-[90px]
             mb-[40px] lg:mb-[72px]
           "
-          isDarkBg={true}
+          isDarkBg={isDark}
         >
           Our work speaks through numbers. Here&apos;s what we&apos;ve achieved so far.
         </AnimatedText>

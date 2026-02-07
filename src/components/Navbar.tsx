@@ -65,31 +65,48 @@ export const Navbar = (): JSX.Element => {
 
   /* ================= MENU ANIMATION ================= */
   useEffect(() => {
-    if (!menuOpen) return;
-    gsap.fromTo(
-      ".fullscreen-menu",
-      { y: "100%" },
-      { y: "0%", duration: 0.8, ease: "power4.out" }
-    );
+    if (menuOpen) {
+      gsap.fromTo(
+        ".fullscreen-menu",
+        { y: "100%" },
+        { y: "0%", duration: 0.8, ease: "power4.out" }
+      );
+    } else {
+      gsap.to(
+        ".fullscreen-menu",
+        { y: "100%", duration: 0.6, ease: "power4.in" }
+      );
+    }
   }, [menuOpen]);
   
   
   
 
   useEffect(() => {
-    if (!menuOpen) return;
-
-    gsap.fromTo(
-      ".menu-link",
-      { y: 60, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power4.out",
-        stagger: 0.12,
-      }
-    );
+    if (menuOpen) {
+      gsap.fromTo(
+        ".menu-link",
+        { y: 60, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power4.out",
+          stagger: 0.12,
+        }
+      );
+    } else {
+      gsap.to(
+        ".menu-link",
+        {
+          y: -20,
+          opacity: 0,
+          duration: 0.4,
+          ease: "power4.in",
+          stagger: 0.05,
+        }
+      );
+    }
   }, [menuOpen]);
 
 
@@ -153,7 +170,7 @@ export const Navbar = (): JSX.Element => {
             hidden lg:grid
             grid-cols-[auto_1fr_auto]
             items-center
-            px-20 py-6
+            px-20 py-4
             transition-all duration-500
             ${scrolled && !menuOpen ? "backdrop-blur-xl" : ""}
           `}
@@ -182,6 +199,7 @@ export const Navbar = (): JSX.Element => {
               flex gap-10 transition-all duration-700 ease-out
               ${scrolled ? "-translate-y-6 opacity-0" : "opacity-100"}
             `}
+            style={{ transitionDelay: scrolled ? "0ms" : "520ms" }}
           >
             <div className="leading-tight">
               <div className="text-sm opacity-70">Based in</div>
@@ -208,6 +226,7 @@ export const Navbar = (): JSX.Element => {
               transition-all duration-700
               ${scrolled ? "-translate-y-6 opacity-0" : "opacity-100"}
             `}
+            style={{ transitionDelay: scrolled ? "0ms" : "520ms" }}
           >
             {navLinks.map(link => (
               <Link
@@ -242,11 +261,20 @@ export const Navbar = (): JSX.Element => {
               onClick={() => handleNavClick("/discuss")}
               className={`
                 relative text-[18px] font-medium group
-                transition-all duration-500
+                transition-all duration-700 ease-out
+                ${showHamburger ? "-translate-x-2" : "translate-x-0"}
                 ${menuOpen ? "text-white visible" : onDarkSection ? "text-white" : "text-black"}
               `}
+              style={{ transitionDelay: scrolled ? "120ms" : "0ms" }}
             >
               Discuss with us
+              <span
+                className="
+                  absolute left-0 -bottom-1 h-[1.5px] w-full
+                  bg-neutral-400/70 transition-opacity duration-300
+                  group-hover:opacity-0
+                "
+              />
               <span
                 className="
                   absolute left-0 -bottom-1 h-[1.5px] w-full
@@ -258,22 +286,25 @@ export const Navbar = (): JSX.Element => {
             </Link>
 
             {/* HAMBURGER / X BUTTON */}
-            {showHamburger && (
+            <div
+              className={`
+                hidden lg:flex items-center justify-center overflow-hidden
+                transition-all duration-700 ease-out
+                ${showHamburger ? "w-12 opacity-100" : "w-0 opacity-0"}
+              `}
+              aria-hidden={!showHamburger}
+            >
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="
-                  w-10 h-10
+                  w-12 h-12
                   flex items-center justify-center
                   relative
                   cursor-pointer
                   z-[600]
-                  hidden lg:flex
                 "
                 aria-label="Toggle menu"
-                style={{
-                  animation: "fadeIn 0.5s ease-out forwards",
-                  opacity: 0
-                }}
+                style={{ pointerEvents: showHamburger ? "auto" : "none" }}
               >
                 {/* Top Line / First diagonal */}
                 <span
@@ -309,7 +340,7 @@ export const Navbar = (): JSX.Element => {
                   }}
                 />
               </button>
-            )}
+            </div>
           </div>
 
 
@@ -317,8 +348,15 @@ export const Navbar = (): JSX.Element => {
       </header>
 
       {/* FULLSCREEN MENU */}
-      {menuOpen && (
-        <div className="fullscreen-menu fixed inset-0 z-[300] bg-black text-white pointer-events-auto overflow-y-auto">
+      {(menuOpen || true) && (
+        <div 
+          className="fullscreen-menu fixed inset-0 z-[300] bg-black text-white overflow-y-auto"
+          style={{
+            pointerEvents: menuOpen ? "auto" : "none",
+            transform: menuOpen ? "translateY(0%)" : "translateY(100%)",
+            transition: "none",
+          }}
+        >
           <div className="h-full flex flex-col justify-between px-4 sm:px-6 md:px-12 lg:px-20 py-20 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
             <nav className="flex flex-col items-start gap-4 sm:gap-5 md:gap-7 lg:gap-10 text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
               {/* Home Link */}

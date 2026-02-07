@@ -91,55 +91,57 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
       }
     }
 
-    // Split text into words and wrap them
-    const words = fullText.split(" ").map((word, i) =>
-      i === 0
-        ? // First word: visible, no animation
-          `<span class='word inline-block overflow-hidden' style='color: ${finalIsDarkBg ? "#ffffff" : "#000000"};'>${word}</span>`
-        : // Other words: wrapped for slide-up animation with start color
-          `<span class='word inline-block overflow-hidden' style='color: ${finalStartColor};'><span class='inner block translate-y-full opacity-0'>${word}</span></span>`
-    );
+    const ctx = gsap.context(() => {
+      // Split text into words and wrap them
+      const words = fullText.split(" ").map((word, i) =>
+        i === 0
+          ? // First word: visible, no animation
+            `<span class='word inline-block overflow-hidden' style='color: ${finalIsDarkBg ? "#ffffff" : "#000000"};'>${word}</span>`
+          : // Other words: wrapped for slide-up animation with start color
+            `<span class='word inline-block overflow-hidden' style='color: ${finalStartColor};'><span class='inner block translate-y-full opacity-0'>${word}</span></span>`
+      );
 
-    el.innerHTML = words.join(" ");
+      el.innerHTML = words.join(" ");
 
-    // ============ ANIMATION 1: SLIDE UP ============
-    const innerWords = el.querySelectorAll(".inner");
-    gsap.to(innerWords, {
-      y: 0,
-      opacity: 1,
-      duration: slideDuration,
-      ease: slideEase,
-      stagger: {
-        each: slideStagger,
-        from: "start",
-      },
-      scrollTrigger: {
-        trigger: el,
-        start: slideStart,
-        end: slideEnd,
-        toggleActions: "play none none reverse",
-      },
-    });
+      // ============ ANIMATION 1: SLIDE UP ============
+      const innerWords = el.querySelectorAll(".inner");
+      gsap.to(innerWords, {
+        y: 0,
+        opacity: 1,
+        duration: slideDuration,
+        ease: slideEase,
+        stagger: {
+          each: slideStagger,
+          from: "start",
+        },
+        scrollTrigger: {
+          trigger: el,
+          start: slideStart,
+          end: slideEnd,
+          toggleActions: "play none none reverse",
+        },
+      });
 
-    // ============ ANIMATION 2: COLOR TRANSITION ============
-    const grayWords = el.querySelectorAll(".word:not(:first-child)");
-    gsap.to(grayWords, {
-      color: finalEndColor,
-      stagger: {
-        each: slideStagger * 0.8,
-        amount: slideDuration,
-      },
-      scrollTrigger: {
-        trigger: el,
-        start: colorStart,
-        end: colorEnd,
-        scrub: colorScrub ? true : false,
-      },
-    });
+      // ============ ANIMATION 2: COLOR TRANSITION ============
+      const grayWords = el.querySelectorAll(".word:not(:first-child)");
+      gsap.to(grayWords, {
+        color: finalEndColor,
+        stagger: {
+          each: slideStagger * 0.8,
+          amount: slideDuration,
+        },
+        scrollTrigger: {
+          trigger: el,
+          start: colorStart,
+          end: colorEnd,
+          scrub: colorScrub ? true : false,
+        },
+      });
+    }, el);
 
-    // Cleanup ScrollTrigger instances
+    // Cleanup ScrollTrigger instances created by this component
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      ctx.revert();
     };
   }, [
     isDarkBg,

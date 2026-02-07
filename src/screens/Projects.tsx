@@ -2,6 +2,7 @@ import React from "react";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import { ProjectCard } from "@/components/ProjectCard";
+import { AnimatedText } from "@/components/AnimatedText";
 
 const projectsData = [
   {
@@ -38,26 +39,26 @@ export default function Projects() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden">
-        <div className="max-w-[1280px] mx-auto pt-16 sm:pt-20 pb-20 px-4 lg:px-0">
+        <div className="max-w-[1280px] mx-auto pt-6 sm:pt-8 lg:pt-10 pb-16 px-4 lg:px-0">
 
           {/* ===== HEADING ===== */}
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[40px] lg:mb-[56px]">
+          <AnimatedText className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[1.25] pb-3 mb-[40px] lg:mb-[56px]" isDarkBg={false}>
             Projects
-          </h2>
+          </AnimatedText>
 
           {/* ===== DESCRIPTION ===== */}
           <div className="ml-0 lg:ml-[350px]">
-            <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[40px] mb-[40px] lg:mb-[56px]">
+            <AnimatedText className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] leading-[1.3] mb-[40px] lg:mb-[56px]" isDarkBg={false}>
               Gain exclusive insight into how our refined processes have shaped
               every project we deliver.
-            </p>
+            </AnimatedText>
           </div>
 
           {/* ===== FILTER ===== */}
           <CategoryFilter />
 
           {/* ===== PROJECT GRID ===== */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12">
             {projectsData.map((project) => (
               <ProjectCard
                 key={project.id}

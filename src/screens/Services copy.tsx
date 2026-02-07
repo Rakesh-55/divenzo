@@ -178,7 +178,7 @@ export default function Services() {
               </h2>
 
               <div className="ml-[350px]">
-                <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[40px] tracking-[0] leading-[normal] mb-[56px]">
+                <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal] mb-[56px]">
                   We are a UX/UI design company that crafts scalable, sustainable, and innovative solutions to transform extraordinary ideas into reality.
                 </p>
               </div>
@@ -193,7 +193,7 @@ export default function Services() {
 
       {/* service section  */}
 
-      <section className="bg-black text-white py-32 px-10 md:px-20">
+      <section className="bg-black text-white py-32 px-10 md:px-20 dark-section">
         <div className="max-w-[1280px] mx-auto flex flex-col gap-24">
           {servicesData.map((service) => (
             <div key={service.id} className="flex flex-col gap-8">
@@ -238,7 +238,7 @@ export default function Services() {
             Process
           </h2>
 
-          <p className="max-w-[930px] ml-auto [font-family:'Poppins',Helvetica] font-normal text-black text-[40px] tracking-[0] leading-[normal] mb-[86px]">
+          <p className="max-w-[930px] ml-auto [font-family:'Poppins',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal] mb-[86px]">
             A flexible, adaptive process designed to help businesses launch faster
             and scale with confidence.
           </p>
@@ -279,7 +279,7 @@ export default function Services() {
             Testimonials
           </h2>
 
-          <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[40px] tracking-[0] leading-normal max-w-[930px] ml-[350px]">
+          <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[32px] tracking-[0] leading-normal max-w-[930px] ml-[350px]">
             We work with forward-thinking clients who value creativity and
             results. Together, we build experiences that inspire and deliver
             growth.

@@ -143,21 +143,7 @@ export const TestimonialsSection = (): JSX.Element => {
 
    useEffect(() => {
   const ctx = gsap.context(() => {
-    [testimonialDescRef, faqDescRef].forEach((ref) => {
-      if (!ref.current) return;
-
-      gsap.from(ref.current, {
-        x: 80,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ref.current,
-          start: "top 85%",
-          once: true,
-        },
-      });
-    });
+    // Keep existing slide-in only for elements that still use refs
   });
 
   return () => ctx.revert();
@@ -177,6 +163,10 @@ export const TestimonialsSection = (): JSX.Element => {
                 leading-[44px] sm:leading-[70px] lg:leading-[90px]
               "
               isDarkBg={false}
+              startColor="#00000033"
+              endColor="#000000"
+              colorStart="top 45%"
+              colorEnd="top 15%"
             >
               Years of collaboration, countless ideas shared, and amazing brands by our side.
             </AnimatedText>
@@ -190,16 +180,16 @@ export const TestimonialsSection = (): JSX.Element => {
               Testimonials
             </h2>
              <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
-            <p
-              ref={testimonialDescRef}
+            <AnimatedText
               className="
                 [font-family:'Poppins',Helvetica] font-normal text-black
-                text-[18px] sm:text-[24px] lg:text-[40px]
+                text-[18px] sm:text-[24px] lg:text-[32px]
                 tracking-[0] leading-normal
               "
+              isDarkBg={false}
             >
             We work with forward-thinking clients who value creativity and results. Together, we build experiences that inspire and deliver growth.
-            </p>
+            </AnimatedText>
 
             <Button
               variant="link"
@@ -291,16 +281,16 @@ export const TestimonialsSection = (): JSX.Element => {
               FAQ
             </h2>
                <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
-            <p
-              ref={testimonialDescRef}
+            <AnimatedText
               className="
                 [font-family:'Poppins',Helvetica] font-normal text-black
-                text-[18px] sm:text-[24px] lg:text-[40px]
+                text-[18px] sm:text-[24px] lg:text-[32px]
                 tracking-[0] leading-normal
               "
+              isDarkBg={false}
             >
            We're thrilled that you're interested in learning from us. Before you apply, here are a few things to keep in mind. Let’s help you get started on the right path.
-            </p>
+            </AnimatedText>
 
           
           </div>
