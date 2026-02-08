@@ -1,18 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/divenzo-logo.png";
-import aboutNavImg from "../assets/nav_images/about_nav_img.png";
-import projectsNavImg from "../assets/nav_images/projects_nav_img.png";
-import servicesNavImg from "../assets/nav_images/services_nav_img.png";
-import contactNavImg from "../assets/nav_images/contact_nav_img.png";
 import { useHeaderTheme } from "../hooks/useHeaderTheme";
 import { gsap } from "gsap";
 
 const navLinks = [
-  { label: "About", page: "/about", image: aboutNavImg },
-  { label: "Projects", page: "/projects", image: projectsNavImg },
-  { label: "Services", page: "/services", image: servicesNavImg },
-  { label: "Contact", page: "/discuss", image: contactNavImg },
+  { label: "About", page: "/about" },
+  { label: "Projects", page: "/projects" },
+  { label: "Services", page: "/services" },
+  { label: "Contact", page: "/discuss" },
 ];
 
 export const Navbar = (): JSX.Element => {
@@ -22,7 +18,6 @@ export const Navbar = (): JSX.Element => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showHamburger, setShowHamburger] = useState(false);
-  const [hoveredMenuLink, setHoveredMenuLink] = useState<string | null>(null);
 
   /* ================= HANDLE SAME PAGE NAV ================= */
   const handleNavClick = (page: string) => {
@@ -172,7 +167,10 @@ export const Navbar = (): JSX.Element => {
       <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${menuOpen ? "z-[400]" : ""}`}>
         <nav
           className={`
-            hidden lg:block w-screen
+            hidden lg:grid
+            grid-cols-[auto_1fr_auto]
+            items-center
+            px-20 py-4
             transition-all duration-500
             ${scrolled && !menuOpen ? "backdrop-blur-xl" : ""}
           `}
@@ -189,8 +187,6 @@ export const Navbar = (): JSX.Element => {
         >
 
 
-        <div className="max-w-[1364px] mx-auto px-6 lg:px-9">
-        <div className="grid grid-cols-[auto_1fr_auto] items-center py-4">
         <div className="flex items-center gap-12">
           {/* LOGO */}
           <Link to="/" className="flex items-center" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
@@ -206,15 +202,15 @@ export const Navbar = (): JSX.Element => {
             style={{ transitionDelay: scrolled ? "0ms" : "520ms" }}
           >
             <div className="leading-tight">
-              <div className="text-sm text-black">Based in</div>
-              <div className="text-base font-normal text-black">Hyderabad, India</div>
+              <div className="text-sm opacity-70">Based in</div>
+              <div className="text-base font-medium">Hyderabad, India</div>
             </div>
 
             <div className="leading-tight">
-              <div className="text-sm text-black">Say hello</div>
+              <div className="text-sm opacity-70">Say hello</div>
               <a
                 href="mailto:hello@divenzo.com"
-                className="text-base font-normal text-black hover:opacity-70"
+                className="text-base font-medium hover:opacity-70"
               >
                 hello@divenzo.com
               </a>
@@ -238,7 +234,7 @@ export const Navbar = (): JSX.Element => {
                 to={link.page}
                 onClick={() => handleNavClick(link.page)}
                 className={`
-                  relative text-[18px] font-normal tracking-wide
+                  relative text-[18px] font-medium tracking-wide
                   ${onDarkSection ? "text-white" : "text-black"}
                   group
                 `}
@@ -346,8 +342,7 @@ export const Navbar = (): JSX.Element => {
               </button>
             </div>
           </div>
-        </div>
-        </div>
+
 
         </nav>
       </header>
@@ -355,80 +350,54 @@ export const Navbar = (): JSX.Element => {
       {/* FULLSCREEN MENU */}
       {(menuOpen || true) && (
         <div 
-          className="fullscreen-menu fixed inset-0 z-[300] bg-black text-white overflow-hidden"
+          className="fullscreen-menu fixed inset-0 z-[300] bg-black text-white overflow-y-auto"
           style={{
             pointerEvents: menuOpen ? "auto" : "none",
             transform: menuOpen ? "translateY(0%)" : "translateY(100%)",
             transition: "none",
           }}
         >
-          <div className="h-screen flex flex-col px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-14 md:py-16 lg:py-20">
-            <div className="mt-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-8 md:gap-10 lg:gap-12">
-              <nav className="flex flex-col items-start gap-4 sm:gap-5 md:gap-7 lg:gap-10 text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
-                {navLinks.map((link) => {
-                  const isHovered = hoveredMenuLink === link.label;
-                  const isDimmed = hoveredMenuLink && hoveredMenuLink !== link.label;
-                  return (
-                    <Link
-                      key={link.page}
-                      to={link.page}
-                      onClick={() => handleNavClick(link.page)}
-                      onMouseEnter={() => setHoveredMenuLink(link.label)}
-                      onMouseLeave={() => setHoveredMenuLink(null)}
-                      className={`menu-link transition-colors duration-300 ${
-                        menuOpen
-                          ? isHovered
-                            ? "text-white"
-                            : isDimmed
-                            ? "text-gray-500"
-                            : "text-white"
-                          : "text-gray-400"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  );
-                })}
-              </nav>
+          <div className="h-full flex flex-col justify-between px-4 sm:px-6 md:px-12 lg:px-20 py-20 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
+            <nav className="flex flex-col items-start gap-4 sm:gap-5 md:gap-7 lg:gap-10 text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
+              {/* Home Link */}
+              <Link
+                to="/"
+                onClick={() => handleNavClick("/")}
+                className="menu-link text-gray-400 hover:text-white transition-colors duration-300"
+              >
+                Home
+              </Link>
 
-              <div className="flex flex-col items-end text-right gap-3 sm:gap-4 md:gap-6 lg:gap-8 lg:ml-auto lg:h-full">
-                <div className="flex-1 w-full flex items-center justify-end">
-                  <div className="relative w-full max-w-[560px] h-[200px] sm:h-[240px] md:h-[280px] lg:h-[360px] overflow-hidden">
-                  {navLinks.map((link) => (
-                    <img
-                      key={link.page}
-                      src={link.image}
-                      alt=""
-                      className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-out ${
-                        hoveredMenuLink === link.label
-                          ? "opacity-100 scale-100"
-                          : "opacity-0 scale-[0.98]"
-                      }`}
-                    />
-                  ))}
-                  </div>
-                </div>
+              {navLinks.map((link) => (
+                <Link
+                  key={link.page}
+                  to={link.page}
+                  onClick={() => handleNavClick(link.page)}
+                  className="menu-link text-gray-400 hover:text-white transition-colors duration-300"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
 
-                <div className="mt-auto flex flex-wrap justify-end gap-2 sm:gap-3 md:gap-6 lg:gap-10 text-xs sm:text-sm md:text-base lg:text-lg">
-                  {["Instagram", "LinkedIn", "Twitter", "Facebook"].map((item) => (
-                    <a
-                      key={item}
-                      href="#"
-                      className="relative group text-gray-400 hover:text-white transition-colors"
-                    >
-                      {item}
-                      <span
-                        className="
-                          absolute left-0 -bottom-1 h-[1px] w-full
-                          bg-current scale-x-0 origin-left
-                          transition-transform duration-500 ease-out
-                          group-hover:scale-x-100
-                        "
-                      />
-                    </a>
-                  ))}
-                </div>
-              </div>
+            <div className="absolute bottom-4 sm:bottom-6 md:bottom-10 lg:bottom-20 right-4 sm:right-6 md:right-12 lg:right-20 flex gap-2 sm:gap-3 md:gap-6 lg:gap-10 text-xs sm:text-sm md:text-base lg:text-lg">
+              {["Instagram", "LinkedIn", "Twitter", "Facebook"].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="relative group text-gray-400 hover:text-white transition-colors"
+                >
+                  {item}
+                  <span
+                    className="
+                      absolute left-0 -bottom-1 h-[1px] w-full
+                      bg-current scale-x-0 origin-left
+                      transition-transform duration-500 ease-out
+                      group-hover:scale-x-100
+                    "
+                  />
+                </a>
+              ))}
             </div>
           </div>
         </div>
