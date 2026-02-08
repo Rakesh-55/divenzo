@@ -1,4 +1,5 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 import About from "./screens/About.tsx";
 import Services from "./screens/Services.tsx";
 import Projects from "./screens/Projects.tsx";
@@ -11,12 +12,8 @@ import { ScrollToTop } from "./components/ScrollToTop.tsx";
 import { Navbar } from "./components/Navbar";
 import CustomCursor from "./components/CustomCursor";
 import { CursorProvider } from "./hooks/useCursor";
-import { useSectionBgTransition } from "./hooks/useSectionBgTransition";
 
 export default function App() {
-  const location = useLocation();
-  useSectionBgTransition(location.pathname);
-
   return (
     <CursorProvider>
       <CustomCursor />
