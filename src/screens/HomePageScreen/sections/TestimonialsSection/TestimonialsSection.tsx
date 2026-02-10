@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Autoplay from "embla-carousel-autoplay";
@@ -20,11 +20,10 @@ import {
 } from "../../../../components/ui/avatar";
 import { Card, CardContent } from "../../../../components/ui/card";
 import {
+  type CarouselApi,
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "../../../../components/ui/carousel";
 import { BrandMarquee } from "@/components/BrandMarquee";
 
@@ -103,7 +102,11 @@ const faqItems = [
 
 /* ================= COMPONENT ================= */
 
-export const TestimonialsSection = (): JSX.Element => {
+interface TestimonialsSectionProps {
+  theme?: "light" | "dark";
+}
+
+export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.Element => {
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: false })
   );
@@ -111,7 +114,15 @@ export const TestimonialsSection = (): JSX.Element => {
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const testimonialDescRef = useRef<HTMLParagraphElement>(null);
   const faqDescRef = useRef<HTMLParagraphElement>(null);
-  
+  const carouselCursorRef = useRef<HTMLDivElement | null>(null);
+  const cursorTargetRef = useRef({ x: 0, y: 0 });
+  const cursorCurrentRef = useRef({ x: 0, y: 0 });
+  const cursorActiveRef = useRef(false);
+  const isDark = theme === "dark";
+  const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
+  const [carouselCursorDir, setCarouselCursorDir] = useState<"left" | "right">(
+    "right"
+  );
 
   useEffect(() => {
     if (!headingRef.current) return;
@@ -119,11 +130,13 @@ export const TestimonialsSection = (): JSX.Element => {
     const el = headingRef.current;
     const fullText =
       "Years of collaboration, countless ideas shared, and amazing brands by our side.";
+    const primaryColor = isDark ? "#ffffff" : "#2b2b2b";
+    const mutedColor = isDark ? "#ffffff59" : "#2b2b2b4c";
 
     const words = fullText.split(" ").map((word, i) =>
       i === 0
-        ? `<span class='word inline-block text-[#2b2b2b]'>${word}</span>`
-        : `<span class='word inline-block text-[#2b2b2b4c]'><span class='inner block translate-y-full opacity-0'>${word}</span></span>`
+        ? `<span class='word inline-block' style='color:${primaryColor}'>${word}</span>`
+        : `<span class='word inline-block' style='color:${mutedColor}'><span class='inner block translate-y-full opacity-0'>${word}</span></span>`
     );
 
     el.innerHTML = words.join(" ");
@@ -138,6 +151,31 @@ export const TestimonialsSection = (): JSX.Element => {
         start: "top 85%",
       },
     });
+  }, [isDark]);
+
+  useEffect(() => {
+    if (!carouselCursorRef.current) return;
+    gsap.set(carouselCursorRef.current, {
+      xPercent: -50,
+      yPercent: -50,
+      scale: 0,
+      opacity: 0,
+    });
+    const damping = 0.1;
+    const tick = () => {
+      if (!carouselCursorRef.current || !cursorActiveRef.current) return;
+      const current = cursorCurrentRef.current;
+      const target = cursorTargetRef.current;
+      current.x += (target.x - current.x) * damping;
+      current.y += (target.y - current.y) * damping;
+      gsap.set(carouselCursorRef.current, {
+        x: current.x,
+        y: current.y,
+        force3D: true,
+      });
+    };
+    gsap.ticker.add(tick);
+    return () => gsap.ticker.remove(tick);
   }, []);
 
 
@@ -149,7 +187,16 @@ export const TestimonialsSection = (): JSX.Element => {
   return () => ctx.revert();
 }, []);
   return (
-    <section className="relative w-full bg-white overflow-x-hidden">
+    <section
+      className={`relative w-full overflow-x-hidden transition-colors duration-700 ${
+        isDark ? "dark-section" : ""
+      }`}
+      style={{
+        backgroundColor: isDark ? "#000" : "#fff",
+        color: isDark ? "#fff" : "#000",
+      }}
+      data-section="testimonials"
+    >
       <div className="w-full py-[100px] sm:py-[140px] lg:py-[160px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-10 md:gap-20">
@@ -162,11 +209,14 @@ export const TestimonialsSection = (): JSX.Element => {
                 text-[36px] sm:text-[56px] lg:text-[80px]
                 leading-[44px] sm:leading-[70px] lg:leading-[90px]
               "
-              isDarkBg={false}
-              startColor="#00000033"
-              endColor="#000000"
+              isDarkBg={isDark}
+              disableColorReveal={false}
+              startColor={isDark ? "#ffffff33" : "#00000033"}
+              endColor={isDark ? "#ffffff" : "#000000"}
               colorStart="top 45%"
               colorEnd="top 15%"
+              slideDuration={0.8}
+              slideStagger={0.08}
             >
               Years of collaboration, countless ideas shared, and amazing brands by our side.
             </AnimatedText>
@@ -176,24 +226,27 @@ export const TestimonialsSection = (): JSX.Element => {
 
           {/* ===== TESTIMONIALS ===== */}
           <div className="flex flex-col gap-6 md:gap-12">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[46px] sm:text-[80px] lg:text-[120px]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[46px] sm:text-[80px] lg:text-[120px]">
               Testimonials
             </h2>
              <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
             <AnimatedText
               className="
-                [font-family:'Poppins',Helvetica] font-normal text-black
+                [font-family:'Poppins',Helvetica] font-normal text-inherit
                 text-[18px] sm:text-[24px] lg:text-[32px]
                 tracking-[0] leading-normal
               "
-              isDarkBg={false}
+              isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
             >
             We work with forward-thinking clients who value creativity and results. Together, we build experiences that inspire and deliver growth.
             </AnimatedText>
 
             <Button
               variant="link"
-              className="h-auto w-fit p-0 flex flex-col items-start gap-1 mt-4"
+              className="relative h-auto w-fit p-0 mt-4 group no-underline hover:no-underline"
             >
               <span
                 className="
@@ -204,15 +257,77 @@ export const TestimonialsSection = (): JSX.Element => {
               >
                 Discover More
               </span>
-                              <div className="w-[160px] sm:w-[190px] lg:w-[226px] h-0.5 bg-current opacity-40" />
+              <span
+                className="
+                  absolute left-0 -bottom-1 h-0.5 w-full
+                  bg-current opacity-40 transition-opacity duration-300
+                  group-hover:opacity-0
+                "
+              />
+              <span
+                className="
+                  absolute left-0 -bottom-1 h-0.5 w-full
+                  bg-current scale-x-0 origin-left
+                  transition-transform duration-500 ease-out
+                  group-hover:scale-x-100
+                "
+              />
 
             </Button>
           </div>
 
-            <div className="relative">
+            <div
+              className="relative"
+              onMouseEnter={(event) => {
+                document.body.dataset.cursorHidden = "true";
+                if (carouselCursorRef.current) {
+                  const rect = event.currentTarget.getBoundingClientRect();
+                  const x = event.clientX - rect.left;
+                  const y = event.clientY - rect.top;
+                  cursorActiveRef.current = true;
+                  cursorTargetRef.current = { x, y };
+                  cursorCurrentRef.current = { x, y };
+                  gsap.set(carouselCursorRef.current, { x, y, force3D: true });
+                  gsap.to(carouselCursorRef.current, {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.3,
+                    ease: "power3.out",
+                  });
+                }
+              }}
+              onMouseMove={(event) => {
+                const rect = event.currentTarget.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                setCarouselCursorDir(x < rect.width / 2 ? "left" : "right");
+                cursorTargetRef.current = { x, y };
+              }}
+              onMouseLeave={() => {
+                document.body.dataset.cursorHidden = "false";
+                if (carouselCursorRef.current) {
+                  cursorActiveRef.current = false;
+                  gsap.to(carouselCursorRef.current, {
+                    scale: 0,
+                    opacity: 0,
+                    duration: 0,
+                    ease: "none",
+                  });
+                }
+              }}
+              onClick={() => {
+                if (!carouselApi) return;
+                if (carouselCursorDir === "left") {
+                  carouselApi.scrollPrev();
+                } else {
+                  carouselApi.scrollNext();
+                }
+              }}
+            >
               <Carousel
                 plugins={[plugin.current]}
                 opts={{ align: "start", loop: true }}
+                setApi={setCarouselApi}
                 className="max-w-7xl mx-auto"
               >
                 <CarouselContent>
@@ -221,11 +336,25 @@ export const TestimonialsSection = (): JSX.Element => {
                       key={i}
                       className="md:basis-1/2 lg:basis-1/3"
                     >
-                      <Card className="border-0 shadow-none bg-transparent">
-                        <CardContent className="p-4 flex flex-col gap-6">
-                          <p className="[font-family:'Poppins',Helvetica] text-[#000000e6] text-[14px] sm:text-[16px] lg:text-[17px] w-full">
+                      <Card className="group relative border-0 shadow-none bg-transparent overflow-hidden">
+                        <span
+                          className="card-hover-circle"
+                          style={{
+                            backgroundColor: isDark
+                              ? "rgba(255,255,255,0.12)"
+                              : "rgba(0,0,0,0.08)",
+                          }}
+                        />
+                        <CardContent className="relative z-10 p-4 flex flex-col gap-6">
+                          <AnimatedText
+                            className="[font-family:'Poppins',Helvetica] text-inherit opacity-90 text-[14px] sm:text-[16px] lg:text-[17px] w-full"
+                            isDarkBg={isDark}
+                            disableColorReveal
+                            slideDuration={0.8}
+                            slideStagger={0.08}
+                          >
                             {t.quote}
-                          </p>
+                          </AnimatedText>
 
                           <div className="flex gap-4 items-center">
                             <Avatar className="w-12 h-12 sm:w-14 sm:h-14">
@@ -236,12 +365,24 @@ export const TestimonialsSection = (): JSX.Element => {
                             </Avatar>
 
                             <div>
-                              <div className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[14px] sm:text-[16px] lg:text-[18px]">
+                              <AnimatedText
+                                className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[14px] sm:text-[16px] lg:text-[18px]"
+                                isDarkBg={isDark}
+                                disableColorReveal
+                                slideDuration={0.8}
+                                slideStagger={0.08}
+                              >
                                 {t.name}
-                              </div>
-                              <div className="[font-family:'Poppins',Helvetica] text-[#555] text-[12px] sm:text-[13px] lg:text-[14px]">
+                              </AnimatedText>
+                              <AnimatedText
+                                className="[font-family:'Poppins',Helvetica] text-inherit opacity-70 text-[12px] sm:text-[13px] lg:text-[14px]"
+                                isDarkBg={isDark}
+                                disableColorReveal
+                                slideDuration={0.8}
+                                slideStagger={0.08}
+                              >
                                 {t.title}
-                              </div>
+                              </AnimatedText>
                             </div>
                           </div>
                         </CardContent>
@@ -249,28 +390,35 @@ export const TestimonialsSection = (): JSX.Element => {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-
-                {/* ✅ MOBILE + DESKTOP ARROWS */}
-                <CarouselPrevious
-                  className="
-          flex
-          absolute top-1/2 -translate-y-1/2
-          h-10 w-10 sm:h-12 sm:w-12
-          bg-white shadow-md
-          hover:bg-gray-100
-        "
-                />
-
-                <CarouselNext
-                  className="
-          flex
-          absolute  top-1/2 -translate-y-1/2
-          h-10 w-10 sm:h-12 sm:w-12
-          bg-white shadow-md
-          hover:bg-gray-100
-        "
-                />
               </Carousel>
+              <div
+                ref={carouselCursorRef}
+                className="pointer-events-none absolute z-20 flex h-14 w-14 items-center justify-center rounded-full"
+                style={{
+                  left: 0,
+                  top: 0,
+                  backgroundColor: isDark ? "#ffffff" : "#000000",
+                  color: isDark ? "#000000" : "#ffffff",
+                }}
+              >
+                {carouselCursorDir === "left" ? (
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <polygon fill="currentColor" points="10,3 4,8 10,13" />
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <polygon fill="currentColor" points="6,3 12,8 6,13" />
+                  </svg>
+                )}
+              </div>
             </div>
           </div>
 
@@ -288,6 +436,9 @@ export const TestimonialsSection = (): JSX.Element => {
                 tracking-[0] leading-normal
               "
               isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
             >
            We're thrilled that you're interested in learning from us. Before you apply, here are a few things to keep in mind. Let’s help you get started on the right path.
             </AnimatedText>
@@ -303,15 +454,21 @@ export const TestimonialsSection = (): JSX.Element => {
                   className="border-b border-[#cccccc]"
                 >
                   <AccordionTrigger className="py-6">
-                    <span className="block [font-family:'Poppins',Helvetica] text-[14px] sm:text-[22px] lg:text-[28px] leading-[1.4]">
+                    <AnimatedText
+                      className="block [font-family:'Poppins',Helvetica] font-normal text-[14px] sm:text-[22px] lg:text-[28px] leading-[1.4]"
+                      isDarkBg={isDark}
+                      disableColorReveal
+                      slideDuration={0.8}
+                      slideStagger={0.08}
+                    >
                       {item.question}
-                    </span>
+                    </AnimatedText>
                   </AccordionTrigger>
                   <AccordionContent>
                     {item.answer.map((p, i) => (
                       <p
                         key={i}
-                        className="[font-family:'Poppins',Helvetica] text-gray-700 text-[14px] sm:text-[15px] lg:text-base leading-relaxed mb-3 "
+                        className="[font-family:'Poppins',Helvetica] text-gray-700 text-[16px] sm:text-[17px] lg:text-[18px] leading-relaxed mb-3 "
                       >
                         {p}
                       </p>

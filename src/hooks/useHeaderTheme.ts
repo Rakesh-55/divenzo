@@ -11,12 +11,13 @@ export const useHeaderTheme = () => {
 
       // detect section behind header
       const headerCheckY = 80; // header height
-      const el = document.elementFromPoint(
+      const elements = document.elementsFromPoint(
         window.innerWidth / 2,
         headerCheckY
       );
+      const target = elements.find((el) => !el.closest("header"));
 
-      if (el?.closest(".dark-section")) {
+      if (target?.closest(".dark-section")) {
         setOnDarkSection(true);
       } else {
         setOnDarkSection(false);

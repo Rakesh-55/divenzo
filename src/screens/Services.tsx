@@ -1,5 +1,5 @@
 import Autoplay from "embla-carousel-autoplay";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import service_img from "../assets/service_img.png";
@@ -8,14 +8,14 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import {
+  type CarouselApi,
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AnimatedText } from "@/components/AnimatedText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -331,7 +331,15 @@ function StickyStackServices() {
               style={{ zIndex: 10 + i }}
             >
               <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]">
-                {service.id}. {service.title}
+                <AnimatedText
+                  className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]"
+                  isDarkBg
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
+                  {service.id}. {service.title}
+                </AnimatedText>
               </h2>
               {/* Full-bleed separator */}
               <div
@@ -349,9 +357,15 @@ function StickyStackServices() {
                 <div className="hidden lg:block lg:w-[280px] xl:w-[340px] shrink-0" />
 
                 <div className="flex-1">
-                  <p className="[font-family:'Poppins',Helvetica] font-normal text-[16px] sm:text-[20px] lg:text-[26px] text-[#cccccc] max-w-[900px] leading-relaxed">
+                  <AnimatedText
+                    className="[font-family:'Poppins',Helvetica] font-normal text-[16px] sm:text-[20px] lg:text-[26px] text-[#cccccc] max-w-[900px] leading-relaxed"
+                    isDarkBg
+                    disableColorReveal
+                    slideDuration={0.8}
+                    slideStagger={0.08}
+                  >
                     {service.description}
-                  </p>
+                  </AnimatedText>
 
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6 mt-6 list-disc pl-6">
                     {service.points.map((point, idx) => (
@@ -359,7 +373,16 @@ function StickyStackServices() {
                         key={idx}
                         className="[font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#ffffffcc]"
                       >
-                        {point}
+                        <AnimatedText
+                          as="span"
+                          className="inline-block [font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#ffffffcc]"
+                          isDarkBg
+                          disableColorReveal
+                          slideDuration={0.8}
+                          slideStagger={0.08}
+                        >
+                          {point}
+                        </AnimatedText>
                       </li>
                     ))}
                   </ul>
@@ -382,6 +405,39 @@ export default function Services() {
       stopOnInteraction: false,
     })
   );
+  const carouselCursorRef = useRef<HTMLDivElement | null>(null);
+  const cursorTargetRef = useRef({ x: 0, y: 0 });
+  const cursorCurrentRef = useRef({ x: 0, y: 0 });
+  const cursorActiveRef = useRef(false);
+  const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
+  const [carouselCursorDir, setCarouselCursorDir] = useState<"left" | "right">(
+    "right"
+  );
+
+  useEffect(() => {
+    if (!carouselCursorRef.current) return;
+    gsap.set(carouselCursorRef.current, {
+      xPercent: -50,
+      yPercent: -50,
+      scale: 0,
+      opacity: 0,
+    });
+    const damping = 0.1;
+    const tick = () => {
+      if (!carouselCursorRef.current || !cursorActiveRef.current) return;
+      const current = cursorCurrentRef.current;
+      const target = cursorTargetRef.current;
+      current.x += (target.x - current.x) * damping;
+      current.y += (target.y - current.y) * damping;
+      gsap.set(carouselCursorRef.current, {
+        x: current.x,
+        y: current.y,
+        force3D: true,
+      });
+    };
+    gsap.ticker.add(tick);
+    return () => gsap.ticker.remove(tick);
+  }, []);
 
   return (
     <>
@@ -394,8 +450,16 @@ export default function Services() {
 
           <div className="ml-0 lg:ml-[350px]">
             <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]">
-              We are a UX/UI design company that crafts scalable, sustainable, and
-              innovative solutions to transform extraordinary ideas into reality.
+              <AnimatedText
+                as="span"
+                className="inline"
+                isDarkBg={false}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
+                We are a UX/UI design company that crafts scalable, sustainable, and innovative solutions to transform extraordinary ideas into reality.
+              </AnimatedText>
             </p>
           </div>
 
@@ -412,29 +476,74 @@ export default function Services() {
       <section className="relative w-full bg-white pt-10 pb-20  px-4 lg:px-20 ">
         <div className="max-w-[1260px] mx-auto">
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] mb-[16px] md:mb-[26px]">
-            Process
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Process
+            </AnimatedText>
           </h2>
 
           <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[46px] md:mb-[86px] max-w-[930px] ml-0 lg:ml-auto">
-            A flexible, adaptive process designed to help businesses launch faster
-            and scale with confidence.
+            <AnimatedText
+              as="span"
+              className="inline"
+              isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              A flexible, adaptive process designed to help businesses launch faster and scale with confidence.
+            </AnimatedText>
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-[78px] gap-y-[32px] md:gap-y-[72px]">
             {processSteps.map((step, index) => (
               <div key={index} className="flex flex-col gap-2 md:gap-4">
                 <div className="[font-family:'Poppins',Helvetica] font-normal text-black text-2xl">
-                  {step.number}
+                  <AnimatedText
+                    as="span"
+                    className="inline-block"
+                    isDarkBg={false}
+                    disableColorReveal
+                    slideDuration={0.8}
+                    slideStagger={0.08}
+                  >
+                    {step.number}
+                  </AnimatedText>
                 </div>
 
                 <h3 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[24px] lg:text-[32px]">
-                  {step.title}
+                  <AnimatedText
+                    as="span"
+                    className="inline-block"
+                    isDarkBg={false}
+                    disableColorReveal
+                    slideDuration={0.8}
+                    slideStagger={0.08}
+                  >
+                    {step.title}
+                  </AnimatedText>
                 </h3>
 
                 <Separator.Root className="bg-neutral-200 h-[2px]" />
 
                 <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000CC] text-[16px] sm:text-[18px] lg:text-2xl">
-                  {step.description}
+                  <AnimatedText
+                    as="span"
+                    className="inline"
+                    disableColorReveal
+                    startColor="currentColor"
+                    endColor="currentColor"
+                    slideDuration={0.8}
+                    slideStagger={0.08}
+                  >
+                    {step.description}
+                  </AnimatedText>
                 </p>
               </div>
             ))}
@@ -456,10 +565,58 @@ export default function Services() {
   </div>
 
   {/* 🔹 RELATIVE WRAPPER IS REQUIRED */}
-  <div className="relative max-w-7xl mx-auto px-4 md:px-6 mt-12">
+  <div
+    className="relative max-w-7xl mx-auto px-4 md:px-6 mt-12"
+    onMouseEnter={(event) => {
+      document.body.dataset.cursorHidden = "true";
+      if (carouselCursorRef.current) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        cursorActiveRef.current = true;
+        cursorTargetRef.current = { x, y };
+        cursorCurrentRef.current = { x, y };
+        gsap.set(carouselCursorRef.current, { x, y, force3D: true });
+        gsap.to(carouselCursorRef.current, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.3,
+          ease: "power3.out",
+        });
+      }
+    }}
+    onMouseMove={(event) => {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      setCarouselCursorDir(x < rect.width / 2 ? "left" : "right");
+      cursorTargetRef.current = { x, y };
+    }}
+    onMouseLeave={() => {
+      document.body.dataset.cursorHidden = "false";
+      if (carouselCursorRef.current) {
+        cursorActiveRef.current = false;
+        gsap.to(carouselCursorRef.current, {
+          scale: 0,
+          opacity: 0,
+          duration: 0,
+          ease: "none",
+        });
+      }
+    }}
+    onClick={() => {
+      if (!carouselApi) return;
+      if (carouselCursorDir === "left") {
+        carouselApi.scrollPrev();
+      } else {
+        carouselApi.scrollNext();
+      }
+    }}
+  >
     <Carousel
       plugins={[plugin.current]}
       opts={{ align: "start", loop: true }}
+      setApi={setCarouselApi}
       className="w-full"
     >
       <CarouselContent className="-ml-2 md:-ml-4">
@@ -468,8 +625,12 @@ export default function Services() {
             key={index}
             className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
           >
-            <Card className="border-0 shadow-none bg-transparent">
-              <CardContent className="p-3 flex flex-col gap-6">
+            <Card className="group relative border-0 shadow-none bg-transparent overflow-hidden">
+              <span
+                className="card-hover-circle"
+                style={{ backgroundColor: "rgba(0,0,0,0.08)" }}
+              />
+              <CardContent className="relative z-10 p-3 flex flex-col gap-6">
                 <p className="[font-family:'Poppins',Helvetica] text-[15px] sm:text-[17px] md:text-[18px] text-[#000000e6] leading-relaxed">
                   {testimonial.quote}
                 </p>
@@ -500,31 +661,35 @@ export default function Services() {
         ))}
       </CarouselContent>
 
-      {/* ✅ FORCE VISIBLE ARROWS (MOBILE + DESKTOP) */}
-      <CarouselPrevious
-        className="
-          absolute left-2 top-1/2 -translate-y-1/2
-          z-20
-          h-10 w-10 sm:h-12 sm:w-12
-          bg-white
-          opacity-100
-          shadow-lg
-          border border-black/10
-        "
-      />
-
-      <CarouselNext
-        className="
-          absolute right-2 top-1/2 -translate-y-1/2
-          z-20
-          h-10 w-10 sm:h-12 sm:w-12
-          bg-white
-          opacity-100
-          shadow-lg
-          border border-black/10
-        "
-      />
     </Carousel>
+    <div
+      ref={carouselCursorRef}
+      className="pointer-events-none absolute z-20 flex h-14 w-14 items-center justify-center rounded-full"
+      style={{
+        left: 0,
+        top: 0,
+        backgroundColor: "#000000",
+        color: "#ffffff",
+      }}
+    >
+      {carouselCursorDir === "left" ? (
+        <svg
+          className="h-4 w-4"
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+        >
+          <polygon fill="currentColor" points="10,3 4,8 10,13" />
+        </svg>
+      ) : (
+        <svg
+          className="h-4 w-4"
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+        >
+          <polygon fill="currentColor" points="6,3 12,8 6,13" />
+        </svg>
+      )}
+    </div>
   </div>
 </section>
 

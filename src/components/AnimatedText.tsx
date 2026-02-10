@@ -6,8 +6,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface AnimatedTextProps {
   children: ReactNode;
+  as?: "div" | "span";
+  overflowHidden?: boolean;
   // Background detection
   isDarkBg?: boolean; // true = black bg (white text), false = white bg (black text)
+  // Disable color reveal
+  disableColorReveal?: boolean;
   // Slide up animation
   slideDuration?: number;
   slideStagger?: number;
@@ -37,11 +41,14 @@ interface AnimatedTextProps {
  */
 export const AnimatedText: React.FC<AnimatedTextProps> = ({
   children,
+  as = "div",
+  overflowHidden = true,
   // Background detection
   isDarkBg,
+  disableColorReveal = false,
   // Slide up defaults
-  slideDuration = 1.2,
-  slideStagger = 0.12,
+  slideDuration = 0.8,
+  slideStagger = 0.08,
   slideStart = "top 85%",
   slideEnd = "top 50%",
   slideEase = "power4.out",
@@ -92,13 +99,18 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     }
 
     const ctx = gsap.context(() => {
+      const baseColor = finalEndColor || (finalIsDarkBg ? "#ffffff" : "#000000");
+      const wordStartColor = disableColorReveal ? baseColor : finalStartColor;
+
       // Split text into words and wrap them
+      const overflowClass = overflowHidden ? "overflow-hidden" : "overflow-visible";
+
       const words = fullText.split(" ").map((word, i) =>
         i === 0
           ? // First word: visible, no animation
-            `<span class='word inline-block overflow-hidden' style='color: ${finalIsDarkBg ? "#ffffff" : "#000000"};'>${word}</span>`
+            `<span class='word inline-block ${overflowClass}' style='color: ${baseColor}; line-height: inherit; vertical-align: text-bottom;'>${word}</span>`
           : // Other words: wrapped for slide-up animation with start color
-            `<span class='word inline-block overflow-hidden' style='color: ${finalStartColor};'><span class='inner block translate-y-full opacity-0'>${word}</span></span>`
+            `<span class='word inline-block ${overflowClass}' style='color: ${wordStartColor}; line-height: inherit; vertical-align: text-bottom;'><span class='inner inline-block translate-y-full opacity-0'>${word}</span></span>`
       );
 
       el.innerHTML = words.join(" ");
@@ -122,21 +134,23 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
         },
       });
 
-      // ============ ANIMATION 2: COLOR TRANSITION ============
-      const grayWords = el.querySelectorAll(".word:not(:first-child)");
-      gsap.to(grayWords, {
-        color: finalEndColor,
-        stagger: {
-          each: slideStagger * 0.8,
-          amount: slideDuration,
-        },
-        scrollTrigger: {
-          trigger: el,
-          start: colorStart,
-          end: colorEnd,
-          scrub: colorScrub ? true : false,
-        },
-      });
+      if (!disableColorReveal) {
+        // ============ ANIMATION 2: COLOR TRANSITION ============
+        const grayWords = el.querySelectorAll(".word:not(:first-child)");
+        gsap.to(grayWords, {
+          color: finalEndColor,
+          stagger: {
+            each: slideStagger * 0.8,
+            amount: slideDuration,
+          },
+          scrollTrigger: {
+            trigger: el,
+            start: colorStart,
+            end: colorEnd,
+            scrub: colorScrub ? true : false,
+          },
+        });
+      }
     }, el);
 
     // Cleanup ScrollTrigger instances created by this component
@@ -150,6 +164,7 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     slideStart,
     slideEnd,
     slideEase,
+    disableColorReveal,
     startColor,
     endColor,
     colorStart,
@@ -158,12 +173,14 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
   ]);
 
   return (
-    <div
-      ref={elementRef}
-      className={className}
-    >
-      {children}
-    </div>
+    React.createElement(
+      as,
+      {
+        ref: elementRef,
+        className,
+      },
+      children
+    )
   );
 };
 

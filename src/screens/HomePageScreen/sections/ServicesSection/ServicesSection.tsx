@@ -53,7 +53,11 @@ const servicesData = [
   },
 ];
 
-export const ServicesSection = (): JSX.Element => {
+interface ServicesSectionProps {
+  theme?: "light" | "dark";
+}
+
+export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [imagePosition, setImagePosition] = useState({ top: 0 });
 
@@ -64,7 +68,7 @@ export const ServicesSection = (): JSX.Element => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const progress = useScrollProgress(sectionRef);
 
-  const isDark = progress > 0.5;
+  const isDark = theme ? theme === "dark" : progress > 0.5;
 
   const isDesktop =
     typeof window !== "undefined" && window.innerWidth >= 1024;
@@ -110,6 +114,7 @@ export const ServicesSection = (): JSX.Element => {
   return (
     <section
       ref={sectionRef}
+      data-section="services"
       style={{
         backgroundColor: isDark ? "#000" : "#fff",
         color: isDark ? "#fff" : "#000",
@@ -118,7 +123,7 @@ export const ServicesSection = (): JSX.Element => {
         relative w-full overflow-hidden
         py-[80px] sm:py-[100px] lg:py-[120px]
         px-4 sm:px-8 lg:px-20
-        transition-colors duration-500
+        transition-colors duration-700
         ${isDark ? "dark-section" : ""}
       `}
     >
@@ -165,6 +170,9 @@ export const ServicesSection = (): JSX.Element => {
                 tracking-[0] leading-normal
               "
               isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
             >
               We start every project by listening to understand your needs so we
               can give you the time, attention and care you deserve.
@@ -172,7 +180,7 @@ export const ServicesSection = (): JSX.Element => {
 
             <Button
               variant="link"
-              className="h-auto w-fit p-0 flex flex-col items-start gap-1 mt-4 text-inherit hover:text-inherit"
+              className="relative h-auto w-fit p-0 pb-4 mt-4 text-inherit hover:text-inherit group no-underline hover:no-underline"
             >
               <span
                 className="
@@ -182,7 +190,21 @@ export const ServicesSection = (): JSX.Element => {
               >
                 Discover More
               </span>
-              <div className="w-[160px] sm:w-[190px] lg:w-[226px] h-0.5 bg-current opacity-40" />
+              <span
+                className="
+                  absolute left-0 -bottom-1 h-0.5 w-full
+                  bg-current opacity-40 transition-opacity duration-300
+                  group-hover:opacity-0
+                "
+              />
+              <span
+                className="
+                  absolute left-0 -bottom-1 h-0.5 w-full
+                  bg-current scale-x-0 origin-left
+                  transition-transform duration-500 ease-out
+                  group-hover:scale-x-100
+                "
+              />
             </Button>
           </div>
         </header>
@@ -204,30 +226,81 @@ export const ServicesSection = (): JSX.Element => {
                 onMouseLeave={() => isDesktop && setHoveredIndex(null)}
               >
                 <div className="w-full lg:w-[436px] flex-shrink-0">
-                  <h3
-                    className="
-                      [font-family:'Poppins',Helvetica] font-semibold text-white
-                      text-[28px] sm:text-[36px] lg:text-5xl
-                      tracking-[0] leading-normal
-                      whitespace-pre-line
-                    "
-                  >
-                    {service.number}
-                    {"\n"}
-                    {service.title}
-                  </h3>
+                  <div className="flex flex-col gap-2">
+                    <AnimatedText
+                      className="
+                        [font-family:'Poppins',Helvetica] font-semibold text-inherit
+                        text-[28px] sm:text-[36px] lg:text-5xl
+                        tracking-[0] leading-[0.5] pb-1
+                      "
+                      isDarkBg={isDark}
+                      disableColorReveal
+                      overflowHidden={false}
+                      slideDuration={0.8}
+                      slideStagger={0.08}
+                    >
+                      {service.number}
+                    </AnimatedText>
+
+                    {(() => {
+                      const normalizedTitle = service.title.replace(/\s*\n\s*/g, " ").trim();
+                      const words = normalizedTitle.split(/\s+/);
+                      const firstLine = words[0] || "";
+                      const secondLine = words.slice(1).join(" ");
+
+                      return (
+                        <>
+                          <AnimatedText
+                            className="
+                              [font-family:'Poppins',Helvetica] font-semibold text-inherit
+                              text-[28px] sm:text-[36px] lg:text-5xl
+                              tracking-[0] leading-[0.5] pb-1
+                            "
+                            isDarkBg={isDark}
+                            disableColorReveal
+                            overflowHidden={false}
+                            slideDuration={0.8}
+                            slideStagger={0.08}
+                          >
+                            {firstLine}
+                          </AnimatedText>
+
+                          {secondLine && (
+                            <AnimatedText
+                              className="
+                                [font-family:'Poppins',Helvetica] font-semibold text-inherit
+                                text-[28px] sm:text-[36px] lg:text-5xl
+                                tracking-[0] leading-[0.5] pb-1
+                              "
+                              isDarkBg={isDark}
+                              disableColorReveal
+                              overflowHidden={false}
+                              slideDuration={0.8}
+                              slideStagger={0.08}
+                            >
+                              {secondLine}
+                            </AnimatedText>
+                          )}
+                        </>
+                      );
+                    })()}
+                  </div>
                 </div>
 
                 <div className="flex-1">
-                  <p
+                  <AnimatedText
                     className="
-                      [font-family:'Poppins',Helvetica] font-normal text-[#ffffffcc]
+                      [font-family:'Poppins',Helvetica] font-normal text-inherit opacity-80
                       text-base lg:text-[32px]
                       tracking-[0] leading-normal
                     "
+                    isDarkBg={isDark}
+                    disableColorReveal
+                    slideDuration={0.8}
+                    slideStagger={0.08}
                   >
                     {service.description}
-                  </p>
+                  </AnimatedText>
                 </div>
               </div>
             </React.Fragment>

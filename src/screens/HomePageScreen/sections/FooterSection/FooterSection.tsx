@@ -112,11 +112,11 @@ export const FooterSection = (): JSX.Element => {
               className="
                 h-auto p-0 footer-no-underline overflow-hidden group
                 hover:bg-transparent focus:bg-transparent active:bg-transparent
-                [font-family:'Poppins',Helvetica] font-semibold text-white
+                [font-family:'Poppins',Helvetica] font-normal text-white
                 text-[24px] sm:text-[32px] lg:text-5xl
               "
             >
-              <span className="relative block leading-none">
+              <span className="relative block leading-[1.3] pb-1">
                 <span className="block transition-transform duration-500 ease-out group-hover:-translate-y-full">
                   {link.name}
                 </span>
@@ -148,7 +148,7 @@ export const FooterSection = (): JSX.Element => {
               <div className="flex flex-col gap-6">
                 <h2
                   className="
-                    [font-family:'Poppins',Helvetica] font-semibold text-white
+                    [font-family:'Poppins',Helvetica] font-normal text-white
                     text-[36px] sm:text-[44px] lg:text-[56px]
                     leading-[1.2]
                   "
@@ -172,13 +172,28 @@ export const FooterSection = (): JSX.Element => {
                 <Button
                   variant="link"
                   className="
-                    h-auto w-fit px-0 py-2.5 border-b-2 border-[#ffffff4c]
-                    rounded-none
+                    relative h-auto w-fit px-0 py-2.5
+                    rounded-none group no-underline hover:no-underline
                     [font-family:'Poppins',Helvetica] font-normal text-white
                     text-[16px] sm:text-[18px] lg:text-2xl
                   "
                 >
                   Discuss with us
+                  <span
+                    className="
+                      absolute left-0 -bottom-1 h-[1.5px] w-full
+                      bg-neutral-400/70 transition-opacity duration-300
+                      group-hover:opacity-0
+                    "
+                  />
+                  <span
+                    className="
+                      absolute left-0 -bottom-1 h-[1.5px] w-full
+                      bg-current scale-x-0 origin-left
+                      transition-transform duration-500 ease-out
+                      group-hover:scale-x-100
+                    "
+                  />
                 </Button>
               </Link>
             </section>
@@ -201,7 +216,7 @@ export const FooterSection = (): JSX.Element => {
                       text-[16px] sm:text-[18px] lg:text-2xl
                     "
                   >
-                    <span className="relative block leading-none">
+                    <span className="relative block leading-[1.3] pb-1">
                       <span className="block transition-transform duration-500 ease-out group-hover:-translate-y-full">
                         {link.name}
                       </span>
@@ -303,6 +318,7 @@ export const FooterSection = (): JSX.Element => {
                           [font-family:'Open_Sans',Helvetica] font-normal text-white
                           text-[12px] sm:text-[14px] lg:text-base
                           whitespace-nowrap
+                          no-underline hover:no-underline
                         "
                       >
                         <span className="relative after:absolute after:left-0 after:-bottom-1 after:h-[1px] after:w-full after:scale-x-0 after:bg-white after:origin-left after:transition-transform hover:after:scale-x-100">

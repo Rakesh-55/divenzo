@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { AnimatedText } from "@/components/AnimatedText";
 
 interface ProjectCardProps {
   image: string;
@@ -83,12 +84,32 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Project Info (always visible below) */}
-      <div className="mt-0">
-        <p className="[font-family:'Poppins',Helvetica] font-normal text-[18px] sm:text-[20px] lg:text-[24px] text-black mt-2">
-          {title}
+      <div className="mt-6">
+        <p className="[font-family:'Poppins',Helvetica] font-normal text-[18px] sm:text-[20px] lg:text-[24px] text-black">
+          <AnimatedText
+            as="span"
+            className="inline-block"
+            disableColorReveal
+            startColor="currentColor"
+            endColor="currentColor"
+            slideDuration={0.8}
+            slideStagger={0.08}
+          >
+            {title}
+          </AnimatedText>
         </p>
         <p className="[font-family:'Poppins',Helvetica] font-normal text-[14px] sm:text-[16px] lg:text-[18px] text-[#000000cc]">
-          {category}
+          <AnimatedText
+            as="span"
+            className="inline-block"
+            disableColorReveal
+            startColor="currentColor"
+            endColor="currentColor"
+            slideDuration={0.8}
+            slideStagger={0.08}
+          >
+            {category}
+          </AnimatedText>
         </p>
       </div>
 

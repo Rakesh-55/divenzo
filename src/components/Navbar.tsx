@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/divenzo-logo.png";
+import aboutNavImg from "../assets/nav_images/about_nav_img.png";
+import projectsNavImg from "../assets/nav_images/projects_nav_img.png";
+import servicesNavImg from "../assets/nav_images/services_nav_img.png";
+import contactNavImg from "../assets/nav_images/contact_nav_img.png";
 import { useHeaderTheme } from "../hooks/useHeaderTheme";
 import { gsap } from "gsap";
 
@@ -18,6 +22,53 @@ export const Navbar = (): JSX.Element => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showHamburger, setShowHamburger] = useState(false);
+  const [hoveredMenuLink, setHoveredMenuLink] = useState<string | null>(null);
+  const [menuImage, setMenuImage] = useState<string | null>(null);
+  const [menuImageVisible, setMenuImageVisible] = useState(false);
+  const [isHamburgerHovered, setIsHamburgerHovered] = useState(false);
+  const imageClearTimeoutRef = useRef<number | null>(null);
+  const hamburgerBtnRef = useRef<HTMLButtonElement>(null);
+  const magneticCircleRef = useRef<HTMLSpanElement>(null);
+
+  const menuImageMap: Record<string, string> = {
+    About: aboutNavImg,
+    Projects: projectsNavImg,
+    Services: servicesNavImg,
+    Contact: contactNavImg,
+  };
+
+  const handleMenuLinkEnter = (label: string) => {
+    if (imageClearTimeoutRef.current) {
+      window.clearTimeout(imageClearTimeoutRef.current);
+      imageClearTimeoutRef.current = null;
+    }
+    setHoveredMenuLink(label);
+    const nextImage = menuImageMap[label];
+    if (nextImage) {
+      setMenuImage(nextImage);
+      setMenuImageVisible(true);
+    }
+  };
+
+  const handleMenuLinksLeave = () => {
+    if (imageClearTimeoutRef.current) {
+      window.clearTimeout(imageClearTimeoutRef.current);
+      imageClearTimeoutRef.current = null;
+    }
+    setHoveredMenuLink(null);
+    setMenuImageVisible(false);
+    imageClearTimeoutRef.current = window.setTimeout(() => {
+      setMenuImage(null);
+      imageClearTimeoutRef.current = null;
+    }, 150);
+  };
+
+  const handleMenuLinksMouseMove = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement | null;
+    if (!target || !target.closest(".menu-link")) {
+      handleMenuLinksLeave();
+    }
+  };
 
   /* ================= HANDLE SAME PAGE NAV ================= */
   const handleNavClick = (page: string) => {
@@ -65,48 +116,40 @@ export const Navbar = (): JSX.Element => {
 
   /* ================= MENU ANIMATION ================= */
   useEffect(() => {
-    if (menuOpen) {
-      gsap.fromTo(
-        ".fullscreen-menu",
-        { y: "100%" },
-        { y: "0%", duration: 0.8, ease: "power4.out" }
-      );
-    } else {
-      gsap.to(
-        ".fullscreen-menu",
-        { y: "100%", duration: 0.6, ease: "power4.in" }
-      );
-    }
+    if (!menuOpen) return;
+    gsap.fromTo(
+      ".fullscreen-menu",
+      { y: "100%" },
+      { y: "0%", duration: 0.8, ease: "power4.out" }
+    );
   }, [menuOpen]);
+
+  const headerBgColor = menuOpen
+    ? "transparent"
+    : scrolled
+    ? onDarkSection
+      ? "rgba(0,0,0,0.6)"
+      : "rgba(255,255,255,0.6)"
+    : "transparent";
   
+    
   
   
 
   useEffect(() => {
-    if (menuOpen) {
-      gsap.fromTo(
-        ".menu-link",
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power4.out",
-          stagger: 0.12,
-        }
-      );
-    } else {
-      gsap.to(
-        ".menu-link",
-        {
-          y: -20,
-          opacity: 0,
-          duration: 0.4,
-          ease: "power4.in",
-          stagger: 0.05,
-        }
-      );
-    }
+    if (!menuOpen) return;
+
+    gsap.fromTo(
+      ".menu-link",
+      { y: 60, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power4.out",
+        stagger: 0.12,
+      }
+    );
   }, [menuOpen]);
 
 
@@ -118,13 +161,7 @@ export const Navbar = (): JSX.Element => {
         <nav 
           className={`flex items-center justify-between px-6 py-4 transition-all duration-500 ${scrolled && !menuOpen ? "backdrop-blur-md" : ""}`}
           style={{
-            backgroundColor: menuOpen
-              ? "transparent"
-              : scrolled
-              ? onDarkSection
-                ? "rgba(0,0,0,0.6)"
-                : "rgba(255,255,255,0.6)"
-              : "transparent",
+            backgroundColor: headerBgColor,
           }}
         >
           {/* LOGO */}
@@ -170,19 +207,12 @@ export const Navbar = (): JSX.Element => {
             hidden lg:grid
             grid-cols-[auto_1fr_auto]
             items-center
-            px-20 py-4
+            px-20 py-5
             transition-all duration-500
             ${scrolled && !menuOpen ? "backdrop-blur-xl" : ""}
           `}
           style={{
-            backgroundColor: 
-              menuOpen
-                ? "transparent"
-                : scrolled
-                ? onDarkSection
-                  ? "rgba(0,0,0,0.6)"
-                  : "rgba(255,255,255,0.6)"
-                : "transparent",
+            backgroundColor: headerBgColor,
           }}
         >
 
@@ -201,16 +231,16 @@ export const Navbar = (): JSX.Element => {
             `}
             style={{ transitionDelay: scrolled ? "0ms" : "520ms" }}
           >
-            <div className="leading-tight">
-              <div className="text-sm opacity-70">Based in</div>
-              <div className="text-base font-medium">Hyderabad, India</div>
+            <div className="leading-tight text-black">
+              <div className="text-sm text-black">Based in</div>
+              <div className="text-base font-normal">Hyderabad, India</div>
             </div>
 
-            <div className="leading-tight">
-              <div className="text-sm opacity-70">Say hello</div>
+            <div className="leading-tight text-black">
+              <div className="text-sm text-black">Say hello</div>
               <a
                 href="mailto:hello@divenzo.com"
-                className="text-base font-medium hover:opacity-70"
+                className="text-base font-normal hover:opacity-70"
               >
                 hello@divenzo.com
               </a>
@@ -234,7 +264,7 @@ export const Navbar = (): JSX.Element => {
                 to={link.page}
                 onClick={() => handleNavClick(link.page)}
                 className={`
-                  relative text-[18px] font-medium tracking-wide
+                  relative text-[18px] font-normal tracking-wide
                   ${onDarkSection ? "text-white" : "text-black"}
                   group
                 `}
@@ -288,13 +318,14 @@ export const Navbar = (): JSX.Element => {
             {/* HAMBURGER / X BUTTON */}
             <div
               className={`
-                hidden lg:flex items-center justify-center overflow-hidden
+                hidden lg:flex items-center justify-center
                 transition-all duration-700 ease-out
                 ${showHamburger ? "w-12 opacity-100" : "w-0 opacity-0"}
               `}
               aria-hidden={!showHamburger}
             >
               <button
+                ref={hamburgerBtnRef}
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="
                   w-12 h-12
@@ -302,19 +333,95 @@ export const Navbar = (): JSX.Element => {
                   relative
                   cursor-pointer
                   z-[600]
+                  overflow-visible
                 "
                 aria-label="Toggle menu"
                 style={{ pointerEvents: showHamburger ? "auto" : "none" }}
+                onMouseEnter={() => {
+                  setIsHamburgerHovered(true);
+                  document.body.dataset.cursorHidden = "true";
+                  if (magneticCircleRef.current) {
+                    gsap.to(magneticCircleRef.current, {
+                      scale: 1,
+                      opacity: 1,
+                      duration: 0.4,
+                      ease: "power2.out",
+                    });
+                  }
+                }}
+                onMouseMove={(e) => {
+                  const btn = hamburgerBtnRef.current;
+                  const circle = magneticCircleRef.current;
+                  if (!btn || !circle) return;
+                  const rect = btn.getBoundingClientRect();
+                  const x = e.clientX - rect.left - rect.width / 2;
+                  const y = e.clientY - rect.top - rect.height / 2;
+                  gsap.to(circle, {
+                    x: x * 0.35,
+                    y: y * 0.35,
+                    duration: 0.4,
+                    ease: "power2.out",
+                  });
+                }}
+                onMouseLeave={() => {
+                  setIsHamburgerHovered(false);
+                  document.body.dataset.cursorHidden = "false";
+                  if (magneticCircleRef.current) {
+                    gsap.to(magneticCircleRef.current, {
+                      scale: 0,
+                      opacity: 0,
+                      x: 0,
+                      y: 0,
+                      duration: 0.3,
+                      ease: "power2.out",
+                    });
+                  }
+                }}
               >
+                {/* Magnetic hover circle */}
+                <span
+                  ref={magneticCircleRef}
+                  className="absolute rounded-full pointer-events-none z-0"
+                  style={{
+                    width: 56,
+                    height: 56,
+                    left: "50%",
+                    top: "50%",
+                    marginLeft: -28,
+                    marginTop: -28,
+                    transform: "scale(0)",
+                    opacity: 0,
+                    backgroundColor: isHamburgerHovered
+                      ? menuOpen || onDarkSection
+                        ? "#ffffff"
+                        : "#000000"
+                      : menuOpen || onDarkSection
+                      ? "#ffffff"
+                      : "#000000",
+                    transition: "background-color 0.3s",
+                  }}
+                />
+
                 {/* Top Line / First diagonal */}
                 <span
                   className={`
-                    absolute h-0.5 transition-all duration-500
+                    absolute h-0.5 transition-all duration-500 z-20
                     ${
                       menuOpen
-                        ? "w-5 rotate-45 bg-white"
+                        ? "w-5 rotate-45 " +
+                          (isHamburgerHovered
+                            ? menuOpen || onDarkSection
+                              ? "bg-black"
+                              : "bg-white"
+                            : "bg-white")
                         : "w-5 rotate-0 " +
-                          (onDarkSection ? "bg-white" : "bg-black")
+                          (isHamburgerHovered
+                            ? menuOpen || onDarkSection
+                              ? "bg-black"
+                              : "bg-white"
+                            : onDarkSection
+                            ? "bg-white"
+                            : "bg-black")
                     }
                   `}
                   style={{
@@ -326,12 +433,23 @@ export const Navbar = (): JSX.Element => {
                 {/* Bottom Line / Second diagonal */}
                 <span
                   className={`
-                    absolute h-0.5 transition-all duration-500
+                    absolute h-0.5 transition-all duration-500 z-20
                     ${
                       menuOpen
-                        ? "w-5 -rotate-45 bg-white"
+                        ? "w-5 -rotate-45 " +
+                          (isHamburgerHovered
+                            ? menuOpen || onDarkSection
+                              ? "bg-black"
+                              : "bg-white"
+                            : "bg-white")
                         : "w-5 rotate-0 " +
-                          (onDarkSection ? "bg-white" : "bg-black")
+                          (isHamburgerHovered
+                            ? menuOpen || onDarkSection
+                              ? "bg-black"
+                              : "bg-white"
+                            : onDarkSection
+                            ? "bg-white"
+                            : "bg-black")
                     }
                   `}
                   style={{
@@ -348,56 +466,85 @@ export const Navbar = (): JSX.Element => {
       </header>
 
       {/* FULLSCREEN MENU */}
-      {(menuOpen || true) && (
-        <div 
-          className="fullscreen-menu fixed inset-0 z-[300] bg-black text-white overflow-y-auto"
-          style={{
-            pointerEvents: menuOpen ? "auto" : "none",
-            transform: menuOpen ? "translateY(0%)" : "translateY(100%)",
-            transition: "none",
-          }}
-        >
-          <div className="h-full flex flex-col justify-between px-4 sm:px-6 md:px-12 lg:px-20 py-20 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
-            <nav className="flex flex-col items-start gap-4 sm:gap-5 md:gap-7 lg:gap-10 text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
-              {/* Home Link */}
-              <Link
-                to="/"
-                onClick={() => handleNavClick("/")}
-                className="menu-link text-gray-400 hover:text-white transition-colors duration-300"
+      {menuOpen && (
+        <div className="fullscreen-menu fixed inset-0 z-[300] bg-black text-white pointer-events-auto overflow-y-auto">
+          <div className="h-full flex flex-col px-4 sm:px-6 md:px-12 lg:px-20 py-20 pt-20 sm:pt-24 md:pt-28 lg:pt-32">
+            <div className="flex-1 flex items-center lg:items-end">
+              <nav
+                className="flex flex-col items-start gap-4 sm:gap-5 md:gap-7 lg:gap-10 text-6xl sm:text-6xl md:text-6xl lg:text-7xl"
+              onMouseMove={handleMenuLinksMouseMove}
+              onMouseLeave={handleMenuLinksLeave}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                  handleMenuLinksLeave();
+                }
+              }}
               >
-                Home
-              </Link>
+                {navLinks.map((link) => {
+                  const isHovered = hoveredMenuLink === link.label;
+                  const isMuted = hoveredMenuLink && !isHovered;
+                  return (
+                    <Link
+                      key={link.page}
+                      to={link.page}
+                      onClick={() => handleNavClick(link.page)}
+                      onMouseEnter={() => handleMenuLinkEnter(link.label)}
+                      onMouseLeave={handleMenuLinksLeave}
+                      onFocus={() => handleMenuLinkEnter(link.label)}
+                      onBlur={() => {
+                        if (hoveredMenuLink === link.label) {
+                          handleMenuLinksLeave();
+                        }
+                      }}
+                      className={`menu-link transition-colors duration-100 ${
+                        isMuted ? "text-gray-400" : "text-white"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
 
-              {navLinks.map((link) => (
-                <Link
-                  key={link.page}
-                  to={link.page}
-                  onClick={() => handleNavClick(link.page)}
-                  className="menu-link text-gray-400 hover:text-white transition-colors duration-300"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-
-            <div className="absolute bottom-4 sm:bottom-6 md:bottom-10 lg:bottom-20 right-4 sm:right-6 md:right-12 lg:right-20 flex gap-2 sm:gap-3 md:gap-6 lg:gap-10 text-xs sm:text-sm md:text-base lg:text-lg">
-              {["Instagram", "LinkedIn", "Twitter", "Facebook"].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="relative group text-gray-400 hover:text-white transition-colors"
-                >
-                  {item}
-                  <span
-                    className="
-                      absolute left-0 -bottom-1 h-[1px] w-full
-                      bg-current scale-x-0 origin-left
-                      transition-transform duration-500 ease-out
-                      group-hover:scale-x-100
-                    "
+            <div className="absolute bottom-4 sm:bottom-6 md:bottom-10 lg:bottom-20 right-4 sm:right-6 md:right-12 lg:right-20 inline-grid justify-items-end gap-4 sm:gap-6">
+              <div className="relative hidden sm:block w-full aspect-[16/10] overflow-hidden">
+                {menuImage && (
+                  <img
+                    src={menuImage}
+                    alt=""
+                    className="absolute inset-0 h-full w-full object-cover"
+                    style={{
+                      opacity: menuImageVisible ? 1 : 0,
+                      clipPath: menuImageVisible
+                        ? "inset(0 0 0 0)"
+                        : "inset(0 100% 0 0)",
+                      transition:
+                        "clip-path 3s ease-out, opacity 3s ease-out",
+                    }}
                   />
-                </a>
-              ))}
+                )}
+              </div>
+
+              <div className="flex gap-2 sm:gap-3 md:gap-6 lg:gap-10 text-xs sm:text-sm md:text-base lg:text-lg">
+                {["Instagram", "LinkedIn", "Twitter", "Facebook"].map((item) => (
+                  <a
+                    key={item}
+                    href="#"
+                    className="relative group text-white transition-colors duration-300"
+                  >
+                    {item}
+                    <span
+                      className="
+                        absolute left-0 -bottom-1 h-[1px] w-full
+                        bg-current scale-x-0 origin-left
+                        transition-transform duration-500 ease-out
+                        group-hover:scale-x-100
+                      "
+                    />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>

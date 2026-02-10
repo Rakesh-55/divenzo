@@ -34,14 +34,18 @@ const statsData = [
   },
 ];
 
-export const AboutSection = (): JSX.Element => {
+interface AboutSectionProps {
+  theme?: "light" | "dark";
+}
+
+export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const cardsRef = useRef<HTMLDivElement | null>(null);
 
   const sectionRef = useRef<HTMLElement | null>(null);
   const progress = useScrollProgress(sectionRef);
 
-  const isDark = progress < 0.5;
+  const isDark = theme ? theme === "dark" : progress < 0.5;
 
   useEffect(() => {
     // OLD HEADING ANIMATION CODE - Commented out for future use
@@ -117,6 +121,7 @@ export const AboutSection = (): JSX.Element => {
   return (
     <section
       ref={sectionRef}
+      data-section="about"
       style={{
         backgroundColor: isDark ? "#000" : "#fff",
         color: isDark ? "#fff" : "#000",
@@ -159,6 +164,9 @@ export const AboutSection = (): JSX.Element => {
                 mb-[32px] lg:mb-[56px]
               "
               isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
             >
               As global leaders in UX/UI design, technology and marketing solutions, we are dedicated to simplifying, strengthening, and transforming businesses of all sizes. our mission is to bridge the gap between creativity and technology, crafting seamless experiences that inspire users and drive measurable outcomes for our clients.
             </AnimatedText>
@@ -166,7 +174,7 @@ export const AboutSection = (): JSX.Element => {
             <Link to="/about">
               <Button
                 variant="link"
-                className="h-auto p-0 flex flex-col items-start gap-0.5 text-inherit"
+                className="relative h-auto w-fit p-0 text-inherit group no-underline hover:no-underline"
               >
                 <span
                   className="
@@ -177,7 +185,21 @@ export const AboutSection = (): JSX.Element => {
                 >
                   Discover More
                 </span>
-                <div className="w-[160px] sm:w-[190px] lg:w-[226px] h-0.5 bg-current opacity-40" />
+                <span
+                  className="
+                    absolute left-0 -bottom-1 h-0.5 w-full
+                    bg-current opacity-40 transition-opacity duration-300
+                    group-hover:opacity-0
+                  "
+                />
+                <span
+                  className="
+                    absolute left-0 -bottom-1 h-0.5 w-full
+                    bg-current scale-x-0 origin-left
+                    transition-transform duration-500 ease-out
+                    group-hover:scale-x-100
+                  "
+                />
               </Button>
             </Link>
           </div>
@@ -193,6 +215,13 @@ export const AboutSection = (): JSX.Element => {
             mb-[40px] lg:mb-[72px]
           "
           isDarkBg={isDark}
+          disableColorReveal={false}
+          startColor={isDark ? "#ffffff33" : "#00000033"}
+          endColor={isDark ? "#ffffff" : "#000000"}
+          colorStart="top 45%"
+          colorEnd="top 15%"
+          slideDuration={0.8}
+          slideStagger={0.08}
         >
           Our work speaks through numbers. Here&apos;s what we&apos;ve achieved so far.
         </AnimatedText>

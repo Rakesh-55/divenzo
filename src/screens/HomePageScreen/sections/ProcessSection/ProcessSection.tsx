@@ -35,7 +35,11 @@ const processSteps = [
   },
 ];
 
-export const ProcessSection = (): JSX.Element => {
+interface ProcessSectionProps {
+  theme?: "light" | "dark";
+}
+
+export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
 
     const descRef = useRef<HTMLParagraphElement>(null);
 
@@ -43,7 +47,7 @@ export const ProcessSection = (): JSX.Element => {
     const progress = useScrollProgress(sectionRef);
 
       // header / cursor mode
-      const isDark = progress > 0.5;
+      const isDark = theme ? theme === "dark" : progress > 0.5;
   
 
      useEffect(() => {
@@ -73,6 +77,7 @@ export const ProcessSection = (): JSX.Element => {
   return (
     <section
       ref={sectionRef}
+      data-section="process"
       style={{
         backgroundColor: isDark ? "#000" : "#fff",
         color: isDark ? "#fff" : "#000",
@@ -108,6 +113,9 @@ export const ProcessSection = (): JSX.Element => {
             mb-[48px] sm:mb-[64px] lg:mb-[86px]
           "
           isDarkBg={isDark}
+          disableColorReveal
+          slideDuration={0.8}
+          slideStagger={0.08}
         >
           A flexible, adaptive process designed to help businesses launch faster and scale with confidence.
         </AnimatedText>
@@ -128,38 +136,50 @@ export const ProcessSection = (): JSX.Element => {
             <div key={index} className="flex flex-col gap-6">
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-1 md:gap-4">
-                  <div
+                  <AnimatedText
                     className="
                       [font-family:'Poppins',Helvetica] font-normal text-inherit
                       text-lg sm:text-xl lg:text-2xl
                     "
+                    isDarkBg={isDark}
+                    disableColorReveal
+                    slideDuration={0.8}
+                    slideStagger={0.08}
                   >
                     {step.number}
-                  </div>
+                  </AnimatedText>
 
-                  <h3
+                  <AnimatedText
                     className="
                       [font-family:'Poppins',Helvetica] font-semibold text-inherit
                       text-[22px] sm:text-[26px] lg:text-[32px]
                       tracking-[0] leading-normal
                     "
+                    isDarkBg={isDark}
+                    disableColorReveal
+                    slideDuration={0.8}
+                    slideStagger={0.08}
                   >
                     {step.title}
-                  </h3>
+                  </AnimatedText>
                 </div>
 
                 <Separator className="bg-current opacity-20" />
               </div>
 
-              <p
+              <AnimatedText
                 className="
                   [font-family:'Poppins',Helvetica] font-normal text-inherit opacity-70
                   text-base sm:text-lg lg:text-2xl
                   tracking-[0] leading-normal
                 "
+                isDarkBg={isDark}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
               >
                 {step.description}
-              </p>
+              </AnimatedText>
             </div>
           ))}
         </div>
