@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AnimatedText } from "@/components/AnimatedText";
 
 const categories = [
   "All",
@@ -63,7 +64,17 @@ export const CategoryFilter = (): JSX.Element => {
                 }
               `}
             >
-              {category}
+              <AnimatedText
+                as="span"
+                className="inline-block"
+                disableColorReveal
+                startColor="currentColor"
+                endColor="currentColor"
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
+                {category}
+              </AnimatedText>
             </button>
           );
         })}
@@ -84,7 +95,17 @@ export const CategoryFilter = (): JSX.Element => {
             transition-all duration-300
           "
         >
-          {expanded ? "Show Less" : "+ More"}
+          <AnimatedText
+            as="span"
+            className="inline-block"
+            disableColorReveal
+            startColor="currentColor"
+            endColor="currentColor"
+            slideDuration={0.8}
+            slideStagger={0.08}
+          >
+            {expanded ? "Show Less" : "+ More"}
+          </AnimatedText>
         </button>
       </div>
     </section>

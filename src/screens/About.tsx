@@ -101,55 +101,9 @@ const TeamCard = ({ card }) => {
 /* ================= PAGE ================= */
 
 export default function About() {
-  const headingRef = useRef<HTMLHeadingElement | null>(null);
   const cardsRef = useRef<HTMLDivElement | null>(null);
-  const clientsSectionRef = useRef<HTMLElement | null>(null);
-  const clientsProgress = useScrollProgress(clientsSectionRef);
-  const clientsIsDark = clientsProgress < 0.5;
 
   useEffect(() => {
-    if (!headingRef.current) return;
-
-    const el = headingRef.current;
-    const fullText =
-      "Our work speaks through numbers. Here’s what we’ve achieved so far.";
-
-    const words = fullText.split(" ").map((word, i) =>
-      i === 0
-        ? `<span class='word inline-block text-black overflow-hidden'>${word}</span>`
-        : `<span class='word inline-block text-[#00000066] overflow-hidden'><span class='inner block translate-y-full opacity-0'>${word}</span></span>`
-    );
-
-    el.innerHTML = words.join(" ");
-
-    const innerWords = el.querySelectorAll(".inner");
-
-    gsap.to(innerWords, {
-      y: 0,
-      opacity: 1,
-      duration: 1.2,
-      ease: "power4.out",
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-        end: "top 50%",
-        toggleActions: "play none none reverse",
-      },
-    });
-
-    const grayWords = el.querySelectorAll(".word:not(:first-child)");
-    gsap.to(grayWords, {
-      color: "#000000",
-      stagger: { each: 0.1, amount: 1 },
-      scrollTrigger: {
-        trigger: el,
-        start: "top center",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
-
     if (cardsRef.current) {
       const cards = cardsRef.current.querySelectorAll(".stat-card");
 
@@ -187,6 +141,9 @@ export default function About() {
             <AnimatedText
               className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
               isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
             >
               As global leaders in UX/UI design, technology and marketing solutions, we are dedicated to simplifying, strengthening, and transforming businesses of all sizes. our mission is to bridge the gap between creativity and technology, crafting seamless experiences that inspire users and drive measurable outcomes for our clients.
             </AnimatedText>
@@ -198,12 +155,18 @@ export default function About() {
             <AnimatedText
               className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
               isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
             >
               At Divenzo, we create brand experiences that endure, scale, and connect. Through intentional design systems, we partner with founders to transform ideas into powerful stories that spark emotion and clarity.
             </AnimatedText>
             <AnimatedText
               className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
               isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
             >
               We believe design should move with purpose. Our vision is to create brands that inspire leadership. By uniting strategy, creativity, and motion, we craft iconic identities that shape culture and drive business forward.
             </AnimatedText>
@@ -212,7 +175,6 @@ export default function About() {
           {/* STATS */}
           <div className="mt-[40px] md:mt-[100px]">
             <h3
-              ref={headingRef}
               className="
               [font-family:'Poppins',Helvetica] font-normal text-black
               text-[36px] sm:text-[56px] lg:text-[80px]
@@ -220,8 +182,17 @@ export default function About() {
               mb-[40px] lg:mb-[72px]
             "
             >
-              Our work speaks through numbers. Here&apos;s what we&apos;ve achieved
-              so far.
+              <AnimatedText
+                as="span"
+                className="block"
+                isDarkBg={false}
+                colorStart="top 45%"
+                colorEnd="top 15%"
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
+                Our work speaks through numbers. Here&apos;s what we&apos;ve achieved so far.
+              </AnimatedText>
             </h3>
 
 
@@ -252,11 +223,19 @@ export default function About() {
 
             {/* Heading – unchanged */}
             <h3 className="[font-family:'Poppins',Helvetica] font-normal text-[36px] sm:text-[56px] lg:text-[80px] tracking-[0] leading-[50px] lg:leading-[90px] mb-[72px]">
-              <span className="text-white">Design </span>
-              <span className="text-[#f3f3f366]">
-                is more than visuals. It’s the trust you earn, the emotion you spark,
-                and the impact that lasts.
-              </span>
+              <AnimatedText
+                as="span"
+                className="block"
+                isDarkBg={true}
+                startColor="#f3f3f366"
+                endColor="#ffffff"
+                colorStart="top 45%"
+                colorEnd="top 15%"
+                slideDuration={0.01}
+                slideStagger={0}
+              >
+                Design is more than visuals. It’s the trust you earn, the emotion you spark, and the impact that lasts.
+              </AnimatedText>
             </h3>
 
             {/* ===== MOBILE + TABLET (Grid preferred, Flex fallback handled by grid) ===== */}
@@ -312,9 +291,16 @@ export default function About() {
             {/* Bottom paragraph – unchanged */}
             <div className="ml-0 lg:ml-[350px] pt-20">
               <p className="[font-family:'Poppins',Helvetica] font-normal text-white text-[18px] sm:text-[24px] lg:text-[32px] tracking-[0] leading-[normal]">
-                We’re a team of designers, product managers, developers, and storytellers
-                dedicated to helping businesses of all sizes bring their next big idea
-                to life.
+                <AnimatedText
+                  as="span"
+                  className="block"
+                  isDarkBg={true}
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
+                  We’re a team of designers, product managers, developers, and storytellers dedicated to helping businesses of all sizes bring their next big idea to life.
+                </AnimatedText>
               </p>
             </div>
 
@@ -323,24 +309,35 @@ export default function About() {
 
 
         <section
-          ref={clientsSectionRef}
-          style={{
-            backgroundColor: clientsIsDark ? "#000" : "#fff",
-            color: clientsIsDark ? "#fff" : "#000",
+            style={{
+              backgroundColor: "#fff",
+              color: "#000",
           }}
-          className={`w-full transition-colors duration-1000 ${clientsIsDark ? "dark-section" : ""}`}
+          className="w-full"
         >
           <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
 
             {/* ABOUT */}
             <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
-              Clients
+              <AnimatedText
+                as="span"
+                className="block"
+                isDarkBg={false}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
+                Clients
+              </AnimatedText>
             </h2>
 
             <div className="ml-0 lg:ml-[350px]">
               <AnimatedText
                 className="[font-family:'Poppins',Helvetica] font-normal text-inherit text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
-                isDarkBg={clientsIsDark}
+                isDarkBg={false}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
               >
                 Every client relationship begins with shared passion. That passion fuels the meaningful experiences we create together.
               </AnimatedText>

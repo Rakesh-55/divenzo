@@ -48,7 +48,13 @@ export default function Projects() {
 
           {/* ===== DESCRIPTION ===== */}
           <div className="ml-0 lg:ml-[350px]">
-            <AnimatedText className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] leading-[1.3] mb-[40px] lg:mb-[56px]" isDarkBg={false}>
+            <AnimatedText
+              className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] leading-[1.3] mb-[40px] lg:mb-[56px]"
+              isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
               Gain exclusive insight into how our refined processes have shaped
               every project we deliver.
             </AnimatedText>
@@ -58,7 +64,7 @@ export default function Projects() {
           <CategoryFilter />
 
           {/* ===== PROJECT GRID ===== */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-12 gap-x-4 sm:gap-x-4 mt-12">
             {projectsData.map((project) => (
               <ProjectCard
                 key={project.id}

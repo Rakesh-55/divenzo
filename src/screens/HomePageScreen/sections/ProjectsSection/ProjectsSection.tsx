@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Observer } from "gsap/Observer";
@@ -13,6 +14,7 @@ const projectsData = [
   {
     id: 1,
     image: "projects/project_1.png",
+    headerImage: "projects/project_1_header.png",
     imageAlt: "Project 1",
     title: "Practice Coach",
     desc: "Crafting conversion focus website for leading Practice Coach Company",
@@ -20,6 +22,7 @@ const projectsData = [
   {
     id: 2,
     image: "projects/project_2.png",
+    headerImage: "projects/project_2_header.png",
     imageAlt: "Project 2",
     title: "RWIT",
     desc: "A Deep Dive into RWIT’s Website Redesign",
@@ -27,6 +30,7 @@ const projectsData = [
   {
     id: 3,
     image: "projects/project_3.png",
+    headerImage: "projects/project_3_header.png",
     imageAlt: "Project 3",
     title: "Hitayu Dairy",
     desc: "Improving digital experience for a dairy farm",
@@ -34,13 +38,18 @@ const projectsData = [
   {
     id: 4,
     image: "projects/project_4.png",
+    headerImage: "projects/project_4_header.png",
     imageAlt: "Project 4",
     title: "Bhaskara Hospitals",
     desc: "Crafting the new Brand Identity for Bhaskara Hospital",
   },
 ];
 
-export const ProjectsSection = (): JSX.Element => {
+interface ProjectsSectionProps {
+  theme?: "light" | "dark";
+}
+
+export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element => {
   const headerRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const descRef = useRef<HTMLParagraphElement | null>(null);
@@ -50,7 +59,7 @@ export const ProjectsSection = (): JSX.Element => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const progress = useScrollProgress(sectionRef);
 
-  const isDark = progress > 0.5;
+  const isDark = theme ? theme === "dark" : progress > 0.5;
 
 
   useEffect(() => {
@@ -142,8 +151,22 @@ export const ProjectsSection = (): JSX.Element => {
       //     });
       //   }
       // }
-      function tweenToLabel(label?: string) {
-        if (!label) return;
+      const exitStack = (direction: "up" | "down") => {
+        cardsObserver.disable();
+        unlockScroll();
+        disableKeys();
+        window.scrollBy({
+          top: direction === "down" ? 60 : -60,
+          behavior: "instant",
+        });
+        ScrollTrigger.refresh();
+      };
+
+      function tweenToLabel(label: string | undefined, direction: "up" | "down") {
+        if (!label) {
+          exitStack(direction);
+          return;
+        }
         if (animating) return;
 
         animating = true;
@@ -161,14 +184,43 @@ export const ProjectsSection = (): JSX.Element => {
         });
       }
 
+      const onKeyDown = (event: KeyboardEvent) => {
+        const target = event.target as HTMLElement | null;
+        if (target?.closest("input, textarea, select, [contenteditable='true']")) {
+          return;
+        }
+
+        if (event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ") {
+          event.preventDefault();
+          tweenToLabel(tl.nextLabel(), "down");
+        }
+
+        if (event.key === "ArrowUp" || event.key === "PageUp") {
+          event.preventDefault();
+          tweenToLabel(tl.previousLabel(), "up");
+        }
+      };
+
+      let keysActive = false;
+      const enableKeys = () => {
+        if (keysActive) return;
+        window.addEventListener("keydown", onKeyDown, { passive: false });
+        keysActive = true;
+      };
+      const disableKeys = () => {
+        if (!keysActive) return;
+        window.removeEventListener("keydown", onKeyDown);
+        keysActive = false;
+      };
+
 
       const cardsObserver = Observer.create({
         type: "wheel,touch,pointer",
-        wheelSpeed: -1,
-        tolerance: 10,
+        wheelSpeed: 1,
+        tolerance: 6,
         preventDefault: true,
-        onUp: () => tweenToLabel(tl.nextLabel()),
-        onDown: () => tweenToLabel(tl.previousLabel()),
+        onUp: () => tweenToLabel(tl.previousLabel(), "up"),
+        onDown: () => tweenToLabel(tl.nextLabel(), "down"),
       });
 
       cardsObserver.disable();
@@ -179,25 +231,34 @@ export const ProjectsSection = (): JSX.Element => {
         end: `+=${cards.length * 60}%`, // 👈 more breathing room
         pin: true,
         scrub: false,
+        anticipatePin: 1,
 
         onEnter: () => {
           lockScroll();
+          animating = false;
+          tl.progress(0).pause();
           cardsObserver.enable();
+          enableKeys();
         },
 
         onEnterBack: () => {
           lockScroll();
+          animating = false;
+          tl.progress(1).pause();
           cardsObserver.enable();
+          enableKeys();
         },
 
         onLeave: () => {
           cardsObserver.disable();
           unlockScroll();
+          disableKeys();
         },
 
         onLeaveBack: () => {
           cardsObserver.disable();
           unlockScroll();
+          disableKeys();
         },
       });
     }, cardsWrapperRef);
@@ -208,6 +269,7 @@ export const ProjectsSection = (): JSX.Element => {
   return (
     <section
       ref={sectionRef}
+      data-section="projects"
       style={{
         backgroundColor: isDark ? "#000" : "#fff",
         color: isDark ? "#fff" : "#000",
@@ -217,7 +279,7 @@ export const ProjectsSection = (): JSX.Element => {
         pt-[80px] sm:pt-[120px] lg:pt-[150px]
         pb-[40px]
         px-4 sm:px-8 lg:px-20
-        transition-colors duration-500
+        transition-colors duration-700
         ${isDark ? "dark-section" : ""}
       `}
     >
@@ -246,6 +308,9 @@ export const ProjectsSection = (): JSX.Element => {
             tracking-[0] leading-normal
           "
           isDarkBg={isDark}
+          disableColorReveal
+          slideDuration={0.8}
+          slideStagger={0.08}
         >
           Dive into our design journey. Our portfolio showcases how we transform concepts into real-world success through thoughtful, tailored design.
         </AnimatedText>
@@ -258,11 +323,54 @@ export const ProjectsSection = (): JSX.Element => {
             key={project.id}
             className="flex flex-col gap-1  overflow-hidden"
           >
-            <img
-              src={project.image}
-              alt={project.imageAlt}
-              className="w-full h-[240px] sm:h-[280px] object-contain rounded-[20px]"
-            />
+            <div className="relative w-full h-[240px] sm:h-[280px]">
+              <img
+                src={project.image}
+                alt={project.imageAlt}
+                className="w-full h-full object-cover rounded-none sm:rounded-[20px]"
+              />
+              {project.id === 4 && (
+                <div className="absolute inset-0">
+                  <div className="absolute inset-0 bg-black/35" />
+                  <div className="relative z-20 h-full w-full flex flex-col justify-between px-6 py-6">
+                    <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-[28px] sm:text-[36px] leading-tight">
+                      Explore Projects
+                    </h3>
+                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 text-[14px] sm:text-[16px] max-w-[320px]">
+                      These aren’t just projects they’re stories. Stories of our clients, our craft, and the impact we’ve created together.
+                      <Link
+                        to="/projects"
+                        className="ml-2 inline-block text-white group relative"
+                      >
+                        View all Projects
+                        <span
+                          className="
+                            absolute left-0 -bottom-1 h-[1.5px] w-full
+                            bg-neutral-400/70 transition-opacity duration-300
+                            group-hover:opacity-0
+                          "
+                        />
+                        <span
+                          className="
+                            absolute left-0 -bottom-1 h-[1.5px] w-full
+                            bg-current scale-x-0 origin-left
+                            transition-transform duration-500 ease-out
+                            group-hover:scale-x-100
+                          "
+                        />
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              )}
+              {project.headerImage && (
+                <img
+                  src={project.headerImage}
+                  alt=""
+                  className="absolute top-0 left-0 right-0 z-10 w-full h-auto object-contain pointer-events-none"
+                />
+              )}
+            </div>
 
             <div className="flex flex-col gap-2">
               <h3 className="[font-family:'Poppins',Helvetica] font-semibold  text-[20px]">
@@ -289,7 +397,7 @@ export const ProjectsSection = (): JSX.Element => {
         <div
           className="
             relative w-full sm:w-[90%]
-            h-[420px] sm:h-[520px] lg:h-[600px]
+            h-[460px] sm:h-[560px] lg:h-[650px]
           "
         >
           {projectsData.map((project, index) => (
@@ -300,7 +408,7 @@ export const ProjectsSection = (): JSX.Element => {
               }}
               className="
                 absolute top-0 left-0 w-full h-full
-                rounded-[20px] overflow-hidden
+                rounded-[0px] overflow-hidden
                 flex items-center justify-center
                 shadow-2xl
               "
@@ -309,8 +417,49 @@ export const ProjectsSection = (): JSX.Element => {
               <img
                 src={project.image}
                 alt={project.imageAlt}
-                className="w-full h-full object-contain rounded-[20px]"
+                className="w-full h-full object-cover rounded-[0px]"
               />
+              {project.id === 4 && (
+                <div className="absolute inset-0">
+                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="relative z-20 h-full w-full flex flex-col justify-between px-20 py-20">
+                    <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-[62px] sm:text-[78px] lg:text-[105px] leading-tight">
+                      Explore Projects
+                    </h3>
+                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 text-[18px] sm:text-[24px] lg:text-[32px] max-w-[860px]">
+                      These aren’t just projects they’re stories. Stories of our clients, our craft, and the impact we’ve created together.
+                      <Link
+                        to="/projects"
+                        className="ml-2 inline-block text-white group relative"
+                      >
+                        View all Projects
+                        <span
+                          className="
+                            absolute left-0 -bottom-1 h-[1.5px] w-full
+                            bg-neutral-400/70 transition-opacity duration-300
+                            group-hover:opacity-0
+                          "
+                        />
+                        <span
+                          className="
+                            absolute left-0 -bottom-1 h-[1.5px] w-full
+                            bg-current scale-x-0 origin-left
+                            transition-transform duration-500 ease-out
+                            group-hover:scale-x-100
+                          "
+                        />
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              )}
+              {project.headerImage && (
+                <img
+                  src={project.headerImage}
+                  alt=""
+                  className="absolute top-0 left-0 right-0 z-10 w-full h-auto object-contain pointer-events-none"
+                />
+              )}
             </div>
           ))}
         </div>
@@ -318,3 +467,4 @@ export const ProjectsSection = (): JSX.Element => {
     </section>
   );
 };
+     

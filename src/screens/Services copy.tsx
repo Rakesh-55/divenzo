@@ -3,6 +3,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 import React from "react";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
+import { AnimatedText } from "@/components/AnimatedText";
 import service_img from "../assets/service_img.png";
 import * as Separator from "@radix-ui/react-separator";
 import { TestimonialsSection } from "./HomePageScreen/sections/TestimonialsSection";
@@ -173,14 +174,26 @@ export default function Services() {
         <div className="flex flex-col gap-[56px]">
           <div className="max-w-[1280px] mx-auto pt-20 pb-20">
             <div className="mb-[56px]">
-              <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[120px] tracking-[0] leading-[85px] mb-[56px]">
+              <AnimatedText
+                className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[120px] tracking-[0] leading-[85px] mb-[56px]"
+                isDarkBg={false}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
                 Services
-              </h2>
+              </AnimatedText>
 
               <div className="ml-[350px]">
-                <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal] mb-[56px]">
+                <AnimatedText
+                  className="[font-family:'Poppins',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal] mb-[56px]"
+                  isDarkBg={false}
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
                   We are a UX/UI design company that crafts scalable, sustainable, and innovative solutions to transform extraordinary ideas into reality.
-                </p>
+                </AnimatedText>
               </div>
 
               <img src={service_img} alt="service" />
@@ -198,17 +211,29 @@ export default function Services() {
           {servicesData.map((service) => (
             <div key={service.id} className="flex flex-col gap-8">
               {/* Heading */}
-              <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-[48px] md:text-[44px] leading-[normal]">
+              <AnimatedText
+                className="[font-family:'Poppins',Helvetica] font-semibold text-[48px] md:text-[44px] leading-[normal]"
+                isDarkBg
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
                 {service.id}. {service.title}
-              </h2>
+              </AnimatedText>
 
               <div className="ml-auto">
 
 
                 {/* Description */}
-                <p className="[font-family:'Poppins',Helvetica] font-normal text-[20px] md:text-[28px] text-[#cccccc] leading-[1.4] max-w-[960px]">
+                <AnimatedText
+                  className="[font-family:'Poppins',Helvetica] font-normal text-[20px] md:text-[28px] text-[#cccccc] leading-[1.4] max-w-[960px]"
+                  isDarkBg
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
                   {service.description}
-                </p>
+                </AnimatedText>
 
                 {/* Bullet Points */}
 
@@ -218,7 +243,15 @@ export default function Services() {
                       key={index}
                       className="[font-family:'Poppins',Helvetica] font-normal text-[20px] text-[#ffffffcc] leading-[1.6]"
                     >
-                      {point}
+                      <AnimatedText
+                        className="[font-family:'Poppins',Helvetica] font-normal text-[20px] text-[#ffffffcc] leading-[1.6]"
+                        isDarkBg
+                        disableColorReveal
+                        slideDuration={0.8}
+                        slideStagger={0.08}
+                      >
+                        {point}
+                      </AnimatedText>
                     </li>
                   ))}
                 </ul>
