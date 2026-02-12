@@ -180,12 +180,12 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
 
             <Button
               variant="link"
-              className="relative h-auto w-fit p-0 pb-4 mt-4 text-inherit hover:text-inherit group no-underline hover:no-underline"
+              className="relative h-auto w-fit p-0 pb-4 mt-8 text-inherit hover:text-inherit group no-underline hover:no-underline"
             >
               <span
                 className="
                   [font-family:'Poppins',Helvetica] font-normal text-inherit
-                  text-[20px] sm:text-[24px] lg:text-[32px]
+                  text-[20px] sm:text-[24px] lg:text-[32px] 
                 "
               >
                 Discover More
@@ -215,13 +215,19 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
             <React.Fragment key={index}>
               <Separator className="bg-current opacity-30 h-px" />
               <div
-                className="
+                className={`
                   service-item flex flex-col lg:flex-row
                   gap-6 lg:gap-12
+                  min-h-[300px]
                   py-8 sm:py-10 lg:py-12
-                  transition-colors duration-300
+                  transition-all duration-300
                   cursor-pointer
-                "
+                  ${
+                    hoveredIndex !== null && hoveredIndex !== index
+                      ? "opacity-30"
+                      : "opacity-100"
+                  }
+                `}
                 onMouseEnter={() => isDesktop && setHoveredIndex(index)}
                 onMouseLeave={() => isDesktop && setHoveredIndex(null)}
               >
@@ -291,7 +297,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
                   <AnimatedText
                     className="
                       [font-family:'Poppins',Helvetica] font-normal text-inherit opacity-80
-                      text-base lg:text-[32px]
+                      text-base lg:text-[24px]
                       tracking-[0] leading-normal
                     "
                     isDarkBg={isDark}

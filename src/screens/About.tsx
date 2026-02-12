@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@radix-ui/react-separator";
 import { AnimatedText } from "@/components/AnimatedText";
@@ -19,7 +19,6 @@ import srinavas from "../assets/team/srinavas.png";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { BrandMarquee } from "@/components/BrandMarquee";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -58,9 +57,12 @@ const statsData = [
 
 
 
-const TeamCard = ({ card }) => {
+const TeamCard = ({ card, isDark = true }) => {
   return (
-    <div className="flex flex-col items-start text-white">
+    <div 
+      className="flex flex-col items-start transition-colors duration-700 ease-in-out"
+      style={{ color: isDark ? "#fff" : "#000" }}
+    >
 
       {/* Image */}
       <div className="overflow-hidden mb-3 sm:mb-4 bg-[#1a1a1a] w-full">
@@ -88,9 +90,10 @@ const TeamCard = ({ card }) => {
       {/* Role */}
       <p
         className="
-          [font-family:'Poppins',Helvetica] font-normal text-[#ccc]
+          [font-family:'Poppins',Helvetica] font-normal
           text-[14px] sm:text-[15px] lg:text-[16px]
         "
+        style={{ color: isDark ? "#ccc" : "#666" }}
       >
         {card.designation}
       </p>
@@ -102,6 +105,13 @@ const TeamCard = ({ card }) => {
 
 export default function About() {
   const cardsRef = useRef<HTMLDivElement | null>(null);
+  const teamSectionRef = useRef<HTMLDivElement | null>(null);
+  const clientsSectionRef = useRef<HTMLDivElement | null>(null);
+  const statsContainerRef = useRef<HTMLDivElement | null>(null);
+  
+  const [teamBg, setTeamBg] = useState("white");
+  const [clientsBg, setClientsBg] = useState("black");
+  const [statsBg, setStatsBg] = useState("white");
 
   useEffect(() => {
     if (cardsRef.current) {
@@ -116,7 +126,6 @@ export default function About() {
           scale: 1,
           duration: 1.2,
           ease: "power4.out",
-          stagger: 0.2,
           scrollTrigger: {
             trigger: cardsRef.current,
             start: "top 85%",
@@ -127,20 +136,66 @@ export default function About() {
       );
     }
   }, []);
+
+  // Scroll-based background color transitions using GSAP ScrollTrigger
+  useEffect(() => {
+    if (!teamSectionRef.current || !clientsSectionRef.current) return;
+
+    // Team section: white -> black when its top hits 50% of the viewport
+    const teamTrigger = ScrollTrigger.create({
+      trigger: teamSectionRef.current,
+      start: "top 50%",
+      end: "bottom 50%",
+      onEnter: () => {
+        setTeamBg("black");
+        setStatsBg("black");
+      },
+      onLeaveBack: () => {
+        setTeamBg("white");
+        setStatsBg("white");
+      },
+    });
+
+    // Clients section: black -> white when its top hits 50% of the viewport
+    const clientsTrigger = ScrollTrigger.create({
+      trigger: clientsSectionRef.current,
+      start: "top 50%",
+      end: "bottom 50%",
+      onEnter: () => {
+        setTeamBg("white");
+        setClientsBg("white");
+      },
+      onLeaveBack: () => {
+        setTeamBg("black");
+        setClientsBg("black");
+      },
+    });
+
+    return () => {
+      teamTrigger.kill();
+      clientsTrigger.kill();
+    };
+  }, []);
   return (
     <>
-      <section className="relative w-full bg-white overflow-x-hidden">
+      <section
+        className="relative w-full overflow-x-hidden transition-colors duration-700 ease-in-out"
+        style={{
+          backgroundColor: statsBg === "black" ? "#000" : "#fff",
+          color: statsBg === "black" ? "#fff" : "#000",
+        }}
+      >
         <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-0">
 
           {/* ABOUT */}
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit transition-colors duration-700 ease-in-out text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
             About Us
           </h2>
 
           <div className="ml-0 lg:ml-[350px]">
             <AnimatedText
-              className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
-              isDarkBg={false}
+              className="[font-family:'Poppins',Helvetica] font-normal text-inherit transition-colors duration-700 ease-in-out text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
+              isDarkBg={statsBg === "black"}
               disableColorReveal
               slideDuration={0.8}
               slideStagger={0.08}
@@ -153,8 +208,8 @@ export default function About() {
 
           <div className="ml-0 lg:ml-[350px] space-y-[16px] md:space-y-[56px]">
             <AnimatedText
-              className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
-              isDarkBg={false}
+              className="[font-family:'Poppins',Helvetica] font-normal text-inherit transition-colors duration-700 ease-in-out text-[18px] sm:text-[24px] lg:text-[32px]"
+              isDarkBg={statsBg === "black"}
               disableColorReveal
               slideDuration={0.8}
               slideStagger={0.08}
@@ -162,8 +217,8 @@ export default function About() {
               At Divenzo, we create brand experiences that endure, scale, and connect. Through intentional design systems, we partner with founders to transform ideas into powerful stories that spark emotion and clarity.
             </AnimatedText>
             <AnimatedText
-              className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
-              isDarkBg={false}
+              className="[font-family:'Poppins',Helvetica] font-normal text-inherit transition-colors duration-700 ease-in-out text-[18px] sm:text-[24px] lg:text-[32px]"
+              isDarkBg={statsBg === "black"}
               disableColorReveal
               slideDuration={0.8}
               slideStagger={0.08}
@@ -173,14 +228,19 @@ export default function About() {
           </div>
 
           {/* STATS */}
-          <div className="mt-[40px] md:mt-[100px]">
+          <div 
+            ref={statsContainerRef}
+            className="mt-[40px] md:mt-[100px] -mx-4 lg:mx-0 px-4 py-8 transition-colors duration-700 ease-in-out"
+            style={{ backgroundColor: statsBg === "black" ? "#000" : "#fff" }}
+          >
             <h3
               className="
-              [font-family:'Poppins',Helvetica] font-normal text-black
+              [font-family:'Poppins',Helvetica] font-normal transition-colors duration-700 ease-in-out
               text-[36px] sm:text-[56px] lg:text-[80px]
               leading-[44px] sm:leading-[70px] lg:leading-[90px]
               mb-[40px] lg:mb-[72px]
             "
+            style={{ color: statsBg === "black" ? "#fff" : "#000" }}
             >
               <AnimatedText
                 as="span"
@@ -196,20 +256,73 @@ export default function About() {
             </h3>
 
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12" ref={cardsRef}>
-              {statsData.map((stat, i) => (
-                <Card key={i} className="border-0 shadow-none bg-transparent stat-card" >
-                  <CardContent className="p-0 flex flex-col md:gap-4">
-                    <div className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[48px] sm:text-[56px] lg:text-7xl">
+            <div
+              ref={cardsRef}
+              className="flex flex-wrap gap-6 justify-center lg:grid lg:grid-cols-4 lg:justify-items-center"
+            >
+              {statsData.map((stat, index) => (
+                <Card
+                  key={index}
+                  className="
+                    stat-card border-0 shadow-none rounded-none transition-all duration-700 ease-in-out flex-none
+                    h-[372px] w-[300px]
+                  "
+                  style={{ 
+                    backgroundColor: statsBg === "black" ? "#111" : "#fafafa",
+                    color: statsBg === "black" ? "#fff" : "#000"
+                  }}
+                >
+                  <CardContent className="h-full p-8 sm:p-10 flex flex-col gap-4 justify-center text-inherit">
+                    <div
+                      className="
+                        min-h-[64px] sm:min-h-[72px] lg:min-h-[80px]
+                        flex items-end
+                        [font-family:'Poppins',Helvetica] font-semibold
+                        text-5xl sm:text-6xl lg:text-7xl
+                        leading-[48px] lg:leading-[56px]
+                      "
+                    >
                       {stat.number}
                     </div>
-                    <Separator className="bg-neutral-200" />
-                    <h4 className="[font-family:'Poppins',Helvetica] font-bold text-[18px] sm:text-[20px] lg:text-[22px]">
-                      {stat.title}
-                    </h4>
-                    <p className="[font-family:'Poppins',Helvetica] text-[#000000cc] text-[14px] sm:text-[15px] lg:text-lg">
-                      {stat.description}
-                    </p>
+
+                    <div className="flex flex-col gap-[10px] min-h-[120px] sm:min-h-[140px]">
+                      <h4
+                        className="
+                          [font-family:'Poppins',Helvetica] font-bold
+                          text-[18px] sm:text-[20px] lg:text-[22px]
+                          leading-[28px] lg:leading-[33px]
+                        "
+                      >
+                        <AnimatedText
+                          as="span"
+                          className="inline-block"
+                          isDarkBg={statsBg === "black"}
+                          disableColorReveal
+                          slideDuration={0.6}
+                          slideStagger={0.04}
+                        >
+                          {stat.title}
+                        </AnimatedText>
+                      </h4>
+                      <p
+                        className="
+                          [font-family:'Poppins',Helvetica] font-normal opacity-80
+                          text-base sm:text-lg
+                          leading-[24px] lg:leading-[27px]
+                        "
+                      >
+                        <AnimatedText
+                          as="span"
+                          className="inline-block"
+                          isDarkBg={statsBg === "black"}
+                          disableColorReveal
+                          slideDuration={0.6}
+                          slideStagger={0.04}
+                        >
+                          {stat.description}
+                        </AnimatedText>
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               ))}
@@ -218,17 +331,24 @@ export default function About() {
         </div>
 
         {/* ================= TEAM SECTION ================= */}
-        <div className="bg-black dark-section">
+        <div 
+          ref={teamSectionRef}
+          className="dark-section transition-colors duration-700 ease-in-out"
+          style={{ backgroundColor: teamBg === "black" ? "#000" : "#fff" }}
+        >
           <div className="max-w-[1280px] mx-auto py-[70px] px-4 lg:px-0">
 
             {/* Heading – unchanged */}
-            <h3 className="[font-family:'Poppins',Helvetica] font-normal text-[36px] sm:text-[56px] lg:text-[80px] tracking-[0] leading-[50px] lg:leading-[90px] mb-[72px]">
+            <h3 
+              className="[font-family:'Poppins',Helvetica] font-normal text-[36px] sm:text-[56px] lg:text-[80px] tracking-[0] leading-[50px] lg:leading-[90px] mb-[72px] transition-colors duration-700 ease-in-out"
+              style={{ color: teamBg === "black" ? "#fff" : "#000" }}
+            >
               <AnimatedText
                 as="span"
                 className="block"
-                isDarkBg={true}
-                startColor="#f3f3f366"
-                endColor="#ffffff"
+                isDarkBg={teamBg === "black"}
+                startColor={teamBg === "black" ? "#f3f3f366" : "#00000066"}
+                endColor={teamBg === "black" ? "#ffffff" : "#000000"}
                 colorStart="top 45%"
                 colorEnd="top 15%"
                 slideDuration={0.01}
@@ -241,60 +361,63 @@ export default function About() {
             {/* ===== MOBILE + TABLET (Grid preferred, Flex fallback handled by grid) ===== */}
             <div className="grid grid-cols-2 gap-8 lg:hidden">
               {team.map((member, index) => (
-                <TeamCard key={index} card={member} />
+                <TeamCard key={index} card={member} isDark={teamBg === "black"} />
               ))}
             </div>
 
             {/* ===== DESKTOP (YOUR ORIGINAL STAGGERED GRID – UNTOUCHED) ===== */}
             <div className="hidden lg:grid grid-cols-4 gap-12">
               <div className="col-start-2">
-                <TeamCard card={team[0]} />
+                <TeamCard card={team[0]} isDark={teamBg === "black"} />
               </div>
 
               <div className="col-start-4">
-                <TeamCard card={team[1]} />
+                <TeamCard card={team[1]} isDark={teamBg === "black"} />
               </div>
 
               <div className="col-start-1">
-                <TeamCard card={team[2]} />
+                <TeamCard card={team[2]} isDark={teamBg === "black"} />
               </div>
 
               <div className="col-start-3">
-                <TeamCard card={team[3]} />
+                <TeamCard card={team[3]} isDark={teamBg === "black"} />
               </div>
 
               <div className="col-start-4">
-                <TeamCard card={team[4]} />
+                <TeamCard card={team[4]} isDark={teamBg === "black"} />
               </div>
 
               <div className="col-start-2">
-                <TeamCard card={team[5]} />
+                <TeamCard card={team[5]} isDark={teamBg === "black"} />
               </div>
 
               <div className="col-start-3">
-                <TeamCard card={team[6]} />
+                <TeamCard card={team[6]} isDark={teamBg === "black"} />
               </div>
 
               <div className="col-start-4">
-                <TeamCard card={team[7]} />
+                <TeamCard card={team[7]} isDark={teamBg === "black"} />
               </div>
 
               <div className="col-start-1">
-                <TeamCard card={team[8]} />
+                <TeamCard card={team[8]} isDark={teamBg === "black"} />
               </div>
 
               <div className="col-start-4">
-                <TeamCard card={team[9]} />
+                <TeamCard card={team[9]} isDark={teamBg === "black"} />
               </div>
             </div>
 
             {/* Bottom paragraph – unchanged */}
             <div className="ml-0 lg:ml-[350px] pt-20">
-              <p className="[font-family:'Poppins',Helvetica] font-normal text-white text-[18px] sm:text-[24px] lg:text-[32px] tracking-[0] leading-[normal]">
+              <p 
+                className="[font-family:'Poppins',Helvetica] font-normal text-[18px] sm:text-[24px] lg:text-[32px] tracking-[0] leading-[normal] transition-colors duration-700 ease-in-out"
+                style={{ color: teamBg === "black" ? "#fff" : "#000" }}
+              >
                 <AnimatedText
                   as="span"
                   className="block"
-                  isDarkBg={true}
+                  isDarkBg={teamBg === "black"}
                   disableColorReveal
                   slideDuration={0.8}
                   slideStagger={0.08}
@@ -309,11 +432,12 @@ export default function About() {
 
 
         <section
-            style={{
-              backgroundColor: "#fff",
-              color: "#000",
+          ref={clientsSectionRef}
+          className="w-full transition-colors duration-700 ease-in-out"
+          style={{
+            backgroundColor: clientsBg === "black" ? "#000" : "#fff",
+            color: clientsBg === "black" ? "#fff" : "#000",
           }}
-          className="w-full"
         >
           <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
 
@@ -322,7 +446,7 @@ export default function About() {
               <AnimatedText
                 as="span"
                 className="block"
-                isDarkBg={false}
+                isDarkBg={clientsBg === "black"}
                 disableColorReveal
                 slideDuration={0.8}
                 slideStagger={0.08}
@@ -334,7 +458,7 @@ export default function About() {
             <div className="ml-0 lg:ml-[350px]">
               <AnimatedText
                 className="[font-family:'Poppins',Helvetica] font-normal text-inherit text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
-                isDarkBg={false}
+                isDarkBg={clientsBg === "black"}
                 disableColorReveal
                 slideDuration={0.8}
                 slideStagger={0.08}
@@ -343,7 +467,18 @@ export default function About() {
               </AnimatedText>
             </div>
 
-            <BrandMarquee />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {brandLogos.map((src, index) => (
+                <div key={index} className="flex items-center justify-center">
+                  <img
+                    src={src}
+                    alt={`Client ${index + 1}`}
+                    className="h-40 sm:h-44 lg:h-48 w-auto object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

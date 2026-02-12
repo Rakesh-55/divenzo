@@ -1,8 +1,4 @@
 import React, { useEffect, useRef, ReactNode } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface AnimatedTextProps {
   children: ReactNode;
@@ -30,14 +26,7 @@ interface AnimatedTextProps {
 
 /**
  * AnimatedText Component
- * Animates text word-by-word with slide-up and color transition effects
- * Automatically detects background color (black/white) and adjusts text colors
- * 
- * Examples:
- * <AnimatedText>Our work speaks through numbers...</AnimatedText>
- * <AnimatedText isDarkBg={true}>Text on black background</AnimatedText>
- * <AnimatedText isDarkBg={false}>Text on white background</AnimatedText>
- * <AnimatedText startColor="#999" endColor="#fff">Custom colors</AnimatedText>
+ * Line-by-line reveal using measured rendered lines and IntersectionObserver.
  */
 export const AnimatedText: React.FC<AnimatedTextProps> = ({
   children,
@@ -61,7 +50,36 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
   // Styling
   className = "",
 }) => {
-  const elementRef = useRef<HTMLDivElement>(null);
+  const elementRef = useRef<HTMLElement | null>(null);
+  const lineRefs = useRef<HTMLElement[]>([]);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+  const revealedRef = useRef(false);
+
+  const getEase = (ease: string) => {
+    switch (ease) {
+      case "power4.out":
+        return "cubic-bezier(0.2, 1, 0.3, 1)";
+      case "power3.out":
+        return "cubic-bezier(0.22, 1, 0.36, 1)";
+      case "power2.out":
+        return "cubic-bezier(0.25, 0.8, 0.25, 1)";
+      default:
+        return "cubic-bezier(0.22, 1, 0.36, 1)";
+    }
+  };
+
+  const revealLines = (immediate = false) => {
+    lineRefs.current.forEach((line, index) => {
+      line.style.transform = "translateY(0)";
+      line.style.opacity = "1";
+      if (immediate) {
+        line.style.transitionDelay = "0s";
+      } else {
+        line.style.transitionDelay = `${index * slideStagger}s`;
+      }
+    });
+  };
 
   useEffect(() => {
     if (!elementRef.current) return;
@@ -72,9 +90,7 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     // Auto-detect background if not provided
     let finalIsDarkBg = isDarkBg;
     if (finalIsDarkBg === undefined) {
-      // Check parent or element background
       const bgColor = window.getComputedStyle(el.parentElement || el).backgroundColor;
-      // Simple detection: if background is dark, assume dark bg
       const rgb = bgColor.match(/\d+/g);
       if (rgb) {
         const brightness = (parseInt(rgb[0]) + parseInt(rgb[1]) + parseInt(rgb[2])) / 3;
@@ -82,80 +98,123 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
       }
     }
 
-    // Determine colors based on background
     let finalStartColor = startColor;
     let finalEndColor = endColor;
 
     if (!startColor || !endColor) {
       if (finalIsDarkBg) {
-        // Dark background: light gray → white
-        finalStartColor = finalStartColor || "#ffffff99"; // White with opacity
-        finalEndColor = finalEndColor || "#ffffff"; // White
+        finalStartColor = finalStartColor || "#ffffff99";
+        finalEndColor = finalEndColor || "#ffffff";
       } else {
-        // Light/white background: light gray → black
-        finalStartColor = finalStartColor || "#00000066"; // Black with opacity (gray)
-        finalEndColor = finalEndColor || "#000000"; // Black
+        finalStartColor = finalStartColor || "#00000066";
+        finalEndColor = finalEndColor || "#000000";
       }
     }
 
-    const ctx = gsap.context(() => {
-      const baseColor = finalEndColor || (finalIsDarkBg ? "#ffffff" : "#000000");
-      const wordStartColor = disableColorReveal ? baseColor : finalStartColor;
+    const wordStartColor = disableColorReveal
+      ? finalEndColor || "#000000"
+      : finalStartColor || "#000000";
+    const wordEndColor = finalEndColor || "#000000";
+    const transitionEase = getEase(slideEase);
 
-      // Split text into words and wrap them
-      const overflowClass = overflowHidden ? "overflow-hidden" : "overflow-visible";
+    const buildLines = () => {
+      if (!el) return;
+      const text = fullText.trim();
+      if (!text) return;
 
-      const words = fullText.split(" ").map((word, i) =>
-        i === 0
-          ? // First word: visible, no animation
-            `<span class='word inline-block ${overflowClass}' style='color: ${baseColor}; line-height: inherit; vertical-align: text-bottom;'>${word}</span>`
-          : // Other words: wrapped for slide-up animation with start color
-            `<span class='word inline-block ${overflowClass}' style='color: ${wordStartColor}; line-height: inherit; vertical-align: text-bottom;'><span class='inner inline-block translate-y-full opacity-0'>${word}</span></span>`
-      );
+      el.innerHTML = "";
+      lineRefs.current = [];
 
-      el.innerHTML = words.join(" ");
+      const tokens = text.match(/\S+\s*/g) || [];
+      const fragment = document.createDocumentFragment();
 
-      // ============ ANIMATION 1: SLIDE UP ============
-      const innerWords = el.querySelectorAll(".inner");
-      gsap.to(innerWords, {
-        y: 0,
-        opacity: 1,
-        duration: slideDuration,
-        ease: slideEase,
-        stagger: {
-          each: slideStagger,
-          from: "start",
-        },
-        scrollTrigger: {
-          trigger: el,
-          start: slideStart,
-          end: slideEnd,
-          toggleActions: "play none none reverse",
-        },
+      tokens.forEach((token) => {
+        const word = document.createElement("span");
+        word.className = "line-word";
+        word.style.display = "inline-block";
+        word.style.whiteSpace = "pre";
+        word.textContent = token;
+        fragment.appendChild(word);
       });
 
-      if (!disableColorReveal) {
-        // ============ ANIMATION 2: COLOR TRANSITION ============
-        const grayWords = el.querySelectorAll(".word:not(:first-child)");
-        gsap.to(grayWords, {
-          color: finalEndColor,
-          stagger: {
-            each: slideStagger * 0.8,
-            amount: slideDuration,
-          },
-          scrollTrigger: {
-            trigger: el,
-            start: colorStart,
-            end: colorEnd,
-            scrub: colorScrub ? true : false,
-          },
+      el.appendChild(fragment);
+
+      const wordSpans = Array.from(el.querySelectorAll(".line-word")) as HTMLElement[];
+      const lines: HTMLElement[][] = [];
+      let currentTop: number | null = null;
+
+      wordSpans.forEach((word) => {
+        const top = word.offsetTop;
+        if (currentTop === null || Math.abs(top - currentTop) > 1) {
+          lines.push([word]);
+          currentTop = top;
+        } else {
+          lines[lines.length - 1].push(word);
+        }
+      });
+
+      el.innerHTML = "";
+
+      lines.forEach((line, index) => {
+        const lineWrapper = document.createElement("span");
+        lineWrapper.style.display = "block";
+        lineWrapper.style.overflow = overflowHidden ? "hidden" : "visible";
+
+        const lineInner = document.createElement("span");
+        lineInner.style.display = "inline-block";
+        lineInner.style.transform = "translateY(100%)";
+        lineInner.style.opacity = "0";
+        lineInner.style.color = wordStartColor;
+        lineInner.style.transitionProperty = "transform, opacity, color";
+        lineInner.style.transitionDuration = `${slideDuration}s`;
+        lineInner.style.transitionTimingFunction = transitionEase;
+        lineInner.style.transitionDelay = `${index * slideStagger}s`;
+
+        line.forEach((word) => lineInner.appendChild(word));
+        lineWrapper.appendChild(lineInner);
+        el.appendChild(lineWrapper);
+        lineRefs.current.push(lineInner);
+      });
+
+      if (revealedRef.current) {
+        lineRefs.current.forEach((line) => {
+          line.style.transform = "translateY(0)";
+          line.style.opacity = "1";
+          line.style.color = wordEndColor;
         });
       }
-    }, el);
+    };
 
-    // Cleanup ScrollTrigger instances created by this component
+    buildLines();
+
+    if (observerRef.current) observerRef.current.disconnect();
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          revealedRef.current = true;
+          lineRefs.current.forEach((line) => {
+            line.style.transform = "translateY(0)";
+            line.style.opacity = "1";
+            line.style.color = wordEndColor;
+          });
+          if (observerRef.current) observerRef.current.disconnect();
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observerRef.current.observe(el);
+
+    if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
+    resizeObserverRef.current = new ResizeObserver(() => {
+      buildLines();
+    });
+    resizeObserverRef.current.observe(el);
+
     return () => {
-      ctx.revert();
+      if (observerRef.current) observerRef.current.disconnect();
+      if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
     };
   }, [
     isDarkBg,
@@ -172,15 +231,13 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     colorScrub,
   ]);
 
-  return (
-    React.createElement(
-      as,
-      {
-        ref: elementRef,
-        className,
-      },
-      children
-    )
+  return React.createElement(
+    as,
+    {
+      ref: elementRef,
+      className,
+    },
+    children
   );
 };
 

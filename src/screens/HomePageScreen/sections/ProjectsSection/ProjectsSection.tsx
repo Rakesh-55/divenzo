@@ -1,14 +1,14 @@
+
 "use client";
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Observer } from "gsap/Observer";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { AnimatedText } from "@/components/AnimatedText";
 
 
-gsap.registerPlugin(ScrollTrigger, Observer);
+gsap.registerPlugin(ScrollTrigger);
 
 const projectsData = [
   {
@@ -63,18 +63,10 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
 
 
   useEffect(() => {
-
-    const lockScroll = () => {
-      document.body.style.overflow = "hidden";
-    };
-
-    const unlockScroll = () => {
-      document.body.style.overflow = "";
-    };
-        const isDesktop = window.innerWidth >= 1024;
+    const isDesktop = window.innerWidth >= 1024;
 
     const ctx = gsap.context(() => {
-      // 🟢 HEADER ANIMATION (UNCHANGED)
+      // 🟢 HEADER ANIMATION
       const headerTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: headerRef.current,
@@ -101,165 +93,47 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
           "-=0.6"
         );
 
-      // ❗ Heavy stacked animation → DESKTOP ONLY
+      // ❗ Stacked card animation → DESKTOP ONLY
       if (!isDesktop) return;
 
-      const cards = cardsRef.current;
-      const duration = 0.8;
-      let animating = false;
+      const cards = cardsRef.current.filter(Boolean);
+      if (cards.length < 2) return;
 
-      gsap.set(cards, {
-        y: (i) => i * 30,
-        transformOrigin: "top top",
-        opacity: 1,
-      });
-
-      const tl = gsap.timeline({ paused: true });
-
-      cards.forEach((_, i) => {
-        if (i === 0) return;
-        const label = `card${i + 1}`;
-        tl.add(label);
-        tl.to(cards[i - 1], {
-          duration,
-          ease: "power2.out",
-        });
-        tl.from(
-          cards[i],
-          {
-            y: "100vh",
-            duration,
-            ease: "power4.out",
-          },
-          "<"
-        );
-      });
-      tl.add("end");
-
-      // function tweenToLabel(label: string | undefined) {
-      //   if (!label) {
-      //     cardsObserver.disable();
-      //     gsap.delayedCall(0.2, () => ScrollTrigger.refresh());
-      //     return;
-      //   }
-      //   if (!animating) {
-      //     animating = true;
-      //     tl.tweenTo(label, {
-      //       onComplete: () => {
-      //         animating = false;
-      //       },
-      //     });
-      //   }
-      // }
-      const exitStack = (direction: "up" | "down") => {
-        cardsObserver.disable();
-        unlockScroll();
-        disableKeys();
-        window.scrollBy({
-          top: direction === "down" ? 60 : -60,
-          behavior: "instant",
-        });
-        ScrollTrigger.refresh();
-      };
-
-      function tweenToLabel(label: string | undefined, direction: "up" | "down") {
-        if (!label) {
-          exitStack(direction);
-          return;
-        }
-        if (animating) return;
-
-        animating = true;
-        tl.tweenTo(label, {
-          onComplete: () => {
-            animating = false;
-
-            // ✅ release scroll ONLY after last card
-            if (label === "end") {
-              cardsObserver.disable();
-              unlockScroll();
-              ScrollTrigger.refresh();
-            }
-          },
-        });
+      // First card visible, rest hidden below
+      gsap.set(cards[0], { yPercent: 0 });
+      for (let i = 1; i < cards.length; i++) {
+        gsap.set(cards[i], { yPercent: 100 });
       }
 
-      const onKeyDown = (event: KeyboardEvent) => {
-        const target = event.target as HTMLElement | null;
-        if (target?.closest("input, textarea, select, [contenteditable='true']")) {
-          return;
-        }
+      // Build timeline — each card slides up to cover the previous
+      const tl = gsap.timeline();
+      const snapPoints: number[] = [0];
 
-        if (event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ") {
-          event.preventDefault();
-          tweenToLabel(tl.nextLabel(), "down");
-        }
+      for (let i = 1; i < cards.length; i++) {
+        tl.to(cards[i], {
+          yPercent: 0,
+          duration: 1,
+          ease: "none",
+        });
+        snapPoints.push(i / (cards.length - 1));
+      }
 
-        if (event.key === "ArrowUp" || event.key === "PageUp") {
-          event.preventDefault();
-          tweenToLabel(tl.previousLabel(), "up");
-        }
-      };
-
-      let keysActive = false;
-      const enableKeys = () => {
-        if (keysActive) return;
-        window.addEventListener("keydown", onKeyDown, { passive: false });
-        keysActive = true;
-      };
-      const disableKeys = () => {
-        if (!keysActive) return;
-        window.removeEventListener("keydown", onKeyDown);
-        keysActive = false;
-      };
-
-
-      const cardsObserver = Observer.create({
-        type: "wheel,touch,pointer",
-        wheelSpeed: 1,
-        tolerance: 6,
-        preventDefault: true,
-        onUp: () => tweenToLabel(tl.previousLabel(), "up"),
-        onDown: () => tweenToLabel(tl.nextLabel(), "down"),
-      });
-
-      cardsObserver.disable();
-
+      // Scroll-driven with snap — works with every scroll method
       ScrollTrigger.create({
         trigger: cardsWrapperRef.current,
         start: "top top",
-        end: `+=${cards.length * 60}%`, // 👈 more breathing room
+        end: () => `+=${(cards.length - 1) * 300}%`,
         pin: true,
-        scrub: false,
+        scrub: 0.6,
+        snap: {
+          snapTo: snapPoints,
+          duration: { min: 0.25, max: 0.6 },
+          delay: 0.1,
+          ease: "power1.inOut",
+        },
+        animation: tl,
         anticipatePin: 1,
-
-        onEnter: () => {
-          lockScroll();
-          animating = false;
-          tl.progress(0).pause();
-          cardsObserver.enable();
-          enableKeys();
-        },
-
-        onEnterBack: () => {
-          lockScroll();
-          animating = false;
-          tl.progress(1).pause();
-          cardsObserver.enable();
-          enableKeys();
-        },
-
-        onLeave: () => {
-          cardsObserver.disable();
-          unlockScroll();
-          disableKeys();
-        },
-
-        onLeaveBack: () => {
-          cardsObserver.disable();
-          unlockScroll();
-          disableKeys();
-        },
+        invalidateOnRefresh: true,
       });
     }, cardsWrapperRef);
 
@@ -389,15 +263,17 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         ref={cardsWrapperRef}
         className="
           relative w-full
-          h-[60vh] sm:h-[70vh] lg:h-[80vh]
-          hidden lg:flex items-center justify-center
-
+          h-screen
+          hidden lg:flex items-start justify-center
+          overflow-hidden
+          pt-[5vh]
         "
       >
         <div
           className="
             relative w-full sm:w-[90%]
-            h-[460px] sm:h-[560px] lg:h-[650px]
+            h-[460px] sm:h-[560px] lg:h-[85vh]
+            overflow-hidden
           "
         >
           {projectsData.map((project, index) => (
