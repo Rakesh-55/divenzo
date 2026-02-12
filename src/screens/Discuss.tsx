@@ -355,7 +355,7 @@ export default function Discuss() {
                   relative self-start group
                   [font-family:'Poppins',Helvetica]
                   text-[18px] sm:text-[20px] lg:text-[24px]
-                  text-black font-medium
+                  text-black font-normal
                   py-1
                 "
               >
@@ -363,7 +363,14 @@ export default function Discuss() {
                 <span
                   className="
                     absolute left-0 -bottom-0.5 h-[1.5px] w-full
-                    bg-black scale-x-0 origin-left
+                    bg-neutral-400/70 transition-opacity duration-300
+                    group-hover:opacity-0
+                  "
+                />
+                <span
+                  className="
+                    absolute left-0 -bottom-0.5 h-[1.5px] w-full
+                    bg-current scale-x-0 origin-left
                     transition-transform duration-500 ease-out
                     group-hover:scale-x-100
                   "

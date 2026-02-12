@@ -66,116 +66,70 @@ export const HeroSection = (): JSX.Element => {
         );
       });
 
-      // 🎥 Image animation (DESKTOP ONLY – logic unchanged)
+      // 🎥 Image animation (DESKTOP ONLY)
       if (isDesktop) {
-        const tl = gsap.timeline({
+        const img = imageRef.current;
+        const text = textRef.current;
+        const wrapper = imageWrapperRef.current;
+        const heading = headingRef.current;
+
+        if (!img || !text || !wrapper || !heading) return;
+
+        const headingRect = heading.getBoundingClientRect();
+        const imgRect = img.getBoundingClientRect();
+        const textRect = text.getBoundingClientRect();
+
+        const headingWidth = headingRect.width;
+        // Center image under the heading
+        const headingCenterX = headingRect.left + headingRect.width / 2;
+        const targetX = headingCenterX - headingWidth / 2 - imgRect.left;
+        // Place image right below the text paragraph
+        const targetY = textRect.bottom - imgRect.top + 30;
+
+        // Force initial size
+        gsap.set(img, {
+          width: 300,
+          height: 170,
+          x: 0,
+          y: 0,
+          borderRadius: "16px",
+          maxWidth: "none",
+        });
+
+        // No pin — just scrub the image transform as user scrolls
+        gsap.to(img, {
+          width: headingWidth,
+          height: "80vh",
+          x: targetX,
+          y: targetY,
+          borderRadius: "0px",
+          ease: "none",
           scrollTrigger: {
-            trigger: imageWrapperRef.current,
-            start: "top 40%",
-            end: "+=50%",
-            scrub: 1.05,
-            pin: true,
-            anticipatePin: 1,
+            trigger: wrapper,
+            start: "top 60%",
+            end: "top 10%",
+            scrub: 0.5,
           },
         });
 
-        tl.fromTo(
-          imageRef.current,
-          {
-            width: "300px",
-            height: "170px",
-            borderRadius: "16px",
-            scale: 1,
-            transformOrigin: "left center",
-          },
-          {
-            width: "80vw",
-            height: "40vh",
-            borderRadius: "12px",
-            ease: "expo.inOut",
-            duration: 1.2,
-          },
-          0
-        );
-
-        tl.to(
-          imageRef.current,
-          {
-            width: "60vw",
-            height: "40vh",
-            borderRadius: "10px",
-            scale: 1.08,
-            ease: "power4.inOut",
-            duration: 1,
-          },
-          0.6
-        );
-
-        tl.to(
-          textRef.current,
-          {
-            opacity: 0.6,
-            duration: 2,
-            ease: "power2.out",
-            marginLeft:10,
-            marginBottom:20
-
-          },
-          0.4
-        );
+        // Text stays in place, no animation
       } else {
-        const tl = gsap.timeline({
+        const img = imageRef.current;
+        if (!img) return;
+
+        // Mobile: keep layout stable (no pin), just a subtle scale/height change
+        gsap.to(img, {
+          width: "100%",
+          height: "45vh",
+          borderRadius: "12px",
+          ease: "none",
           scrollTrigger: {
-            trigger: imageWrapperRef.current,
-            start: "top 10%",
-            end: "+=60%",
-            scrub: 1.05,
-            pin: true,
-            anticipatePin: 1,
+            trigger: img,
+            start: "top 75%",
+            end: "top 35%",
+            scrub: 0.6,
           },
         });
-
-        tl.fromTo(
-          imageRef.current,
-          {
-            width: "300px",
-            height: "170px",
-            borderRadius: "16px",
-            scale: 1,
-            transformOrigin: "left center",
-          },
-          {
-            width: "40vw",
-            height: "40vh",
-            borderRadius: "12px",
-            ease: "expo.inOut",
-            duration: 1.2,
-          },
-          0
-        );
-
-        tl.to(
-          imageRef.current,
-          {
-            width: "80vw",
-            height: "60vh",
-            borderRadius: "0px",
-            scale: 1.04,
-            ease: "power4.inOut",
-            duration: 1,
-          },
-          0.6
-        );
-
-        tl.to(
-          textRef.current,
-          {
-            opacity: 0.6,
-            duration: 0.8,
-            ease: "power2.out",
-          },
-          0.4
-        );
       }
     });
 
@@ -183,7 +137,7 @@ export const HeroSection = (): JSX.Element => {
   }, []);
 
   return (
-    <section className="relative w-full bg-white overflow-visible">
+    <section className="relative w-full bg-white overflow-visible z-10">
       {/* <Navbar /> */}
 
       {/* 🟣 TITLE + ROTATING WORDS */}
@@ -213,9 +167,14 @@ export const HeroSection = (): JSX.Element => {
              sm:ml-6 lg:ml-[45px]
           "
         >
-          <div className="flex items-center justify-center [font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[24px] lg:text-[32px]">
+          <AnimatedText className="flex items-center justify-center [font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[24px] lg:text-[32px]"
+          isDarkBg={false}
+          disableColorReveal
+          slideDuration={0.8}
+          slideStagger={0.08}
+          >
             Building brands through
-          </div>
+          </AnimatedText>
 
           <div
             className="
@@ -233,7 +192,7 @@ export const HeroSection = (): JSX.Element => {
                   key={index}
                   className="
                     flex items-center justify-center h-[40px] sm:h-[48px]
-                    [font-family:'Poppins',Helvetica] font-semibold
+                    [font-family:'Poppins',Helvetica] font-normal
                     text-[16px] sm:text-[24px] lg:text-[32px]
                     text-[#2b2b2b]
                   "
@@ -248,65 +207,60 @@ export const HeroSection = (): JSX.Element => {
 
       {/* 🖼 IMAGE + TEXT */}
       <div
-        ref={imageWrapperRef}
         className="
-          relative flex flex-col lg:flex-row
-          justify-between items-center
-          max-w-[1280px] mx-auto mt-6 lg:mt-16 gap-10
+          relative
+          max-w-[1280px] mx-auto mt-6 lg:mt-16
           px-4 sm:px-8
+          lg:pb-[80vh]
         "
       >
-        {/* <p
-          ref={textRef}
-          className="
-            [font-family:'Poppins',Helvetica]
-            font-normal text-black
-            text-[16px] sm:text-[20px] lg:text-[28px]
-            leading-[1.4]
-            w-full lg:w-[932px]
-            relative z-[1] transition-all duration-700 block md:hidden
-          "
-        >
-          Digital design isn&apos;t static — it&apos;s alive. Brands today need
-          movement, meaning, and emotion. We blend strategy, creativity, and
-          storytelling to craft experiences that capture attention, spark
-          action, and leave a lasting impression.
-        </p> */}
-        
-        <div className="relative flex-shrink-0 overflow-visible">
+        {/* Row: image + text */}
+        <div className="relative flex flex-col lg:block items-start gap-10">
+          {/* Image — absolutely positioned on desktop so it doesn't push text */}
+          <div
+            ref={imageWrapperRef}
+            className="relative lg:absolute lg:top-0 lg:left-0 flex-shrink-0"
+          >
+            <img
+              ref={imageRef}
+              src="/hero_image.png"
+              alt="Expanding Image"
+              className="
+                object-cover shadow-xl z-[2] rounded-xl
+                w-full
+                h-[200px] sm:h-[240px]
+                lg:w-[300px] lg:h-[170px]
+                will-change-transform
+                flex-shrink-0
+              "
+            />
+          </div>
 
-          <img
-            ref={imageRef}
-            src="/hero_image.png"
-            alt="Expanding Image"
-            className="
-              object-cover shadow-xl z-[2] rounded-xl
-              w-full max-w-md
-              h-[200px] sm:h-[240px]
-              lg:w-[300px] lg:h-[170px]
-              will-change-transform
-            "
-          />
+          {/* Text — stays in place, not affected by image growth */}
+          <div ref={textRef}>
+            <AnimatedText
+              className="
+                [font-family:'Poppins',Helvetica]
+                font-normal text-black
+                text-[16px] sm:text-[20px] lg:text-[28px]
+                leading-[1.4]
+                w-full lg:w-auto
+                lg:ml-[310px]
+                relative z-[3]
+                mt-4 lg:mt-0
+              "
+              isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Digital design isn&apos;t static — it&apos;s alive. Brands today need
+              movement, meaning, and emotion. We blend strategy, creativity, and
+              storytelling to craft experiences that capture attention, spark
+              action, and leave a lasting impression.
+            </AnimatedText>
+          </div>
         </div>
-
-        <p
-          ref={textRef}
-          className="
-            [font-family:'Poppins',Helvetica]
-            font-normal text-black
-            text-[16px] sm:text-[20px] lg:text-[28px]
-            leading-[1.4]
-            w-full lg:w-[932px]
-            relative z-[1] transition-all duration-700
-          "
-        >
-          Digital design isn&apos;t static — it&apos;s alive. Brands today need
-          movement, meaning, and emotion. We blend strategy, creativity, and
-          storytelling to craft experiences that capture attention, spark
-          action, and leave a lasting impression.
-        </p>
-
-        {/* Removed duplicate paragraph - AnimatedText is now the only version */}
       </div>
     </section>
   );

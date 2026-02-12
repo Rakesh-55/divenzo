@@ -112,7 +112,7 @@ export const FooterSection = (): JSX.Element => {
               className="
                 h-auto p-0 footer-no-underline overflow-hidden group
                 hover:bg-transparent focus:bg-transparent active:bg-transparent
-                [font-family:'Poppins',Helvetica] font-normal text-white
+                [font-family:'Poppins',Helvetica] font-semibold text-white
                 text-[24px] sm:text-[32px] lg:text-5xl
               "
             >
@@ -148,7 +148,7 @@ export const FooterSection = (): JSX.Element => {
               <div className="flex flex-col gap-6">
                 <h2
                   className="
-                    [font-family:'Poppins',Helvetica] font-normal text-white
+                    [font-family:'Poppins',Helvetica] font-semibold text-white
                     text-[36px] sm:text-[44px] lg:text-[56px]
                     leading-[1.2]
                   "
@@ -213,7 +213,7 @@ export const FooterSection = (): JSX.Element => {
                       h-auto p-0 w-fit justify-start footer-no-underline overflow-hidden group
                       hover:bg-transparent focus:bg-transparent active:bg-transparent
                       [font-family:'Poppins',Helvetica] font-normal text-white
-                      text-[16px] sm:text-[18px] lg:text-2xl
+                      text-[16px] sm:text-[18px] lg:text-[20px]
                     "
                   >
                     <span className="relative block leading-[1.3] pb-1">

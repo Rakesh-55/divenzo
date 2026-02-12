@@ -334,20 +334,18 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                   {testimonials.map((t, i) => (
                     <CarouselItem
                       key={i}
-                      className="md:basis-1/2 lg:basis-1/3"
+                      className="md:basis-1/2 lg:basis-1/3 flex justify-center"
                     >
-                      <Card className="group relative border-0 shadow-none bg-transparent overflow-hidden">
-                        <span
-                          className="card-hover-circle"
-                          style={{
-                            backgroundColor: isDark
-                              ? "rgba(255,255,255,0.12)"
-                              : "rgba(0,0,0,0.08)",
-                          }}
-                        />
-                        <CardContent className="relative z-10 p-4 flex flex-col gap-6">
+                      <Card
+                        className={`
+                          group relative border-0 shadow-none rounded-none overflow-hidden transition-colors duration-700
+                          h-[419px] w-[465px]
+                          ${isDark ? "bg-[#111111]" : "bg-[#fafafa]"}
+                        `}
+                      >
+                        <CardContent className="relfvative z-10 h-full p-8 flex flex-col gap-6 justify-start">
                           <AnimatedText
-                            className="[font-family:'Poppins',Helvetica] text-inherit opacity-90 text-[14px] sm:text-[16px] lg:text-[17px] w-full"
+                            className="[font-family:'Poppins',Helvetica] text-inherit opacity-90 text-[14px] sm:text-[16px] lg:text-[17px] w-full min-h-[168px]"
                             isDarkBg={isDark}
                             disableColorReveal
                             slideDuration={0.8}
@@ -356,7 +354,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                             {t.quote}
                           </AnimatedText>
 
-                          <div className="flex gap-4 items-center">
+                          <div className="flex gap-4 items-center min-h-[64px] mt-auto">
                             <Avatar className="w-12 h-12 sm:w-14 sm:h-14">
                               <AvatarImage src={t.image} />
                               <AvatarFallback>
@@ -454,15 +452,9 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                   className="border-b border-[#cccccc]"
                 >
                   <AccordionTrigger className="py-6">
-                    <AnimatedText
-                      className="block [font-family:'Poppins',Helvetica] font-normal text-[14px] sm:text-[22px] lg:text-[28px] leading-[1.4]"
-                      isDarkBg={isDark}
-                      disableColorReveal
-                      slideDuration={0.8}
-                      slideStagger={0.08}
-                    >
+                    <span className="block [font-family:'Poppins',Helvetica] font-normal text-[14px] sm:text-[22px] lg:text-[28px] leading-[1.4]">
                       {item.question}
-                    </AnimatedText>
+                    </span>
                   </AccordionTrigger>
                   <AccordionContent>
                     {item.answer.map((p, i) => (

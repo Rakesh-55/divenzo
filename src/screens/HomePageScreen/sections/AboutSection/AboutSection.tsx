@@ -106,7 +106,6 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
           scale: 1,
           duration: 1.2,
           ease: "power4.out",
-          stagger: 0.2,
           scrollTrigger: {
             trigger: cardsRef.current,
             start: "top 85%",
@@ -226,57 +225,87 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
           Our work speaks through numbers. Here&apos;s what we&apos;ve achieved so far.
         </AnimatedText>
 
-          <div
-            ref={cardsRef}
-            className="
-              grid gap-8
-              grid-cols-1
-              sm:grid-cols-2
-              lg:grid-cols-4
-            "
-          >
-            {statsData.map((stat, index) => (
-              <Card
-                key={index}
-                className="stat-card border-0 shadow-none bg-transparent text-inherit [&_*]:text-inherit"
-              >
-                <CardContent className="p-0 flex flex-col gap-4 text-inherit">
-                  <div
-                    className="
-                      [font-family:'Poppins',Helvetica] font-semibold
-                      text-5xl sm:text-6xl lg:text-7xl
-                      leading-[48px] lg:leading-[56px]
-                    "
-                  >
-                    {stat.number}
-                  </div>
 
-                  <Separator className="bg-current opacity-20" />
-
-                  <div className="flex flex-col gap-[10px]">
-                    <h4
+            <div
+              ref={cardsRef}
+              className="flex flex-wrap gap-6 justify-center"
+            >
+              {statsData.map((stat, index) => (
+                <Card
+                  key={index}
+                  className="
+                    stat-card border-0 shadow-none rounded-none transition-all duration-700 ease-in-out flex-none
+                    h-[372px] w-[300px]
+                  "
+                  style={{
+                    backgroundColor: isDark ? "#111111" : "#fafafa",
+                    color: isDark ? "#ffffff" : "#000000"
+                  }}
+                >
+                  <CardContent className="h-full p-8 sm:p-10 flex flex-col gap-4 justify-center text-inherit">
+                    <div
                       className="
-                        [font-family:'Poppins',Helvetica] font-bold
-                        text-[18px] sm:text-[20px] lg:text-[22px]
-                        leading-[28px] lg:leading-[33px]
+                        min-h-[64px] sm:min-h-[72px] lg:min-h-[80px]
+                        flex items-end
+                        [font-family:'Poppins',Helvetica] font-semibold
+                        text-5xl sm:text-6xl lg:text-7xl
+                        leading-[48px] lg:leading-[56px]
                       "
                     >
-                      {stat.title}
-                    </h4>
-                    <p
-                      className="
-                        [font-family:'Poppins',Helvetica] font-normal opacity-80
-                        text-base sm:text-lg
-                        leading-[24px] lg:leading-[27px]
-                      "
-                    >
-                      {stat.description}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                      <AnimatedText
+                          as="span"
+                          className="inline-block"
+                          isDarkBg={isDark}
+                          disableColorReveal
+                          slideDuration={0.6}
+                          slideStagger={0.04}
+                        >
+                        {stat.number}
+                      </AnimatedText>
+                    </div>
+
+                    <div className="flex flex-col gap-[10px] min-h-[120px] sm:min-h-[140px]">
+                      <h4
+                        className="
+                          [font-family:'Poppins',Helvetica] font-bold
+                          text-[18px] sm:text-[20px] lg:text-[22px]
+                          leading-[28px] lg:leading-[33px]
+                        "
+                      >
+                        <AnimatedText
+                          as="span"
+                          className="inline-block"
+                          isDarkBg={isDark}
+                          disableColorReveal
+                          slideDuration={0.6}
+                          slideStagger={0.04}
+                        >
+                          {stat.title}
+                        </AnimatedText>
+                      </h4>
+                      <p
+                        className="
+                          [font-family:'Poppins',Helvetica] font-normal opacity-80
+                          text-base sm:text-lg
+                          leading-[24px] lg:leading-[27px]
+                        "
+                      >
+                        <AnimatedText
+                          as="span"
+                          className="inline-block"
+                          isDarkBg={isDark}
+                          disableColorReveal
+                          slideDuration={0.6}
+                          slideStagger={0.04}
+                        >
+                          {stat.description}
+                        </AnimatedText>
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
         </div>
       </div>
     </section>

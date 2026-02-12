@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/divenzo-logo.png";
+import logoBlack from "../assets/divenzo-logo-black.png";
 import aboutNavImg from "../assets/nav_images/about_nav_img.png";
 import projectsNavImg from "../assets/nav_images/projects_nav_img.png";
 import servicesNavImg from "../assets/nav_images/services_nav_img.png";
@@ -159,14 +160,31 @@ export const Navbar = (): JSX.Element => {
       {/* ================= MOBILE HEADER ================= */}
       <header className="lg:hidden fixed top-0 left-0 w-full z-[500]">
         <nav 
-          className={`flex items-center justify-between px-6 py-4 transition-all duration-500 ${scrolled && !menuOpen ? "backdrop-blur-md" : ""}`}
-          style={{
-            backgroundColor: headerBgColor,
-          }}
+          className={`
+            flex items-center justify-between px-6 py-4 
+            transition-all duration-500 
+            ${
+              scrolled && !menuOpen
+                ? `
+                  backdrop-blur-xl
+                  ${
+                    onDarkSection
+                      ? "bg-gradient-to-b from-black/70 to-black/40 border-b border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+                      : "bg-gradient-to-b from-white/70 to-white/40 border-b border-black/10 shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
+                  }
+                `
+                : ""
+              }
+            `}
+          
         >
           {/* LOGO */}
           <Link to="/" className="flex items-center" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-            <img src={logo} alt="Divenzo" className="w-10 h-10" />
+            <img
+              src={menuOpen || onDarkSection ? logo : logoBlack}
+              alt="Divenzo"
+              className="w-10 h-10"
+            />
           </Link>
 
           {/* MOBILE HAMBURGER */}
@@ -204,23 +222,37 @@ export const Navbar = (): JSX.Element => {
       <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${menuOpen ? "z-[400]" : ""}`}>
         <nav
           className={`
-            hidden lg:grid
-            grid-cols-[auto_1fr_auto]
-            items-center
-            px-20 py-5
+            hidden lg:block
+            w-full
+            px-20 py-4
             transition-all duration-500
-            ${scrolled && !menuOpen ? "backdrop-blur-xl" : ""}
+            ${scrolled && !menuOpen
+              ? `
+                backdrop-blur-xl
+                ${onDarkSection 
+                  ? "bg-black/40 border-b border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+                  : "bg-white/40 border-b border-black/10 shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
+                }
+              `
+              : ""
+            }
           `}
-          style={{
-            backgroundColor: headerBgColor,
-          }}
         >
-
-
-        <div className="flex items-center gap-12">
+          <div
+            className="
+              grid grid-cols-[auto_1fr_auto]
+              items-center
+              w-full max-w-[1300px] mx-auto
+            "
+          >
+            <div className="flex items-center gap-12">
           {/* LOGO */}
           <Link to="/" className="flex items-center" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-            <img src={logo} alt="Divenzo" className="w-12 h-12" />
+            <img
+              src={menuOpen || onDarkSection ? logo : logoBlack}
+              alt="Divenzo"
+              className="w-12 h-12"
+            />
           </Link>
 
           {/* BASED IN / SAY HELLO */}
@@ -232,65 +264,64 @@ export const Navbar = (): JSX.Element => {
             style={{ transitionDelay: scrolled ? "0ms" : "520ms" }}
           >
             <div className="leading-tight text-black">
-              <div className="text-sm text-black">Based in</div>
-              <div className="text-base font-normal">Hyderabad, India</div>
+              <div className="text-[14px] text-black">Based in</div>
+              <div className=" text-[16px] font-normal">Hyderabad, India</div>
             </div>
 
             <div className="leading-tight text-black">
-              <div className="text-sm text-black">Say hello</div>
-              <a
-                href="mailto:hello@divenzo.com"
-                className="text-base font-normal hover:opacity-70"
-              >
-                hello@divenzo.com
-              </a>
+              <div className="text-[14px] text-black">Say hello</div>
+                <a
+                  href="mailto:hello@divenzo.com"
+                  className="text-[16px] font-normal hover:opacity-70"
+                >
+                  hello@divenzo.com
+                </a>
+              </div>
             </div>
-          </div>
-        </div>
+            </div>
+
+            {/* CENTER NAV */}
+            <div
+              className={`
+                flex justify-center gap-12
+                transition-all duration-700
+                ${scrolled ? "-translate-y-6 opacity-0" : "opacity-100"}
+              `}
+              style={{ transitionDelay: scrolled ? "0ms" : "520ms" }}
+            >
+              {navLinks.map(link => (
+                <Link
+                  key={link.page}
+                  to={link.page}
+                  onClick={() => handleNavClick(link.page)}
+                  className={`
+                    relative text-[16px] font-normal tracking-wide
+                    ${onDarkSection ? "text-white" : "text-black"}
+                    group
+                  `}
+                >
+                  {link.label}
+                  <span
+                    className="
+                      absolute left-0 -bottom-1 h-[1.5px] w-full
+                      bg-current scale-x-0 origin-left
+                      transition-transform duration-500 ease-out
+                      group-hover:scale-x-100
+                    "
+                  />
+                </Link>
+              ))}
+            </div>
 
 
-          {/* CENTER NAV */}
-          <div
-            className={`
-              flex justify-center gap-12
-              transition-all duration-700
-              ${scrolled ? "-translate-y-6 opacity-0" : "opacity-100"}
-            `}
-            style={{ transitionDelay: scrolled ? "0ms" : "520ms" }}
-          >
-            {navLinks.map(link => (
-              <Link
-                key={link.page}
-                to={link.page}
-                onClick={() => handleNavClick(link.page)}
-                className={`
-                  relative text-[18px] font-normal tracking-wide
-                  ${onDarkSection ? "text-white" : "text-black"}
-                  group
-                `}
-              >
-                {link.label}
-                <span
-                  className="
-                    absolute left-0 -bottom-1 h-[1.5px] w-full
-                    bg-current scale-x-0 origin-left
-                    transition-transform duration-500 ease-out
-                    group-hover:scale-x-100
-                  "
-                />
-              </Link>
-            ))}
-          </div>
-
-
-          {/* RIGHT CTA + HAMBURGER */}
-          <div className="flex items-center gap-6 justify-end relative z-50">
+            {/* RIGHT CTA + HAMBURGER */}
+            <div className="flex items-center gap-6 justify-end relative z-50">
             {/* DISCUSS */}
             <Link
               to="/discuss"
               onClick={() => handleNavClick("/discuss")}
               className={`
-                relative text-[18px] font-medium group
+                relative text-[16px] font-normal group
                 transition-all duration-700 ease-out
                 ${showHamburger ? "-translate-x-2" : "translate-x-0"}
                 ${menuOpen ? "text-white visible" : onDarkSection ? "text-white" : "text-black"}
@@ -459,9 +490,8 @@ export const Navbar = (): JSX.Element => {
                 />
               </button>
             </div>
+            </div>
           </div>
-
-
         </nav>
       </header>
 
@@ -551,7 +581,7 @@ export const Navbar = (): JSX.Element => {
       )}
 
       {/* SPACER */}
-      <div className="h-16 lg:h-[96px]" />
+      <div className="h-16 lg:h-[80px]" />
 
       {/* ANIMATION STYLES */}
       <style>{`
