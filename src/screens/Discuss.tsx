@@ -275,14 +275,14 @@ export default function Discuss() {
           {/* ===== HEADING ===== */}
           <h2
             ref={headingRef}
-            className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[36px] lg:mb-[56px]"
+            className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1] mb-[36px] lg:mb-[56px]"
             style={{ opacity: 0 }}
           >
             Discuss
           </h2>
 
           {/* ===== DESCRIPTION ===== */}
-          <div className="ml-0 lg:ml-[350px]">
+          <div className="ml-0 md:ml-[120px] lg:ml-[350px]">
             <p
               ref={descRef}
               className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[40px] lg:mb-[56px]"

@@ -150,8 +150,8 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       }}
       className={`
         relative w-full overflow-hidden
-        pt-[80px] sm:pt-[120px] lg:pt-[150px]
-        pb-[40px]
+        pt-[40px] sm:pt-[50px] lg:pt-[150px]
+        pb-[50px] sm:pb-[50px] lg:pb-[50px]
         px-4 sm:px-8 lg:px-20
         transition-colors duration-700
         ${isDark ? "dark-section" : ""}
@@ -166,7 +166,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
           ref={titleRef}
           className="
             [font-family:'Poppins',Helvetica] font-semibold 
-            text-[56px] sm:text-[80px] lg:text-[120px]
+            text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]
             tracking-[0] leading-normal
           "
         >
@@ -191,7 +191,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       </header>
 
            {/* ================= MOBILE & TABLET ================= */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-4 lg:hidden">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-12 gap-x-4 sm:gap-x-4 mb-4 lg:hidden">
         {projectsData.map((project) => (
           <div
             key={project.id}
@@ -201,8 +201,8 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
               <img
                 src={project.image}
                 alt={project.imageAlt}
-                className="w-full h-full object-cover rounded-none sm:rounded-[20px]"
-              />
+                className="w-full h-full object-cover rounded-none"
+              /> 
               {project.id === 4 && (
                 <div className="absolute inset-0">
                   <div className="absolute inset-0 bg-black/35" />

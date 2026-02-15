@@ -1,6 +1,5 @@
 import Autoplay from "embla-carousel-autoplay";
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import service_img from "../assets/service_img.png";
 import * as Separator from "@radix-ui/react-separator";
@@ -163,105 +162,63 @@ const servicesData = [
 
 /* ============ STICKY-STACK SERVICES ============ */
 
-// Prevent mobile address-bar resize from causing scroll jumps
-ScrollTrigger.config({ ignoreMobileResize: true });
-
 function StickyStackServices() {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
   const headerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const location = useLocation();
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Small delay to let the DOM settle for accurate measurements
-    const raf = requestAnimationFrame(() => {
-      const ctx = gsap.context(() => {
+    let ctx: gsap.Context | null = null;
+    let raf = 0;
+
+    raf = requestAnimationFrame(() => {
+      ctx = gsap.context(() => {
         const contents = contentRefs.current.filter(Boolean) as HTMLDivElement[];
         const headers = headerRefs.current.filter(Boolean) as HTMLDivElement[];
         const items = itemRefs.current.filter(Boolean) as HTMLDivElement[];
         if (contents.length === 0) return;
 
-        // Measure natural heights of each content block
+        // Measure natural heights
         const heights = contents.map((el) => el.scrollHeight);
-
-        // Set initial overflow on content wrappers
         contents.forEach((content, i) => {
           gsap.set(content, { height: heights[i], overflow: "hidden" });
         });
 
-        // ── Navbar elements ──
-        const mobileHeader = document.querySelector<HTMLElement>(
-          "header.lg\\:hidden"
-        );
-        const desktopHeader = document.querySelector<HTMLElement>(
-          "header.fixed:not(.lg\\:hidden)"
-        );
-
-        const hideNav = () => {
-          if (mobileHeader) gsap.to(mobileHeader, { yPercent: -100, duration: 0.4, ease: "power2.inOut" });
-          if (desktopHeader) gsap.to(desktopHeader, { yPercent: -100, duration: 0.4, ease: "power2.inOut" });
-        };
-        const showNav = () => {
-          if (mobileHeader) gsap.to(mobileHeader, { yPercent: 0, duration: 0.4, ease: "power2.inOut" });
-          if (desktopHeader) gsap.to(desktopHeader, { yPercent: 0, duration: 0.4, ease: "power2.inOut" });
-        };
-
-        // ── Dynamic end: based on sum of collapsible content heights ──
         const collapsibleTotal = heights
           .slice(0, -1)
-          .reduce((sum, h) => sum + h + 80, 0);
+          .reduce((sum, h) => sum + h, 0);
 
-        /* ── Master timeline ── */
+        /* 1. MASTER TIMELINE */
         const tl = gsap.timeline({
           scrollTrigger: {
+            id: "services-sticky-stack",
             trigger: container,
             start: "top top",
             end: `+=${collapsibleTotal}`,
             pin: true,
-            pinSpacing: false,
+            pinSpacing: true,
             scrub: 1,
             anticipatePin: 1,
-
-            onEnter: () => {
-              gsap.set(container, { zIndex: 10, top: "0px", marginTop: 0 });
-              hideNav();
-            },
-            onLeave: () => {
-              showNav();
-              gsap.set(container, { zIndex: 0 });
-            },
-            onLeaveBack: showNav,
-            onEnterBack: () => {
-              gsap.set(container, { zIndex: 10, top: "0px", marginTop: 0 });
-              hideNav();
-            },
-            onRefresh: (self) => {
-              if (self.pin) gsap.set(self.pin, { top: 0 });
-            },
           },
         });
 
-        // ── Build the timeline ──
+        /* 2. BUILD THE SHRINKING ANIMATION */
         let pos = 0;
         contents.forEach((content, i) => {
           const header = headers[i];
           const item = items[i];
 
-          // Collapse content for all except the last
           if (i < contents.length - 1) {
             tl.to(content, { height: 0, opacity: 0, duration: 1, ease: "none" }, pos);
-
-            // Collapse bottom margin for tight stacking
             if (item) {
               tl.to(item, { marginBottom: 0, duration: 1, ease: "none" }, pos);
             }
           }
 
-          // Shrink & shift ALL headers (including last)
           if (header) {
             tl.to(
               header,
@@ -277,45 +234,21 @@ function StickyStackServices() {
               i < contents.length - 1 ? pos : pos - 0.5
             );
           }
-
           if (i < contents.length - 1) pos += 1;
         });
       }, container);
-
-      // ── Cleanup: kill all ScrollTriggers on route change ──
-      return () => {
-        ctx.revert();
-        showNavImmediate();
-      };
-
-      function showNavImmediate() {
-        const mh = document.querySelector<HTMLElement>("header.lg\\:hidden");
-        const dh = document.querySelector<HTMLElement>("header.fixed:not(.lg\\:hidden)");
-        if (mh) gsap.set(mh, { yPercent: 0 });
-        if (dh) gsap.set(dh, { yPercent: 0 });
-      }
     });
 
-    // Outer cleanup
     return () => {
-      cancelAnimationFrame(raf);
-      // Force-kill any lingering ScrollTriggers from this section
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger === container) st.kill();
-      });
-      // Restore navbar immediately on unmount / route change
-      const mh = document.querySelector<HTMLElement>("header.lg\\:hidden");
-      const dh = document.querySelector<HTMLElement>("header.fixed:not(.lg\\:hidden)");
-      if (mh) gsap.set(mh, { yPercent: 0 });
-      if (dh) gsap.set(dh, { yPercent: 0 });
+      if (raf) cancelAnimationFrame(raf);
+      if (ctx) ctx.revert();
     };
-  }, [location.pathname]);
+  }, []);
 
   return (
     <section
       ref={containerRef}
-      className="bg-black text-white dark-section overflow-hidden"
-      
+      className="bg-black text-white dark-section overflow-x-clip"
     >
       <div className="max-w-[90vw] xl:max-w-[1440px] mx-auto px-4 sm:px-10 md:px-16 py-12 md:py-20">
         {servicesData.map((service, i) => (
@@ -324,27 +257,36 @@ function StickyStackServices() {
             ref={(el) => { itemRefs.current[i] = el; }}
             className="mb-6 md:mb-10"
           >
-            {/* ── STICKY HEADER ── */}
+            {/* ── STICKY HEADER WRAPPER (holds header + line separately so line is not affected by GSAP transforms) ── */}
             <div
-              ref={(el) => { headerRefs.current[i] = el; }}
-              className="sticky top-0 bg-black py-4 md:py-5 will-change-transform"
+              className="sticky top-0 bg-black"
               style={{ zIndex: 10 + i }}
             >
-              <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]">
-                <AnimatedText
-                  className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]"
-                  isDarkBg
-                  disableColorReveal
-                  slideDuration={0.8}
-                  slideStagger={0.08}
-                >
-                  {service.id}. {service.title}
-                </AnimatedText>
-              </h2>
-              {/* Full-bleed separator */}
               <div
-                className="absolute bottom-0 left-1/2 h-[2px] bg-white/20"
-                style={{ width: "100vw", transform: "translateX(-50%)" }}
+                ref={(el) => { headerRefs.current[i] = el; }}
+                className="py-4 md:py-5 will-change-transform"
+              >
+                <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]">
+                  <AnimatedText
+                    className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]"
+                    isDarkBg
+                    disableColorReveal
+                    slideDuration={0.8}
+                    slideStagger={0.08}
+                  >
+                    {service.id}. {service.title}
+                  </AnimatedText>
+                </h2>
+              </div>
+              {/* Full-bleed separator — outside the GSAP-transformed div so width stays fixed */}
+              <div
+                className="absolute bottom-0 h-px pointer-events-none"
+                style={{
+                  left: "50%",
+                  width: "100vw",
+                  marginLeft: "-50vw",
+                  background: "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
+                }}
               />
             </div>
 
@@ -367,12 +309,13 @@ function StickyStackServices() {
                     {service.description}
                   </AnimatedText>
 
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6 mt-6 list-disc pl-6">
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6 mt-6 list-none left-0">
                     {service.points.map((point, idx) => (
                       <li
                         key={idx}
-                        className="[font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#ffffffcc]"
+                        className="[font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#ffffffcc] flex items-center gap-3"
                       >
+                        <span className="flex-shrink-0 text-[18px] sm:text-[22px] lg:text-[24px] leading-none">•</span>
                         <AnimatedText
                           as="span"
                           className="inline-block [font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#ffffffcc]"
@@ -437,6 +380,12 @@ export default function Services() {
     };
     gsap.ticker.add(tick);
     return () => gsap.ticker.remove(tick);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      document.body.dataset.cursorHidden = "false";
+    };
   }, []);
 
   return (
@@ -623,20 +572,16 @@ export default function Services() {
         {testimonials.map((testimonial, index) => (
           <CarouselItem
             key={index}
-            className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
+            className="md:basis-1/2 lg:basis-1/3 flex justify-center"
           >
-            <Card className="group relative border-0 shadow-none bg-transparent overflow-hidden">
-              <span
-                className="card-hover-circle"
-                style={{ backgroundColor: "rgba(0,0,0,0.08)" }}
-              />
-              <CardContent className="relative z-10 p-3 flex flex-col gap-6">
-                <p className="[font-family:'Poppins',Helvetica] text-[15px] sm:text-[17px] md:text-[18px] text-[#000000e6] leading-relaxed">
+            <Card className="group relative border-0 shadow-none rounded-none overflow-hidden transition-colors duration-700 h-[419px] w-[465px] bg-[#fafafa]">
+              <CardContent className="relative z-10 h-full p-8 flex flex-col gap-6 justify-start">
+                <p className="[font-family:'Poppins',Helvetica] text-[14px] sm:text-[16px] lg:text-[17px] text-[#000000e6] leading-relaxed opacity-90 w-full min-h-[168px]">
                   {testimonial.quote}
                 </p>
 
-                <div className="flex gap-4 items-center">
-                  <Avatar className="w-12 h-12 ring-1 ring-gray-200">
+                <div className="flex gap-4 items-center min-h-[64px] mt-auto">
+                  <Avatar className="w-12 h-12 sm:w-14 sm:h-14">
                     <AvatarImage src={testimonial.image} />
                     <AvatarFallback>
                       {testimonial.name
@@ -647,10 +592,10 @@ export default function Services() {
                   </Avatar>
 
                   <div>
-                    <div className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[16px]">
+                    <div className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[14px] sm:text-[16px] lg:text-[18px]">
                       {testimonial.name}
                     </div>
-                    <div className="[font-family:'Poppins',Helvetica] text-[#555] text-[14px]">
+                    <div className="[font-family:'Poppins',Helvetica] text-[#555] text-[12px] sm:text-[13px] lg:text-[14px]">
                       {testimonial.title}
                     </div>
                   </div>
@@ -664,7 +609,7 @@ export default function Services() {
     </Carousel>
     <div
       ref={carouselCursorRef}
-      className="pointer-events-none absolute z-20 flex h-14 w-14 items-center justify-center rounded-full"
+      className="pointer-events-none absolute z-20 flex h-20 w-20 items-center justify-center rounded-full"
       style={{
         left: 0,
         top: 0,
@@ -672,23 +617,7 @@ export default function Services() {
         color: "#ffffff",
       }}
     >
-      {carouselCursorDir === "left" ? (
-        <svg
-          className="h-4 w-4"
-          viewBox="0 0 16 16"
-          aria-hidden="true"
-        >
-          <polygon fill="currentColor" points="10,3 4,8 10,13" />
-        </svg>
-      ) : (
-        <svg
-          className="h-4 w-4"
-          viewBox="0 0 16 16"
-          aria-hidden="true"
-        >
-          <polygon fill="currentColor" points="6,3 12,8 6,13" />
-        </svg>
-      )}
+      <span className="font-medium text-sm">Drag</span>
     </div>
   </div>
 </section>

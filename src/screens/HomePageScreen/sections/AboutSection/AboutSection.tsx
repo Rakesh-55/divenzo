@@ -41,6 +41,7 @@ interface AboutSectionProps {
 export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const cardsRef = useRef<HTMLDivElement | null>(null);
+  const statsTextRef = useRef<HTMLDivElement | null>(null);
 
   const sectionRef = useRef<HTMLElement | null>(null);
   const progress = useScrollProgress(sectionRef);
@@ -115,7 +116,28 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
         }
       );
     }
-  }, []);
+
+    // Stats text word-by-word opacity reveal
+    if (statsTextRef.current) {
+      const topLayers = statsTextRef.current.querySelectorAll('.word-top-layer');
+      
+      gsap.fromTo(
+        topLayers,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          stagger: 0.08,
+          ease: "none",
+          scrollTrigger: {
+            trigger: statsTextRef.current,
+            start: "top 70%",
+            end: "top 20%",
+            scrub: true,
+          },
+        }
+      );
+    }
+  }, [isDark]);
 
   return (
     <section
@@ -127,7 +149,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
       }}
       className={`
         relative w-full
-        py-[40px] sm:py-[120px] lg:py-[150px]
+        py-[40px] sm:py-[50px] lg:py-[150px] lg:pb-[50px]
         px-4 sm:px-8 lg:px-20
         transition-colors duration-700
         ${isDark ? "dark-section" : ""}
@@ -139,10 +161,12 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
           <h2
             className="
               [font-family:'Poppins',Helvetica] font-semibold
-              text-[56px] leading-[60px]
-              sm:text-[80px] sm:leading-[70px]
+              text-[40px] leading-[48px]
+              sm:text-[56px] sm:leading-[60px]
+              md:text-[80px] md:leading-[70px]
               lg:text-[120px] lg:leading-[85px]
               mb-[32px] lg:mb-[56px]
+              lg:mt-[50px]
             "
           >
             About Us
@@ -152,6 +176,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
             className="
               ml-0
               sm:ml-[80px]
+              md:ml-[120px]
               lg:ml-[350px]
             "
           >
@@ -206,24 +231,38 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
 
         {/* ================= STATS ================= */}
         <div className="mt-[60px] sm:mt-[80px] lg:mt-[100px]">
-        <AnimatedText
+        <div 
+          ref={statsTextRef}
           className="
             [font-family:'Poppins',Helvetica] font-normal
-            text-[36px] sm:text-[56px] lg:text-[80px]
-            leading-[44px] sm:leading-[70px] lg:leading-[90px]
+            text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
+            leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
             mb-[40px] lg:mb-[72px]
           "
-          isDarkBg={isDark}
-          disableColorReveal={false}
-          startColor={isDark ? "#ffffff33" : "#00000033"}
-          endColor={isDark ? "#ffffff" : "#000000"}
-          colorStart="top 45%"
-          colorEnd="top 15%"
-          slideDuration={0.8}
-          slideStagger={0.08}
         >
-          Our work speaks through numbers. Here&apos;s what we&apos;ve achieved so far.
-        </AnimatedText>
+          {("Our work speaks through numbers. Here's what we've achieved so far.").split(' ').map((word, index) => (
+            <span key={index} className="relative inline-block mr-[0.3em]">
+              <span 
+                className="word-base-layer"
+                style={{ 
+                  opacity: 0.3,
+                  color: isDark ? '#999999' : '#666666'
+                }}
+              >
+                {word}
+              </span>
+              <span 
+                className="word-top-layer absolute inset-0"
+                style={{ 
+                  opacity: 0,
+                  color: isDark ? '#ffffff' : '#000000'
+                }}
+              >
+                {word}
+              </span>
+            </span>
+          ))}
+        </div>
 
 
             <div
@@ -235,7 +274,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
                   key={index}
                   className="
                     stat-card border-0 shadow-none rounded-none transition-all duration-700 ease-in-out flex-none
-                    h-[372px] w-[300px]
+                    h-auto min-h-[320px] sm:min-h-[372px] w-[calc(50%-12px)] sm:w-[300px]
                   "
                   style={{
                     backgroundColor: isDark ? "#111111" : "#fafafa",

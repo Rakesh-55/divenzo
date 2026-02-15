@@ -44,39 +44,63 @@ export const FooterSection = (): JSX.Element => {
 
 
   useEffect(() => {
-    if (!companyRef.current) return;
+    const h1 = companyRef.current;
+    if (!h1) return;
 
-    const letters = companyRef.current.querySelectorAll(".company-letter");
+    const letters = h1.querySelectorAll(".company-letter");
+    const lettersArray = Array.from(letters);
 
-    // Clean timeline-based animation, no ease conflicts with stagger
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: companyRef.current,
-        start: "top 75%",
-        end: "top 25%",
-        scrub: 0.8,
-        invalidateOnRefresh: true,
-      },
+    // Set initial hidden state
+    lettersArray.forEach((letter) => {
+      (letter as HTMLElement).style.transform = "translateY(100%)";
+      (letter as HTMLElement).style.opacity = "0";
     });
 
-    timeline.fromTo(
-      letters,
-      {
-        y: 80,
-        opacity: 0,
+    let hasAnimated = false;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            hasAnimated = true;
+            // Appear: left to right, slide up
+            lettersArray.forEach((letter, i) => {
+              setTimeout(() => {
+                gsap.to(letter, {
+                  y: "0%",
+                  opacity: 1,
+                  duration: 0.8,
+                  ease: "power4.out",
+                });
+              }, i * 50);
+            });
+          } else if (!entry.isIntersecting && hasAnimated) {
+            hasAnimated = false;
+            // Disappear: left to right, slide down
+            lettersArray.forEach((letter, i) => {
+              setTimeout(() => {
+                gsap.to(letter, {
+                  y: "100%",
+                  opacity: 0,
+                  duration: 0.4,
+                  ease: "power2.in",
+                });
+              }, i * 30);
+            });
+          }
+        });
       },
       {
-        y: 0,
-        opacity: 1,
-        duration: 0.5,
-        stagger: 0.05,
-      },
-      0 // Start at beginning of timeline
+        rootMargin: "0px 0px -5% 0px",
+        threshold: 0,
+      }
     );
 
+    // Observe the wrapper div, not the h1 itself
+    const wrapper = h1.parentElement;
+    if (wrapper) observer.observe(wrapper);
 
-
-  
+    return () => observer.disconnect();
   }, []);
 
 
@@ -92,17 +116,17 @@ export const FooterSection = (): JSX.Element => {
       className="
         sticky bottom-0 w-full bg-black dark-section
         pt-[80px] sm:pt-[120px] lg:pt-[150px]
-        pb-[50px] sm:pb-[60px] lg:pb-[70px]
+        pb-[25px] sm:pb-[30px] lg:pb-[35px]
         px-4 sm:px-8 lg:px-20
         overflow-hidden
       "
     >
-      <div ref={contentRef} className="flex flex-col gap-[46px]">
+      <div ref={contentRef} className="flex flex-col gap-[23px]">
         {/* ===== Social Links ===== */}
         <nav
           className="
             flex flex-wrap items-center
-            gap-6 sm:gap-10 lg:gap-[137px]
+            gap-6 sm:gap-10 lg:gap-16 xl:gap-[137px]
           "
         >
           {socialLinks.map((link, index) => (
@@ -128,21 +152,21 @@ export const FooterSection = (): JSX.Element => {
           ))}
         </nav>
 
-        <div className="flex flex-col gap-[58px]">
+        <div className="flex flex-col gap-[29px]">
           <Separator className="bg-[#ffffff33] h-0.5" />
 
           {/* ===== Main Footer Content ===== */}
           <div
             className="
               flex flex-col lg:flex-row
-              gap-12 lg:gap-[150px]
+              gap-6 lg:gap-10 xl:gap-[80px]
             "
           >
             {/* ---- Lets Chat ---- */}
             <section
               className="
-                flex flex-col gap-8
-                w-full lg:w-[501px]
+                flex flex-col gap-4
+                w-full lg:flex-1
               "
             >
               <div className="flex flex-col gap-6">
@@ -202,7 +226,7 @@ export const FooterSection = (): JSX.Element => {
             <nav
               className="
                 flex flex-col gap-4 sm:gap-6
-                w-full lg:w-[100px]
+                w-full lg:w-auto lg:shrink-0
               "
             >
               {navigationLinks.map((link, index) => (
@@ -233,7 +257,7 @@ export const FooterSection = (): JSX.Element => {
             <address
               className="
                 flex flex-col gap-4 sm:gap-6
-                w-full lg:w-[354px]
+                w-full lg:flex-1 lg:max-w-[354px]
                 not-italic
               "
             >
@@ -262,26 +286,29 @@ export const FooterSection = (): JSX.Element => {
           {/* ===== Bottom Area ===== */}
           <div
             className="
-              flex flex-col gap-12
-              mt-[60px] sm:mt-[70px] lg:mt-[78px]
+              flex flex-col gap-6
+              mt-[30px] sm:mt-[35px] lg:mt-[39px]
             "
           >
-            <h1
-              ref={companyRef}
-              className="
-                font-varela font-bold text-white text-center
-                text-[86px] sm:text-[160px] lg:text-[355px]
-                leading-[1]
-                whitespace-nowrap
-                overflow-hidden
-              "
-            >
-              {"Divenzo".split("").map((char, i) => (
-                <span key={i} className="inline-block company-letter">
-                  {char}
-                </span>
-              ))}
-            </h1>
+            <div className="overflow-hidden">
+              <h1
+                ref={companyRef}
+                aria-label="Divenzo"
+                className="
+                  font-varela font-bold text-white text-center
+                  text-[48px] sm:text-[120px] md:text-[160px] lg:text-[355px]
+                  leading-[1]
+                  whitespace-nowrap
+                  overflow-hidden
+                "
+              >
+                {"Divenzo".split("").map((char, i) => (
+                  <span key={i} className="inline-block company-letter" aria-hidden="true">
+                    {char}
+                  </span>
+                ))}
+              </h1>
+            </div>
 
             <div
               className="

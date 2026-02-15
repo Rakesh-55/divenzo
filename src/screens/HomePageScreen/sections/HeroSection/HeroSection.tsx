@@ -84,16 +84,17 @@ export const HeroSection = (): JSX.Element => {
         const headingCenterX = headingRect.left + headingRect.width / 2;
         const targetX = headingCenterX - headingWidth / 2 - imgRect.left;
         // Place image right below the text paragraph
-        const targetY = textRect.bottom - imgRect.top + 30;
+        const targetY = textRect.bottom - imgRect.top + 50;
 
         // Force initial size
         gsap.set(img, {
-          width: 300,
-          height: 170,
+          width: 400,
+          height: 228,
           x: 0,
           y: 0,
-          borderRadius: "16px",
+          borderRadius: "0px",
           maxWidth: "none",
+          zIndex: 2,
         });
 
         // No pin — just scrub the image transform as user scrolls
@@ -103,6 +104,7 @@ export const HeroSection = (): JSX.Element => {
           x: targetX,
           y: targetY,
           borderRadius: "0px",
+          zIndex: 10,
           ease: "none",
           scrollTrigger: {
             trigger: wrapper,
@@ -112,7 +114,29 @@ export const HeroSection = (): JSX.Element => {
           },
         });
 
-        // Text stays in place, no animation
+        // Image wrapper appears above text during scroll (start immediately)
+        gsap.to(wrapper, {
+          zIndex: 10,
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top 75%",
+            end: "top 10%",
+            scrub: 0.5,
+          },
+        });
+
+        // Push text behind image during scroll (start immediately)
+        gsap.to(text, {
+          zIndex: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top 75%",
+            end: "top 10%",
+            scrub: 0.5,
+          },
+        });
       } else {
         const img = imageRef.current;
         if (!img) return;
@@ -121,7 +145,7 @@ export const HeroSection = (): JSX.Element => {
         gsap.to(img, {
           width: "100%",
           height: "45vh",
-          borderRadius: "12px",
+          borderRadius: "0px",
           ease: "none",
           scrollTrigger: {
             trigger: img,
@@ -143,7 +167,7 @@ export const HeroSection = (): JSX.Element => {
       {/* 🟣 TITLE + ROTATING WORDS */}
       <div
         className="
-          flex flex-col gap-12 z-10 relative
+          flex flex-col gap-4 z-10 relative
           px-4 sm:px-8 lg:px-[71px]
         "
       >
@@ -153,8 +177,9 @@ export const HeroSection = (): JSX.Element => {
             flex items-center justify-center
             font-varela font-bold text-black text-center
             tracking-[0] whitespace-nowrap
-            text-[96px] leading-[110px]
-            sm:text-[160px] sm:leading-[200px]
+            text-[56px] leading-[70px]
+            sm:text-[120px] sm:leading-[150px]
+            md:text-[160px] md:leading-[200px]
             lg:text-[355px] lg:leading-[450px]
           "
         >
@@ -167,7 +192,7 @@ export const HeroSection = (): JSX.Element => {
              sm:ml-6 lg:ml-[45px]
           "
         >
-          <AnimatedText className="flex items-center justify-center [font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[24px] lg:text-[32px]"
+          <AnimatedText className="flex items-center justify-center [font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
           isDarkBg={false}
           disableColorReveal
           slideDuration={0.8}
@@ -179,8 +204,8 @@ export const HeroSection = (): JSX.Element => {
           <div
             className="
               overflow-hidden
-              w-[140px] sm:w-[160px] lg:w-[180px]
-              h-[40px] sm:h-[48px]
+              w-[100px] sm:w-[140px] lg:w-[180px]
+              h-[28px] sm:h-[40px] lg:h-[48px]
             "
           >
             <div
@@ -191,9 +216,9 @@ export const HeroSection = (): JSX.Element => {
                 <div
                   key={index}
                   className="
-                    flex items-center justify-center h-[40px] sm:h-[48px]
-                    [font-family:'Poppins',Helvetica] font-normal
-                    text-[16px] sm:text-[24px] lg:text-[32px]
+                    flex items-center justify-center h-[28px] sm:h-[40px] lg:h-[48px]
+                    [font-family:'Poppins',Helvetica] font-semibold
+                    text-[14px] sm:text-[20px] lg:text-[32px]
                     text-[#2b2b2b]
                   "
                 >
@@ -219,17 +244,17 @@ export const HeroSection = (): JSX.Element => {
           {/* Image — absolutely positioned on desktop so it doesn't push text */}
           <div
             ref={imageWrapperRef}
-            className="relative lg:absolute lg:top-0 lg:left-0 flex-shrink-0"
+            className="relative lg:absolute lg:top-0 lg:left-[-34px] flex-shrink-0"
           >
             <img
               ref={imageRef}
               src="/hero_image.png"
               alt="Expanding Image"
               className="
-                object-cover shadow-xl z-[2] rounded-xl
+                object-cover shadow-xl z-[2]
                 w-full
                 h-[200px] sm:h-[240px]
-                lg:w-[300px] lg:h-[170px]
+                lg:w-[400px] lg:h-[228px]
                 will-change-transform
                 flex-shrink-0
               "
@@ -237,17 +262,15 @@ export const HeroSection = (): JSX.Element => {
           </div>
 
           {/* Text — stays in place, not affected by image growth */}
-          <div ref={textRef}>
+          <div ref={textRef} className="mt-4 lg:mt-0 lg:relative lg:top-[114px]" style={{ zIndex: 3 }}>
             <AnimatedText
               className="
                 [font-family:'Poppins',Helvetica]
                 font-normal text-black
-                text-[16px] sm:text-[20px] lg:text-[28px]
+                text-[16px] sm:text-[20px] lg:text-[32px]
                 leading-[1.4]
-                w-full lg:w-auto
-                lg:ml-[310px]
-                relative z-[3]
-                mt-4 lg:mt-0
+                lg:ml-[506px]
+                relative
               "
               isDarkBg={false}
               disableColorReveal

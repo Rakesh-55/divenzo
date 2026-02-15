@@ -96,17 +96,17 @@ export default function TermsAndUse() {
               px-4 sm:px-10 lg:pl-20
             "
           >
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[1]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1]">
               Terms
             </h2>
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[1]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1]">
               &amp; Use
             </h2>
           </div>
 
           {/* RIGHT: CONTENT */}
           <div className="w-full lg:w-[60%] overflow-visible lg:overflow-y-auto no-scrollbar">
-            <div className="px-4 sm:px-10 lg:px-[100px] py-12 lg:py-20">
+            <div className="px-4 sm:px-10 lg:px-[60px] xl:px-[100px] py-12 lg:py-20">
 
               <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[20px] lg:text-[24px] leading-[1.6] mb-6">
                 These Terms of Use (“Terms of Use”) have been drafted in accordance

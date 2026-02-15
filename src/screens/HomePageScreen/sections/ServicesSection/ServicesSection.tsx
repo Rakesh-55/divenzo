@@ -121,7 +121,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
       }}
       className={`
         relative w-full overflow-hidden
-        py-[80px] sm:py-[100px] lg:py-[120px]
+        py-[40px] sm:py-[50px] lg:py-[50px]
         px-4 sm:px-8 lg:px-20
         transition-colors duration-700
         ${isDark ? "dark-section" : ""}
@@ -154,9 +154,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
             ref={titleRef}
             className="
               [font-family:'Poppins',Helvetica] font-semibold text-inherit
-              text-[56px] sm:text-[80px] lg:text-[120px]
-              tracking-[0] leading-[1]
-              whitespace-nowrap
+              text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]
             "
           >
             Services
@@ -218,7 +216,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
                 className={`
                   service-item flex flex-col lg:flex-row
                   gap-6 lg:gap-12
-                  min-h-[300px]
+                  min-h-[200px] sm:min-h-[250px] lg:min-h-[300px]
                   py-8 sm:py-10 lg:py-12
                   transition-all duration-300
                   cursor-pointer

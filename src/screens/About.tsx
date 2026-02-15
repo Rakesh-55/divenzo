@@ -108,6 +108,8 @@ export default function About() {
   const teamSectionRef = useRef<HTMLDivElement | null>(null);
   const clientsSectionRef = useRef<HTMLDivElement | null>(null);
   const statsContainerRef = useRef<HTMLDivElement | null>(null);
+  const statsTextRef = useRef<HTMLDivElement | null>(null);
+  const teamDesignTextRef = useRef<HTMLDivElement | null>(null);
   
   const [teamBg, setTeamBg] = useState("white");
   const [clientsBg, setClientsBg] = useState("black");
@@ -176,6 +178,53 @@ export default function About() {
       clientsTrigger.kill();
     };
   }, []);
+
+  // TextUnveil effect for stats text
+  useEffect(() => {
+    if (statsTextRef.current) {
+      const topLayers = statsTextRef.current.querySelectorAll('.word-top-layer');
+      
+      gsap.fromTo(
+        topLayers,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          stagger: 0.08,
+          ease: "none",
+          scrollTrigger: {
+            trigger: statsTextRef.current,
+            start: "top 70%",
+            end: "top 20%",
+            scrub: true,
+          },
+        }
+      );
+    }
+  }, [statsBg]);
+
+  // TextUnveil effect for team design text
+  useEffect(() => {
+    if (teamDesignTextRef.current) {
+      const topLayers = teamDesignTextRef.current.querySelectorAll('.word-top-layer');
+      
+      gsap.fromTo(
+        topLayers,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          stagger: 0.08,
+          ease: "none",
+          scrollTrigger: {
+            trigger: teamDesignTextRef.current,
+            start: "top 70%",
+            end: "top 20%",
+            scrub: true,
+          },
+        }
+      );
+    }
+  }, [teamBg]);
+
   return (
     <>
       <section
@@ -188,11 +237,11 @@ export default function About() {
         <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-0">
 
           {/* ABOUT */}
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit transition-colors duration-700 ease-in-out text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit transition-colors duration-700 ease-in-out text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
             About Us
           </h2>
 
-          <div className="ml-0 lg:ml-[350px]">
+          <div className="ml-0 md:ml-[120px] lg:ml-[350px]">
             <AnimatedText
               className="[font-family:'Poppins',Helvetica] font-normal text-inherit transition-colors duration-700 ease-in-out text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
               isDarkBg={statsBg === "black"}
@@ -204,9 +253,13 @@ export default function About() {
             </AnimatedText>
           </div>
 
-          <img src={about_img} alt="about" className="w-full my-8 md:my-12" />
+          <img
+            src={about_img}
+            alt="about"
+            className="w-full mt-8 mb-[50px] md:mt-12"
+          />
 
-          <div className="ml-0 lg:ml-[350px] space-y-[16px] md:space-y-[56px]">
+          <div className="ml-0 md:ml-[120px] lg:ml-[350px] space-y-[16px] md:space-y-[56px]">
             <AnimatedText
               className="[font-family:'Poppins',Helvetica] font-normal text-inherit transition-colors duration-700 ease-in-out text-[18px] sm:text-[24px] lg:text-[32px]"
               isDarkBg={statsBg === "black"}
@@ -234,25 +287,37 @@ export default function About() {
             style={{ backgroundColor: statsBg === "black" ? "#000" : "#fff" }}
           >
             <h3
+              ref={statsTextRef}
               className="
               [font-family:'Poppins',Helvetica] font-normal transition-colors duration-700 ease-in-out
-              text-[36px] sm:text-[56px] lg:text-[80px]
-              leading-[44px] sm:leading-[70px] lg:leading-[90px]
+              text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
+              leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
               mb-[40px] lg:mb-[72px]
             "
             style={{ color: statsBg === "black" ? "#fff" : "#000" }}
             >
-              <AnimatedText
-                as="span"
-                className="block"
-                isDarkBg={false}
-                colorStart="top 45%"
-                colorEnd="top 15%"
-                slideDuration={0.8}
-                slideStagger={0.08}
-              >
-                Our work speaks through numbers. Here&apos;s what we&apos;ve achieved so far.
-              </AnimatedText>
+              {("Our work speaks through numbers. Here's what we've achieved so far.").split(' ').map((word, index) => (
+                <span key={index} className="relative inline-block mr-[0.3em]">
+                  <span 
+                    className="word-base-layer"
+                    style={{ 
+                      opacity: 0.3,
+                      color: statsBg === "black" ? '#999999' : '#666666'
+                    }}
+                  >
+                    {word}
+                  </span>
+                  <span 
+                    className="word-top-layer absolute inset-0"
+                    style={{ 
+                      opacity: 0,
+                      color: statsBg === "black" ? '#ffffff' : '#000000'
+                    }}
+                  >
+                    {word}
+                  </span>
+                </span>
+              ))}
             </h3>
 
 
@@ -265,7 +330,7 @@ export default function About() {
                   key={index}
                   className="
                     stat-card border-0 shadow-none rounded-none transition-all duration-700 ease-in-out flex-none
-                    h-[372px] w-[300px]
+                    h-auto min-h-[320px] sm:min-h-[372px] w-[calc(50%-12px)] sm:w-[300px]
                   "
                   style={{ 
                     backgroundColor: statsBg === "black" ? "#111" : "#fafafa",
@@ -340,22 +405,32 @@ export default function About() {
 
             {/* Heading – unchanged */}
             <h3 
-              className="[font-family:'Poppins',Helvetica] font-normal text-[36px] sm:text-[56px] lg:text-[80px] tracking-[0] leading-[50px] lg:leading-[90px] mb-[72px] transition-colors duration-700 ease-in-out"
+              ref={teamDesignTextRef}
+              className="[font-family:'Poppins',Helvetica] font-normal text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px] tracking-[0] leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px] mb-[40px] sm:mb-[72px] transition-colors duration-700 ease-in-out"
               style={{ color: teamBg === "black" ? "#fff" : "#000" }}
             >
-              <AnimatedText
-                as="span"
-                className="block"
-                isDarkBg={teamBg === "black"}
-                startColor={teamBg === "black" ? "#f3f3f366" : "#00000066"}
-                endColor={teamBg === "black" ? "#ffffff" : "#000000"}
-                colorStart="top 45%"
-                colorEnd="top 15%"
-                slideDuration={0.01}
-                slideStagger={0}
-              >
-                Design is more than visuals. It’s the trust you earn, the emotion you spark, and the impact that lasts.
-              </AnimatedText>
+              {("Design is more than visuals. It's the trust you earn, the emotion you spark, and the impact that lasts.").split(' ').map((word, index) => (
+                <span key={index} className="relative inline-block mr-[0.3em]">
+                  <span 
+                    className="word-base-layer"
+                    style={{ 
+                      opacity: 0.3,
+                      color: teamBg === "black" ? '#999999' : '#666666'
+                    }}
+                  >
+                    {word}
+                  </span>
+                  <span 
+                    className="word-top-layer absolute inset-0"
+                    style={{ 
+                      opacity: 0,
+                      color: teamBg === "black" ? '#ffffff' : '#000000'
+                    }}
+                  >
+                    {word}
+                  </span>
+                </span>
+              ))}
             </h3>
 
             {/* ===== MOBILE + TABLET (Grid preferred, Flex fallback handled by grid) ===== */}
@@ -409,7 +484,7 @@ export default function About() {
             </div>
 
             {/* Bottom paragraph – unchanged */}
-            <div className="ml-0 lg:ml-[350px] pt-20">
+            <div className="ml-0 md:ml-[120px] lg:ml-[350px] pt-20">
               <p 
                 className="[font-family:'Poppins',Helvetica] font-normal text-[18px] sm:text-[24px] lg:text-[32px] tracking-[0] leading-[normal] transition-colors duration-700 ease-in-out"
                 style={{ color: teamBg === "black" ? "#fff" : "#000" }}
@@ -442,7 +517,7 @@ export default function About() {
           <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
 
             {/* ABOUT */}
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
               <AnimatedText
                 as="span"
                 className="block"
@@ -455,7 +530,7 @@ export default function About() {
               </AnimatedText>
             </h2>
 
-            <div className="ml-0 lg:ml-[350px]">
+            <div className="ml-0 md:ml-[120px] lg:ml-[350px]">
               <AnimatedText
                 className="[font-family:'Poppins',Helvetica] font-normal text-inherit text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
                 isDarkBg={clientsBg === "black"}

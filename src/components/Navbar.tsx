@@ -5,7 +5,6 @@ import logoBlack from "../assets/divenzo-logo-black.png";
 import aboutNavImg from "../assets/nav_images/about_nav_img.png";
 import projectsNavImg from "../assets/nav_images/projects_nav_img.png";
 import servicesNavImg from "../assets/nav_images/services_nav_img.png";
-import contactNavImg from "../assets/nav_images/contact_nav_img.png";
 import { useHeaderTheme } from "../hooks/useHeaderTheme";
 import { gsap } from "gsap";
 
@@ -13,7 +12,6 @@ const navLinks = [
   { label: "About", page: "/about" },
   { label: "Projects", page: "/projects" },
   { label: "Services", page: "/services" },
-  { label: "Contact", page: "/discuss" },
 ];
 
 export const Navbar = (): JSX.Element => {
@@ -35,7 +33,6 @@ export const Navbar = (): JSX.Element => {
     About: aboutNavImg,
     Projects: projectsNavImg,
     Services: servicesNavImg,
-    Contact: contactNavImg,
   };
 
   const handleMenuLinkEnter = (label: string) => {
@@ -47,7 +44,12 @@ export const Navbar = (): JSX.Element => {
     const nextImage = menuImageMap[label];
     if (nextImage) {
       setMenuImage(nextImage);
-      setMenuImageVisible(true);
+      // Small delay to ensure DOM is ready before triggering animation
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setMenuImageVisible(true);
+        });
+      });
     }
   };
 
@@ -61,7 +63,7 @@ export const Navbar = (): JSX.Element => {
     imageClearTimeoutRef.current = window.setTimeout(() => {
       setMenuImage(null);
       imageClearTimeoutRef.current = null;
-    }, 150);
+    }, 50);
   };
 
   const handleMenuLinksMouseMove = (event: React.MouseEvent<HTMLElement>) => {
@@ -537,25 +539,29 @@ export const Navbar = (): JSX.Element => {
               </nav>
             </div>
 
-            <div className="absolute bottom-4 sm:bottom-6 md:bottom-10 lg:bottom-20 right-4 sm:right-6 md:right-12 lg:right-20 inline-grid justify-items-end gap-4 sm:gap-6">
-              <div className="relative hidden sm:block w-full aspect-[16/10] overflow-hidden">
+            {/* Menu hover image */}
+            <div className="absolute top-32 sm:top-36 md:top-40 lg:top-44 right-4 sm:right-6 md:right-12 lg:right-20">
+              <div className="relative hidden sm:block aspect-[16/10] overflow-hidden" style={{ width: 'min(587px, 40vw)' }}>
                 {menuImage && (
                   <img
                     src={menuImage}
                     alt=""
                     className="absolute inset-0 h-full w-full object-cover"
                     style={{
-                      opacity: menuImageVisible ? 1 : 0,
                       clipPath: menuImageVisible
                         ? "inset(0 0 0 0)"
                         : "inset(0 100% 0 0)",
-                      transition:
-                        "clip-path 3s ease-out, opacity 3s ease-out",
+                      transition: menuImageVisible 
+                        ? "clip-path 1s cubic-bezier(0.45, 0, 0.55, 1)"
+                        : "clip-path 0s",
                     }}
                   />
                 )}
               </div>
+            </div>
 
+            {/* Social links */}
+            <div className="absolute bottom-4 sm:bottom-6 md:bottom-10 lg:bottom-20 right-4 sm:right-6 md:right-12 lg:right-20">
               <div className="flex gap-2 sm:gap-3 md:gap-6 lg:gap-10 text-xs sm:text-sm md:text-base lg:text-lg">
                 {["Instagram", "LinkedIn", "Twitter", "Facebook"].map((item) => (
                   <a
