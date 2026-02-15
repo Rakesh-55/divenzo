@@ -111,7 +111,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
     Autoplay({ delay: 4000, stopOnInteraction: false })
   );
 
-  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const brandsTextRef = useRef<HTMLDivElement | null>(null);
   const testimonialDescRef = useRef<HTMLParagraphElement>(null);
   const faqDescRef = useRef<HTMLParagraphElement>(null);
   const carouselCursorRef = useRef<HTMLDivElement | null>(null);
@@ -125,33 +125,31 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
   );
 
   useEffect(() => {
-    if (!headingRef.current) return;
+    // Brands text Dzinr word reveal
+    if (brandsTextRef.current) {
+      const topLayers = brandsTextRef.current.querySelectorAll('.word-top-layer');
+      
+      const scrollTrigger = gsap.fromTo(
+        topLayers,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          stagger: 0.08,
+          ease: "none",
+          scrollTrigger: {
+            trigger: brandsTextRef.current,
+            start: "top 70%",
+            end: "top 20%",
+            scrub: true,
+          },
+        }
+      );
 
-    const el = headingRef.current;
-    const fullText =
-      "Years of collaboration, countless ideas shared, and amazing brands by our side.";
-    const primaryColor = isDark ? "#ffffff" : "#2b2b2b";
-    const mutedColor = isDark ? "#ffffff59" : "#2b2b2b4c";
-
-    const words = fullText.split(" ").map((word, i) =>
-      i === 0
-        ? `<span class='word inline-block' style='color:${primaryColor}'>${word}</span>`
-        : `<span class='word inline-block' style='color:${mutedColor}'><span class='inner block translate-y-full opacity-0'>${word}</span></span>`
-    );
-
-    el.innerHTML = words.join(" ");
-
-    gsap.to(el.querySelectorAll(".inner"), {
-      y: 0,
-      opacity: 1,
-      duration: 1.2,
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-      },
-    });
-  }, [isDark]);
+      return () => {
+        scrollTrigger.scrollTrigger?.kill();
+      };
+    }
+  }, []);
 
   useEffect(() => {
     if (!carouselCursorRef.current) return;
@@ -197,36 +195,50 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
       }}
       data-section="testimonials"
     >
-      <div className="w-full py-[100px] sm:py-[140px] lg:py-[160px]">
+      <div className="w-full pt-[40px] sm:pt-[50px] lg:pt-[50px] pb-[40px] sm:pb-[50px] lg:pb-[50px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-10 md:gap-20">
 
           {/* ===== BRANDS (MARQUEE) ===== */}
           <div className="flex flex-col gap-6 md:gap-12">
-            <AnimatedText
+            <div 
+              ref={brandsTextRef}
               className="
                 [font-family:'Poppins',Helvetica] font-normal
-                text-[36px] sm:text-[56px] lg:text-[80px]
-                leading-[44px] sm:leading-[70px] lg:leading-[90px]
+                text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
+                leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
               "
-              isDarkBg={isDark}
-              disableColorReveal={false}
-              startColor={isDark ? "#ffffff33" : "#00000033"}
-              endColor={isDark ? "#ffffff" : "#000000"}
-              colorStart="top 45%"
-              colorEnd="top 15%"
-              slideDuration={0.8}
-              slideStagger={0.08}
             >
-              Years of collaboration, countless ideas shared, and amazing brands by our side.
-            </AnimatedText>
+              {("Years of collaboration, countless ideas shared, and amazing brands by our side.").split(' ').map((word, index) => (
+                <span key={index} className="relative inline-block mr-[0.3em]">
+                  <span 
+                    className="word-base-layer"
+                    style={{ 
+                      opacity: 0.3,
+                      color: isDark ? '#999999' : '#666666'
+                    }}
+                  >
+                    {word}
+                  </span>
+                  <span 
+                    className="word-top-layer absolute inset-0"
+                    style={{ 
+                      opacity: 0,
+                      color: isDark ? '#ffffff' : '#000000'
+                    }}
+                  >
+                    {word}
+                  </span>
+                </span>
+              ))}
+            </div>
             <BrandMarquee />
           </div>
           
 
           {/* ===== TESTIMONIALS ===== */}
           <div className="flex flex-col gap-6 md:gap-12">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[46px] sm:text-[80px] lg:text-[120px]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]">
               Testimonials
             </h2>
              <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
@@ -277,7 +289,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
           </div>
 
             <div
-              className="relative"
+              className="relative mt-6 md:mt-12"
               onMouseEnter={(event) => {
                 document.body.dataset.cursorHidden = "true";
                 if (carouselCursorRef.current) {
@@ -339,13 +351,13 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                       <Card
                         className={`
                           group relative border-0 shadow-none rounded-none overflow-hidden transition-colors duration-700
-                          h-[419px] w-[465px]
+                          h-auto min-h-[360px] sm:min-h-[419px] w-full max-w-[465px]
                           ${isDark ? "bg-[#111111]" : "bg-[#fafafa]"}
                         `}
                       >
                         <CardContent className="relfvative z-10 h-full p-8 flex flex-col gap-6 justify-start">
                           <AnimatedText
-                            className="[font-family:'Poppins',Helvetica] text-inherit opacity-90 text-[14px] sm:text-[16px] lg:text-[17px] w-full min-h-[168px]"
+                            className="[font-family:'Poppins',Helvetica] text-inherit opacity-90 text-[14px] sm:text-[16px] lg:text-[17px] w-full min-h-[120px] sm:min-h-[168px]"
                             isDarkBg={isDark}
                             disableColorReveal
                             slideDuration={0.8}
@@ -391,7 +403,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
               </Carousel>
               <div
                 ref={carouselCursorRef}
-                className="pointer-events-none absolute z-20 flex h-14 w-14 items-center justify-center rounded-full"
+                className="pointer-events-none absolute z-20 flex h-20 w-20 items-center justify-center rounded-full"
                 style={{
                   left: 0,
                   top: 0,
@@ -399,23 +411,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                   color: isDark ? "#000000" : "#ffffff",
                 }}
               >
-                {carouselCursorDir === "left" ? (
-                  <svg
-                    className="h-4 w-4"
-                    viewBox="0 0 16 16"
-                    aria-hidden="true"
-                  >
-                    <polygon fill="currentColor" points="10,3 4,8 10,13" />
-                  </svg>
-                ) : (
-                  <svg
-                    className="h-4 w-4"
-                    viewBox="0 0 16 16"
-                    aria-hidden="true"
-                  >
-                    <polygon fill="currentColor" points="6,3 12,8 6,13" />
-                  </svg>
-                )}
+                <span className="font-medium text-sm">Drag</span>
               </div>
             </div>
           </div>
@@ -423,17 +419,17 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
           {/* ===== FAQ ===== */}
           <div className="flex flex-col gap-4 md:gap-12 mt-4 md:mt-10">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]">
               FAQ
             </h2>
                <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
             <AnimatedText
               className="
-                [font-family:'Poppins',Helvetica] font-normal text-black
+                [font-family:'Poppins',Helvetica] font-normal text-inherit
                 text-[18px] sm:text-[24px] lg:text-[32px]
                 tracking-[0] leading-normal
               "
-              isDarkBg={false}
+              isDarkBg={isDark}
               disableColorReveal
               slideDuration={0.8}
               slideStagger={0.08}
@@ -460,7 +456,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                     {item.answer.map((p, i) => (
                       <p
                         key={i}
-                        className="[font-family:'Poppins',Helvetica] text-gray-700 text-[16px] sm:text-[17px] lg:text-[18px] leading-relaxed mb-3 "
+                        className={`[font-family:'Poppins',Helvetica] text-[16px] sm:text-[17px] lg:text-[18px] leading-relaxed mb-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}
                       >
                         {p}
                       </p>

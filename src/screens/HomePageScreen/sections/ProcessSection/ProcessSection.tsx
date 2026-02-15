@@ -84,7 +84,7 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
       }}
       className={`
         w-full
-        py-[80px] sm:py-[120px] lg:py-[150px]
+        py-[50px] sm:py-[50px] lg:py-[150px] lg:pt-[50px]
         px-4 sm:px-8 lg:px-20
         transition-colors duration-500
         ${isDark ? "dark-section" : ""}
@@ -95,7 +95,7 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
         <h2
           className="
             [font-family:'Poppins',Helvetica] font-semibold text-inherit
-            text-[56px] sm:text-[80px] lg:text-[120px]
+            text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]
             tracking-[0] leading-normal
             mb-[16px] sm:mb-[20px] lg:mb-[26px]
           "
@@ -124,7 +124,7 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
         {/* ================= STEPS GRID ================= */}
         <div
           className="
-            grid gap-y-[48px]
+            grid
             grid-cols-1
             sm:grid-cols-2
             lg:grid-cols-2

@@ -2,14 +2,14 @@
 import React from "react";
 
 const brandLogos: string[] = [
-  "/client/Haritha_Hospital.png",
-  // "/client/Celeb_fiesta.png",
-  "/client/ibha_1.png",
-  "/client/Prasad_Pathlabs.png",
-  "/client/Adhya_Productions.png",
-  "/client/Bhaskara_Hospital.png",
-  "/client/NPR_Films.png",
-  "/client/Sew_Design_Studio.png",
+  "/client/brand_images/Haritha_Hospital.png",
+  // "/client/brand_images/Celeb_fiesta.png",
+  "/client/brand_images/ibha_1.png",
+  "/client/brand_images/Prasad_Pathlabs.png",
+  "/client/brand_images/Adhya_Productions.png",
+  "/client/brand_images/Bhaskara_Hospital.png",
+  "/client/brand_images/NPR_Films.png",
+  "/client/brand_images/Sew_Design_Studio.png",
 ];
 
 export function BrandMarquee(): JSX.Element {
@@ -20,7 +20,7 @@ export function BrandMarquee(): JSX.Element {
       <div className="pointer-events-none absolute right-0 top-0 h-full w-28 bg-gradient-to-l from-white to-transparent z-10" />
 
       {/* Track */}
-      <div className="marquee-track flex w-max items-center gap-10 sm:gap-20">
+      <div className="marquee-track flex w-max items-center gap-5 sm:gap-10">
         {[...brandLogos, ...brandLogos].map((src, index) => (
           <div
             key={index}

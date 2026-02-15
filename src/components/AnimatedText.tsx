@@ -31,7 +31,7 @@ interface AnimatedTextProps {
 export const AnimatedText: React.FC<AnimatedTextProps> = ({
   children,
   as = "div",
-  overflowHidden = true,
+  overflowHidden = false,
   // Background detection
   isDarkBg,
   disableColorReveal = false,
@@ -158,7 +158,8 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
       lines.forEach((line, index) => {
         const lineWrapper = document.createElement("span");
         lineWrapper.style.display = "block";
-        lineWrapper.style.overflow = overflowHidden ? "hidden" : "visible";
+        lineWrapper.style.overflow = "visible";
+        lineWrapper.style.lineHeight = "inherit";
 
         const lineInner = document.createElement("span");
         lineInner.style.display = "inline-block";

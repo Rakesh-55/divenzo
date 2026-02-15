@@ -120,10 +120,10 @@ export default function PrivacyPolicy() {
               px-4 sm:px-8 lg:pl-20
             "
           >
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[1]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1]">
               Privacy
             </h2>
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[1]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1]">
               Policy
             </h2>
           </div>
@@ -136,7 +136,7 @@ export default function PrivacyPolicy() {
               no-scrollbar
             "
           >
-            <div className="px-4 sm:px-8 lg:px-[100px] py-6 lg:py-20">
+            <div className="px-4 sm:px-8 lg:px-[60px] xl:px-[100px] py-6 lg:py-20">
 
               {/* Intro */}
               <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[18px] lg:text-[24px] leading-[1.6] mb-6">
