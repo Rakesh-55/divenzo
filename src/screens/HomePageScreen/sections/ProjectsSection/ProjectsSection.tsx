@@ -166,7 +166,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
           ref={titleRef}
           className="
             [font-family:'Poppins',Helvetica] font-semibold 
-            text-[56px] sm:text-[80px] lg:text-[120px]
+            text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]
             tracking-[0] leading-normal
           "
         >
@@ -195,35 +195,14 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         {projectsData.map((project) => (
           <div
             key={project.id}
-            className="flex flex-col gap-1"
+            className="flex flex-col gap-1  overflow-hidden"
           >
             <div className="relative w-full h-[240px] sm:h-[280px]">
               <img
                 src={project.image}
                 alt={project.imageAlt}
                 className="w-full h-full object-cover rounded-none"
-              />
-              {/* Blurred Header Overlay - matches project colors */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundImage:
-                    project.id === 1
-                      ? "linear-gradient(to bottom, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0) 35%)"
-                      : project.id === 2
-                      ? "linear-gradient(to bottom, rgba(236, 72, 153, 0.8) 0%, rgba(236, 72, 153, 0) 35%)"
-                      : project.id === 3
-                      ? "linear-gradient(to bottom, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0) 35%)"
-                      : "linear-gradient(to bottom, rgba(249, 115, 22, 0.8) 0%, rgba(249, 115, 22, 0) 35%)",
-                  filter: "blur(20px)",
-                  zIndex: 50,
-                  pointerEvents: "none",
-                }}
-              />
+              /> 
               {project.id === 4 && (
                 <div className="absolute inset-0">
                   <div className="absolute inset-0 bg-black/35" />
@@ -258,8 +237,13 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                   </div>
                 </div>
               )}
-              {/* Blurred Header Element - Unique per project */}
-
+              {project.headerImage && (
+                <img
+                  src={project.headerImage}
+                  alt=""
+                  className="absolute top-0 left-0 right-0 z-10 w-full h-auto object-contain pointer-events-none"
+                />
+              )}
             </div>
 
             <div className="flex flex-col gap-2">
