@@ -14,6 +14,7 @@ const categories = [
   "Beauty & Care",
   "Manufacturing & Industrial",
   "Entertainment",
+  "Sports"
 ];
 
 export const CategoryFilter = (): JSX.Element => {

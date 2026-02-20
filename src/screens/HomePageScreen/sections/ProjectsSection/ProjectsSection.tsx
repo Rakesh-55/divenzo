@@ -1,6 +1,6 @@
 
 "use client";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, type JSX } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -71,7 +71,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         scrollTrigger: {
           trigger: headerRef.current,
           start: "top 85%",
-          once: true,
+          once: false,
         },
       });
 
@@ -152,11 +152,13 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         relative w-full overflow-hidden
         pt-[40px] sm:pt-[50px] lg:pt-[150px]
         pb-[50px] sm:pb-[50px] lg:pb-[50px]
-        px-4 sm:px-8 lg:px-20
+        px-4 sm:px-8 lg:px-8 xl:px-20
         transition-colors duration-700
         ${isDark ? "dark-section" : ""}
       `}
     >
+      {/* ================= HEADER & MOBILE CONTENT CONTAINER ================= */}
+      <div className="max-w-[1260px] mx-auto">
       {/* ================= HEADER ================= */}
       <header
         ref={headerRef}
@@ -166,16 +168,25 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
           ref={titleRef}
           className="
             [font-family:'Poppins',Helvetica] font-semibold 
-            text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]
+            text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
             tracking-[0] leading-normal
           "
         >
-          Projects
+          <AnimatedText
+            as="span"
+            className="block"
+            isDarkBg={isDark}
+            disableColorReveal
+            slideDuration={0.8}
+            slideStagger={0.08}
+          >
+            Projects
+          </AnimatedText>
         </h2>
 
         <AnimatedText
           className="
-            max-w-full lg:max-w-[930px]
+            max-w-full
             ml-0 lg:ml-auto
             [font-family:'Poppins',Helvetica] font-normal 
             text-[18px] sm:text-[24px] lg:text-[32px]
@@ -237,18 +248,21 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                   </div>
                 </div>
               )}
-              {project.headerImage && (
-                <img
-                  src={project.headerImage}
-                  alt=""
-                  className="absolute top-0 left-0 right-0 z-10 w-full h-auto object-contain pointer-events-none"
-                />
-              )}
+              
             </div>
 
             <div className="flex flex-col gap-2">
               <h3 className="[font-family:'Poppins',Helvetica] font-semibold  text-[20px]">
-                {project.title}
+                <AnimatedText
+                  as="span"
+                  className="inline-block"
+                  isDarkBg={isDark}
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
+                  {project.title}
+                </AnimatedText>
               </h3>
               <p className="[font-family:'Poppins',Helvetica] font-normal opacity-80 text-[16px]">
                 {project.desc}
@@ -257,12 +271,13 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
           </div>
         ))}
       </div>
+      </div>
 
       {/* ================= STACKED CARDS ================= */}
       <div
         ref={cardsWrapperRef}
         className="
-          relative w-full
+          relative w-full max-w-[1260px] mx-auto
           h-screen
           hidden lg:flex items-start justify-center
           overflow-hidden
@@ -271,7 +286,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       >
         <div
           className="
-            relative w-full sm:w-[90%]
+            relative w-full
             h-[460px] sm:h-[560px] lg:h-[85vh]
             overflow-hidden
           "
@@ -300,7 +315,16 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                   <div className="absolute inset-0 bg-black/30" />
                   <div className="relative z-20 h-full w-full flex flex-col justify-between px-20 py-20">
                     <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-[62px] sm:text-[78px] lg:text-[105px] leading-tight">
-                      Explore Projects
+                      <AnimatedText
+                        as="span"
+                        className="inline-block"
+                        isDarkBg
+                        disableColorReveal
+                        slideDuration={0.8}
+                        slideStagger={0.08}
+                      >
+                        Explore Projects
+                      </AnimatedText>
                     </h3>
                     <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 text-[18px] sm:text-[24px] lg:text-[32px] max-w-[860px]">
                       These aren’t just projects they’re stories. Stories of our clients, our craft, and the impact we’ve created together.
@@ -329,13 +353,13 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                   </div>
                 </div>
               )}
-              {project.headerImage && (
+              {/* {project.headerImage && (
                 <img
                   src={project.headerImage}
                   alt=""
                   className="absolute top-0 left-0 right-0 z-10 w-full h-auto object-contain pointer-events-none"
                 />
-              )}
+              )} */}
             </div>
           ))}
         </div>

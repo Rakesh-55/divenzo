@@ -80,7 +80,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
         scrollTrigger: {
           trigger: headerRef.current,
           start: "top 85%",
-          once: true,
+          once: false,
         },
       });
 
@@ -122,7 +122,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
       className={`
         relative w-full overflow-hidden
         py-[40px] sm:py-[50px] lg:py-[50px]
-        px-4 sm:px-8 lg:px-20
+        px-4 sm:px-8 lg:px-8 xl:px-20
         transition-colors duration-700
         ${isDark ? "dark-section" : ""}
       `}
@@ -154,10 +154,19 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
             ref={titleRef}
             className="
               [font-family:'Poppins',Helvetica] font-semibold text-inherit
-              text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]
+              text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
             "
           >
-            Services
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Services
+            </AnimatedText>
           </h2>
 
           <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">

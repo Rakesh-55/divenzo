@@ -168,7 +168,7 @@ export const HeroSection = (): JSX.Element => {
       <div
         className="
           flex flex-col gap-4 z-10 relative
-          px-4 sm:px-8 lg:px-[71px]
+          px-4 sm:px-8 lg:px-12 xl:px-[71px]
         "
       >
         <h1
@@ -180,7 +180,8 @@ export const HeroSection = (): JSX.Element => {
             text-[56px] leading-[70px]
             sm:text-[120px] sm:leading-[150px]
             md:text-[160px] md:leading-[200px]
-            lg:text-[355px] lg:leading-[450px]
+            lg:text-[140px] lg:leading-[180px]
+            xl:text-[355px] xl:leading-[450px]
           "
         >
           Divenzo

@@ -238,8 +238,17 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
           {/* ===== TESTIMONIALS ===== */}
           <div className="flex flex-col gap-6 md:gap-12">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]">
-              Testimonials
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]">
+              <AnimatedText
+                as="span"
+                className="block"
+                isDarkBg={isDark}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
+                Testimonials
+              </AnimatedText>
             </h2>
              <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
             <AnimatedText
@@ -419,8 +428,17 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
           {/* ===== FAQ ===== */}
           <div className="flex flex-col gap-4 md:gap-12 mt-4 md:mt-10">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]">
-              FAQ
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]">
+              <AnimatedText
+                as="span"
+                className="block"
+                isDarkBg={isDark}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
+                FAQ
+              </AnimatedText>
             </h2>
                <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
             <AnimatedText
@@ -445,7 +463,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className="border-b border-[#cccccc]"
+                  className={index === faqItems.length - 1 ? "border-0" : "border-b border-[#cccccc]"}
                 >
                   <AccordionTrigger className="py-6">
                     <span className="block [font-family:'Poppins',Helvetica] font-normal text-[14px] sm:text-[22px] lg:text-[28px] leading-[1.4]">

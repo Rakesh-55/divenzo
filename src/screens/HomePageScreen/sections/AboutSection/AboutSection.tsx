@@ -150,7 +150,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
       className={`
         relative w-full
         py-[40px] sm:py-[50px] lg:py-[150px] lg:pb-[50px]
-        px-4 sm:px-8 lg:px-20
+        px-4 sm:px-8 lg:px-8 xl:px-20
         transition-colors duration-700
         ${isDark ? "dark-section" : ""}
       `}
@@ -163,13 +163,22 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
               [font-family:'Poppins',Helvetica] font-semibold
               text-[40px] leading-[48px]
               sm:text-[56px] sm:leading-[60px]
-              md:text-[80px] md:leading-[70px]
-              lg:text-[120px] lg:leading-[85px]
+              md:text-[100px] md:leading-[70px]
+              lg:text-[100px] lg:leading-[85px]
               mb-[32px] lg:mb-[56px]
               lg:mt-[50px]
             "
           >
-            About Us
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              About Us
+            </AnimatedText>
           </h2>
 
           <div
@@ -177,7 +186,8 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
               ml-0
               sm:ml-[80px]
               md:ml-[120px]
-              lg:ml-[350px]
+              lg:ml-[200px]
+              xl:ml-[350px]
             "
           >
             <AnimatedText
@@ -267,48 +277,39 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
 
             <div
               ref={cardsRef}
-              className="flex flex-wrap gap-6 justify-center"
+              className="flex flex-wrap gap-4 lg:gap-5 justify-center w-full"
             >
               {statsData.map((stat, index) => (
                 <Card
                   key={index}
                   className="
                     stat-card border-0 shadow-none rounded-none transition-all duration-700 ease-in-out flex-none
-                    h-auto min-h-[320px] sm:min-h-[372px] w-[calc(50%-12px)] sm:w-[300px]
+                    w-[285px] h-[372px]
                   "
                   style={{
                     backgroundColor: isDark ? "#111111" : "#fafafa",
                     color: isDark ? "#ffffff" : "#000000"
                   }}
                 >
-                  <CardContent className="h-full p-8 sm:p-10 flex flex-col gap-4 justify-center text-inherit">
+                  <CardContent className="h-full p-8 flex flex-col gap-4 justify-center text-inherit">
                     <div
                       className="
-                        min-h-[64px] sm:min-h-[72px] lg:min-h-[80px]
+                        min-h-[80px]
                         flex items-end
                         [font-family:'Poppins',Helvetica] font-semibold
-                        text-5xl sm:text-6xl lg:text-7xl
-                        leading-[48px] lg:leading-[56px]
+                        text-7xl
+                        leading-[56px]
                       "
                     >
-                      <AnimatedText
-                          as="span"
-                          className="inline-block"
-                          isDarkBg={isDark}
-                          disableColorReveal
-                          slideDuration={0.6}
-                          slideStagger={0.04}
-                        >
-                        {stat.number}
-                      </AnimatedText>
+                      {stat.number}
                     </div>
 
-                    <div className="flex flex-col gap-[10px] min-h-[120px] sm:min-h-[140px]">
+                    <div className="flex flex-col gap-[10px] min-h-[140px]">
                       <h4
                         className="
                           [font-family:'Poppins',Helvetica] font-bold
-                          text-[18px] sm:text-[20px] lg:text-[22px]
-                          leading-[28px] lg:leading-[33px]
+                          text-[22px]
+                          leading-[33px]
                         "
                       >
                         <AnimatedText
@@ -325,8 +326,8 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
                       <p
                         className="
                           [font-family:'Poppins',Helvetica] font-normal opacity-80
-                          text-base sm:text-lg
-                          leading-[24px] lg:leading-[27px]
+                          text-base
+                          leading-[27px]
                         "
                       >
                         <AnimatedText

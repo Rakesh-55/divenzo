@@ -56,7 +56,7 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
           scrollTrigger: {
             trigger: descRef.current,
             start: "top 85%",
-            once: true,
+            once: false,
           },
         });
   
@@ -85,7 +85,7 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
       className={`
         w-full
         py-[50px] sm:py-[50px] lg:py-[150px] lg:pt-[50px]
-        px-4 sm:px-8 lg:px-20
+        px-4 sm:px-8 lg:px-8 xl:px-20
         transition-colors duration-500
         ${isDark ? "dark-section" : ""}
       `}
@@ -95,12 +95,21 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
         <h2
           className="
             [font-family:'Poppins',Helvetica] font-semibold text-inherit
-            text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px]
+            text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
             tracking-[0] leading-normal
             mb-[16px] sm:mb-[20px] lg:mb-[26px]
           "
         >
-          Process
+          <AnimatedText
+            as="span"
+            className="block"
+            isDarkBg={isDark}
+            disableColorReveal
+            slideDuration={0.8}
+            slideStagger={0.08}
+          >
+            Process
+          </AnimatedText>
         </h2>
 
         <AnimatedText

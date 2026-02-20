@@ -10,10 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 const socialLinks = [
-  { name: "Instagram" },
-  { name: "LinkedIn" },
-  { name: "Twitter" },
-  { name: "Facebook" },
+  { name: "Instagram", url: "https://www.instagram.com/divenzo.design" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/company/divenzo-design-digital-marketing-agency/" },
+  { name: "Twitter", url: "#" },
+  { name: "Facebook", url: "#" },
 ];
 
 const navigationLinks = [
@@ -117,7 +117,7 @@ export const FooterSection = (): JSX.Element => {
         sticky bottom-0 w-full bg-black dark-section
         pt-[80px] sm:pt-[120px] lg:pt-[150px]
         pb-[25px] sm:pb-[30px] lg:pb-[35px]
-        px-4 sm:px-8 lg:px-20
+        px-4 sm:px-8 lg:px-12 xl:px-20
         overflow-hidden
       "
     >
@@ -130,10 +130,13 @@ export const FooterSection = (): JSX.Element => {
           "
         >
           {socialLinks.map((link, index) => (
-            <Button
+            <a
               key={index}
-              variant="link"
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="
+                inline-flex items-center justify-center
                 h-auto p-0 footer-no-underline overflow-hidden group
                 hover:bg-transparent focus:bg-transparent active:bg-transparent
                 [font-family:'Poppins',Helvetica] font-semibold text-white
@@ -148,7 +151,7 @@ export const FooterSection = (): JSX.Element => {
                   {link.name}
                 </span>
               </span>
-            </Button>
+            </a>
           ))}
         </nav>
 
@@ -158,8 +161,9 @@ export const FooterSection = (): JSX.Element => {
           {/* ===== Main Footer Content ===== */}
           <div
             className="
-              flex flex-col lg:flex-row
-              gap-6 lg:gap-10 xl:gap-[80px]
+              flex flex-col lg:grid lg:grid-cols-[1fr_auto_1fr]
+              lg:items-start
+              gap-6 lg:gap-6 xl:gap-[80px]
             "
           >
             {/* ---- Lets Chat ---- */}
@@ -183,7 +187,7 @@ export const FooterSection = (): JSX.Element => {
                 <p
                   className="
                     [font-family:'Poppins',Helvetica] font-normal text-white
-                    text-[16px] sm:text-[20px] lg:text-[28px]
+                    text-[24px]
                   "
                 >
                   Unleashing brand potential through
@@ -199,7 +203,7 @@ export const FooterSection = (): JSX.Element => {
                     relative h-auto w-fit px-0 py-2.5
                     rounded-none group no-underline hover:no-underline
                     [font-family:'Poppins',Helvetica] font-normal text-white
-                    text-[16px] sm:text-[18px] lg:text-2xl
+                    text-[22px]
                   "
                 >
                   Discuss with us
@@ -227,6 +231,8 @@ export const FooterSection = (): JSX.Element => {
               className="
                 flex flex-col gap-4 sm:gap-6
                 w-full lg:w-auto lg:shrink-0
+                items-start lg:items-start
+                lg:justify-self-center
               "
             >
               {navigationLinks.map((link, index) => (
@@ -258,6 +264,7 @@ export const FooterSection = (): JSX.Element => {
               className="
                 flex flex-col gap-4 sm:gap-6
                 w-full lg:flex-1 lg:max-w-[354px]
+                lg:justify-self-end
                 not-italic
               "
             >
@@ -273,7 +280,7 @@ export const FooterSection = (): JSX.Element => {
                   }
                   className="
                     [font-family:'Poppins',Helvetica] font-normal text-white
-                    text-[16px] sm:text-[18px] lg:text-2xl
+                    text-[20px]
                     no-underline
                   "
                 >
@@ -296,7 +303,7 @@ export const FooterSection = (): JSX.Element => {
                 aria-label="Divenzo"
                 className="
                   font-varela font-bold text-white text-center
-                  text-[48px] sm:text-[120px] md:text-[160px] lg:text-[355px]
+                  text-[60px] sm:text-[120px] md:text-[160px] lg:text-[200px] xl:text-[290px]
                   leading-[1]
                   whitespace-nowrap
                   overflow-hidden

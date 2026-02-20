@@ -392,12 +392,21 @@ export default function Services() {
     <>
       {/* HERO */}
       <section className="relative w-full bg-white">
-        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-0">
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] leading-[85px] mb-[36px] md:mb-[56px]">
-            Services
+        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-8 xl:px-0">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[85px] mb-[36px] md:mb-[56px]">
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Services
+            </AnimatedText>
           </h2>
 
-          <div className="ml-0 lg:ml-[350px]">
+          <div className="ml-0 lg:ml-[200px] xl:ml-[350px]">
             <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]">
               <AnimatedText
                 as="span"
@@ -422,9 +431,9 @@ export default function Services() {
     
 
       {/* PROCESS */}
-      <section className="relative w-full bg-white pt-10 pb-20  px-4 lg:px-20 ">
+      <section className="relative w-full bg-white pt-10 pb-20  px-4 lg:px-8 xl:px-20 ">
         <div className="max-w-[1260px] mx-auto">
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[80px] lg:text-[120px] mb-[16px] md:mb-[26px]">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
             <AnimatedText
               as="span"
               className="block"
@@ -504,10 +513,19 @@ export default function Services() {
 <section className="pb-24">
   <div className="max-w-[1280px] mx-auto px-4 lg:px-0">
     <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[46px] sm:text-[80px] lg:text-[120px] mb-4">
-      Testimonials
+      <AnimatedText
+        as="span"
+        className="block"
+        isDarkBg={false}
+        disableColorReveal
+        slideDuration={0.8}
+        slideStagger={0.08}
+      >
+        Testimonials
+      </AnimatedText>
     </h2>
 
-    <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[18px] sm:text-[24px] lg:text-[32px] max-w-[930px] ml-0 lg:ml-[350px]">
+    <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[18px] sm:text-[24px] lg:text-[32px] max-w-[930px] ml-0 lg:ml-[200px] xl:ml-[350px]">
       We work with forward-thinking clients who value creativity and results.
       Together, we build experiences that inspire and deliver growth.
     </p>
