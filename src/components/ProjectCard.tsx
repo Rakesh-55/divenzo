@@ -75,11 +75,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       }`}
     >
       {/* Image */}
-      <div className="relative w-full">
+      <div className="relative w-full overflow-hidden">
         <img
           src={image}
           alt={title}
-          className="w-full h-auto object-contain"
+          className="w-full h-auto object-contain transition-transform duration-500 ease-out group-hover:scale-105"
         />
       </div>
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
+import { AnimatedText } from "@/components/AnimatedText";
 
 /* ================= DATA ================= */
 
@@ -117,14 +118,18 @@ export default function PrivacyPolicy() {
               w-full lg:w-[40%]
               flex flex-col justify-start
               pt-3 pb-8 md:pt-8 md:pb-16
-              px-4 sm:px-8 lg:pl-20
+              px-4 sm:px-8 lg:px-8 xl:px-20
             "
           >
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1]">
-              Privacy
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1]">
+              <AnimatedText as="span" className="block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
+                Privacy
+              </AnimatedText>
             </h2>
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1]">
-              Policy
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1]">
+              <AnimatedText as="span" className="block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
+                Policy
+              </AnimatedText>
             </h2>
           </div>
 
@@ -151,7 +156,9 @@ export default function PrivacyPolicy() {
               {privacyPolicyData.map((section) => (
                 <div key={section.id} className="mb-10">
                   <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[22px] sm:text-[26px] lg:text-[32px] mb-4">
-                    {section.title}
+                    <AnimatedText as="span" className="inline-block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
+                      {section.title}
+                    </AnimatedText>
                   </h2>
 
                   <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[17px] lg:text-[20px] mb-3">
@@ -175,7 +182,9 @@ export default function PrivacyPolicy() {
               {privacyPolicyRemData.map((section) => (
                 <div key={section.id} className="mb-10">
                   <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[22px] sm:text-[26px] lg:text-[32px] mb-4">
-                    {section.title}
+                    <AnimatedText as="span" className="inline-block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
+                      {section.title}
+                    </AnimatedText>
                   </h2>
 
                   <ul className="list-disc pl-6 flex flex-col gap-4">

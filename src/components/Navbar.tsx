@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/divenzo-logo.png";
 import logoBlack from "../assets/divenzo-logo-black.png";
 import aboutNavImg from "../assets/nav_images/about_nav_img.png";
+import contactNavImg from "../assets/nav_images/contact_nav_img.png";
 import projectsNavImg from "../assets/nav_images/projects_nav_img.png";
 import servicesNavImg from "../assets/nav_images/services_nav_img.png";
 import { useHeaderTheme } from "../hooks/useHeaderTheme";
@@ -12,6 +13,15 @@ const navLinks = [
   { label: "About", page: "/about" },
   { label: "Projects", page: "/projects" },
   { label: "Services", page: "/services" },
+];
+
+const menuOnlyLinks = [{ label: "Contact", page: "/discuss" }];
+
+const socialLinks = [
+  { name: "Instagram", url: "https://www.instagram.com/divenzo.design" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/company/divenzo-design-digital-marketing-agency/" },
+  { name: "Twitter", url: "#" },
+  { name: "Facebook", url: "#" },
 ];
 
 export const Navbar = (): JSX.Element => {
@@ -33,6 +43,7 @@ export const Navbar = (): JSX.Element => {
     About: aboutNavImg,
     Projects: projectsNavImg,
     Services: servicesNavImg,
+    Contact: contactNavImg,
   };
 
   const handleMenuLinkEnter = (label: string) => {
@@ -226,7 +237,7 @@ export const Navbar = (): JSX.Element => {
           className={`
             hidden lg:block
             w-full
-            px-20 py-4
+            px-8 lg:px-12 xl:px-20 py-4
             transition-all duration-500
             ${scrolled && !menuOpen
               ? `
@@ -247,7 +258,7 @@ export const Navbar = (): JSX.Element => {
               w-full max-w-[1300px] mx-auto
             "
           >
-            <div className="flex items-center gap-12">
+            <div className="flex items-center gap-6 xl:gap-12">
           {/* LOGO */}
           <Link to="/" className="flex items-center" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             <img
@@ -260,7 +271,7 @@ export const Navbar = (): JSX.Element => {
           {/* BASED IN / SAY HELLO */}
           <div
             className={`
-              flex gap-10 transition-all duration-700 ease-out
+              hidden xl:flex gap-10 transition-all duration-700 ease-out
               ${scrolled ? "-translate-y-6 opacity-0" : "opacity-100"}
             `}
             style={{ transitionDelay: scrolled ? "0ms" : "520ms" }}
@@ -285,7 +296,7 @@ export const Navbar = (): JSX.Element => {
             {/* CENTER NAV */}
             <div
               className={`
-                flex justify-center gap-12
+                flex justify-center gap-6 xl:gap-12
                 transition-all duration-700
                 ${scrolled ? "-translate-y-6 opacity-0" : "opacity-100"}
               `}
@@ -297,7 +308,7 @@ export const Navbar = (): JSX.Element => {
                   to={link.page}
                   onClick={() => handleNavClick(link.page)}
                   className={`
-                    relative text-[16px] font-normal tracking-wide
+                    relative text-[14px] lg:text-[15px] xl:text-[16px] font-normal tracking-wide
                     ${onDarkSection ? "text-white" : "text-black"}
                     group
                   `}
@@ -323,7 +334,7 @@ export const Navbar = (): JSX.Element => {
               to="/discuss"
               onClick={() => handleNavClick("/discuss")}
               className={`
-                relative text-[16px] font-normal group
+                relative text-[14px] lg:text-[15px] xl:text-[16px] font-normal group
                 transition-all duration-700 ease-out
                 ${showHamburger ? "-translate-x-2" : "translate-x-0"}
                 ${menuOpen ? "text-white visible" : onDarkSection ? "text-white" : "text-black"}
@@ -512,7 +523,7 @@ export const Navbar = (): JSX.Element => {
                 }
               }}
               >
-                {navLinks.map((link) => {
+                {[...navLinks, ...menuOnlyLinks].map((link) => {
                   const isHovered = hoveredMenuLink === link.label;
                   const isMuted = hoveredMenuLink && !isHovered;
                   return (
@@ -563,13 +574,15 @@ export const Navbar = (): JSX.Element => {
             {/* Social links */}
             <div className="absolute bottom-4 sm:bottom-6 md:bottom-10 lg:bottom-20 right-4 sm:right-6 md:right-12 lg:right-20">
               <div className="flex gap-2 sm:gap-3 md:gap-6 lg:gap-10 text-xs sm:text-sm md:text-base lg:text-lg">
-                {["Instagram", "LinkedIn", "Twitter", "Facebook"].map((item) => (
+                {socialLinks.map((link, index) => (
                   <a
-                    key={item}
-                    href="#"
+                    key={index}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="relative group text-white transition-colors duration-300"
                   >
-                    {item}
+                    {link.name}
                     <span
                       className="
                         absolute left-0 -bottom-1 h-[1px] w-full

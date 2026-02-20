@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
+import { AnimatedText } from "@/components/AnimatedText";
 
 /* ─────────────────────────────────────────────
    Animated Input / Textarea
@@ -270,19 +271,28 @@ export default function Discuss() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden">
-        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-0">
+        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-8 xl:px-0">
 
           {/* ===== HEADING ===== */}
           <h2
             ref={headingRef}
-            className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1] mb-[36px] lg:mb-[56px]"
+            className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1] mb-[36px] lg:mb-[56px]"
             style={{ opacity: 0 }}
           >
-            Discuss
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Discuss
+            </AnimatedText>
           </h2>
 
           {/* ===== DESCRIPTION ===== */}
-          <div className="ml-0 md:ml-[120px] lg:ml-[350px]">
+          <div className="ml-0 md:ml-[80px] lg:ml-[200px] xl:ml-[350px]">
             <p
               ref={descRef}
               className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[40px] lg:mb-[56px]"
@@ -293,14 +303,14 @@ export default function Discuss() {
               reach out to{" "}
               <a
                 href="mailto:hello@divenzo.com"
-                className="text-[#000000cc] underline hover:text-[#005BBB] transition-colors"
+                className="text-[#000000cc] underline hover:text-[#666666] transition-colors"
               >
                 hello@divenzo.com
               </a>{" "}
               or give us a call on{" "}
               <a
                 href="tel:+919347828484"
-                className="text-[#000000cc] underline hover:text-[#005BBB] transition-colors"
+                className="text-[#000000cc] underline hover:text-[#666666] transition-colors"
               >
                 +91 93478 28484
               </a>

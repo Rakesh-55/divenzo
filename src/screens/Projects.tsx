@@ -8,28 +8,28 @@ import gsap from "gsap";
 const projectsData = [
   {
     id: 1,
-    image: "projects/project_1.png",
+    image: "projects/projectpage_images/project_1.png",
     imageAlt: "Project 1",
     projectTitle: "Practice Coach",
     desc: "Crafting conversion focus website for leading Practice Coach Company",
   },
   {
     id: 2,
-    image: "projects/project_2.png",
+    image: "projects/projectpage_images/project_2.png",
     imageAlt: "Project 2",
     projectTitle: "RWIT",
     desc: "A Deep Dive into RWIT’s Website Redesign",
   },
   {
     id: 3,
-    image: "projects/project_3.png",
+    image: "projects/projectpage_images/project_3.png",
     imageAlt: "Project 3",
     projectTitle: "Hitayu Dairy",
     desc: "Improving digital experience for a dairy farm",
   },
   {
     id: 4,
-    image: "projects/project_4.png",
+    image: "projects/projectpage_images/project_4.png",
     imageAlt: "Project 4",
     projectTitle: "Bhaskara Hospitals",
     desc: "Crafting the new Brand Identity for Bhaskara Hospital",
@@ -109,15 +109,15 @@ export default function Projects() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden">
-        <div className="max-w-[1280px] mx-auto pt-6 sm:pt-8 lg:pt-10 pb-16 px-4 lg:px-0">
+        <div className="max-w-[1280px] mx-auto pt-6 sm:pt-8 lg:pt-10 pb-16 px-4 lg:px-8 xl:px-0">
 
           {/* ===== HEADING ===== */}
-          <AnimatedText className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1.25] pb-3 mb-[40px] lg:mb-[56px]" isDarkBg={false}>
+          <AnimatedText className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1.25] pb-3 mb-[40px] lg:mb-[56px]" isDarkBg={false}>
             Projects
           </AnimatedText>
 
           {/* ===== DESCRIPTION ===== */}
-          <div className="ml-0 md:ml-[120px] lg:ml-[350px]">
+          <div className="ml-0 md:ml-[80px] lg:ml-[200px] xl:ml-[350px]">
             <AnimatedText
               className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] leading-[1.3] mb-[40px] lg:mb-[56px]"
               isDarkBg={false}

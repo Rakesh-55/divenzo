@@ -37,7 +37,7 @@ const brandLogos = [
 
 const team = [
   { image: navneeta, name: "Navneeta. K", designation: "Founder" },
-  { image: anonymos, name: "No Name", designation: "Head of Design" },
+  { image: anonymos, name: "AK", designation: "Head of Design" },
   { image: ramesh, name: "Ramesh. T", designation: "Digital Marketing Head" },
   { image: saikumar, name: "Sai Kumar. D", designation: "Senior Software Developer" },
   { image: ajaykumar, name: "Ajay Kumar", designation: "Brand Designer" },
@@ -84,7 +84,16 @@ const TeamCard = ({ card, isDark = true }) => {
           leading-tight
         "
       >
-        {card.name}
+        <AnimatedText
+          as="span"
+          className="inline-block"
+          isDarkBg={isDark}
+          disableColorReveal
+          slideDuration={0.6}
+          slideStagger={0.04}
+        >
+          {card.name}
+        </AnimatedText>
       </h3>
 
       {/* Role */}
@@ -95,11 +104,22 @@ const TeamCard = ({ card, isDark = true }) => {
         "
         style={{ color: isDark ? "#ccc" : "#666" }}
       >
-        {card.designation}
+        <AnimatedText
+          as="span"
+          className="inline-block"
+          isDarkBg={isDark}
+          disableColorReveal
+          slideDuration={0.6}
+          slideStagger={0.04}
+        >
+          {card.designation}
+        </AnimatedText>
       </p>
     </div>
   );
 };
+
+
 
 /* ================= PAGE ================= */
 
@@ -115,115 +135,82 @@ export default function About() {
   const [clientsBg, setClientsBg] = useState("black");
   const [statsBg, setStatsBg] = useState("white");
 
+  // A SINGLE, CLEAN GSAP CONTEXT (Runs exactly once, never interrupts your scroll)
   useEffect(() => {
-    if (cardsRef.current) {
-      const cards = cardsRef.current.querySelectorAll(".stat-card");
+    let ctx = gsap.context(() => {
 
-      gsap.fromTo(
-        cards,
-        { y: 80, opacity: 0, scale: 0.9 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1.2,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: cardsRef.current,
-            start: "top 85%",
-            end: "top 30%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    }
-  }, []);
+      // 1. Color Background Triggers
+      if (teamSectionRef.current && clientsSectionRef.current) {
+        ScrollTrigger.create({
+          trigger: teamSectionRef.current,
+          start: "top 50%",
+          end: "bottom 50%",
+          onEnter: () => { setTeamBg("black"); setStatsBg("black"); },
+          onLeaveBack: () => { setTeamBg("white"); setStatsBg("white"); },
+        });
 
-  // Scroll-based background color transitions using GSAP ScrollTrigger
-  useEffect(() => {
-    if (!teamSectionRef.current || !clientsSectionRef.current) return;
+        ScrollTrigger.create({
+          trigger: clientsSectionRef.current,
+          start: "top 50%",
+          end: "bottom 50%",
+          onEnter: () => { setTeamBg("white"); setClientsBg("white"); },
+          onLeaveBack: () => { setTeamBg("black"); setClientsBg("black"); },
+        });
+      }
 
-    // Team section: white -> black when its top hits 50% of the viewport
-    const teamTrigger = ScrollTrigger.create({
-      trigger: teamSectionRef.current,
-      start: "top 50%",
-      end: "bottom 50%",
-      onEnter: () => {
-        setTeamBg("black");
-        setStatsBg("black");
-      },
-      onLeaveBack: () => {
-        setTeamBg("white");
-        setStatsBg("white");
-      },
+      // 2. Stat Cards Animation
+      if (cardsRef.current) {
+        const cards = cardsRef.current.querySelectorAll(".stat-card");
+        gsap.fromTo(
+          cards,
+          { y: 80, opacity: 0, scale: 0.9 },
+          {
+            y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power4.out",
+            scrollTrigger: {
+              trigger: cardsRef.current,
+              start: "top 85%", end: "top 30%", toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+
+      // 3. Stats Text Unveil
+      if (statsTextRef.current) {
+        const topLayers = statsTextRef.current.querySelectorAll('.word-top-layer');
+        gsap.fromTo(
+          topLayers,
+          { opacity: 0 },
+          {
+            opacity: 1, stagger: 0.08, ease: "none",
+            scrollTrigger: {
+              trigger: statsTextRef.current,
+              start: "top 70%", end: "top 20%", scrub: true,
+            }
+          }
+        );
+      }
+
+      // 4. Team Design Text Unveil
+      if (teamDesignTextRef.current) {
+        const topLayers = teamDesignTextRef.current.querySelectorAll('.word-top-layer');
+        gsap.fromTo(
+          topLayers,
+          { opacity: 0 },
+          {
+            opacity: 1, stagger: 0.08, ease: "none",
+            scrollTrigger: {
+              trigger: teamDesignTextRef.current,
+              start: "top 70%", end: "top 20%", scrub: true,
+            }
+          }
+        );
+      }
+
     });
 
-    // Clients section: black -> white when its top hits 50% of the viewport
-    const clientsTrigger = ScrollTrigger.create({
-      trigger: clientsSectionRef.current,
-      start: "top 50%",
-      end: "bottom 50%",
-      onEnter: () => {
-        setTeamBg("white");
-        setClientsBg("white");
-      },
-      onLeaveBack: () => {
-        setTeamBg("black");
-        setClientsBg("black");
-      },
-    });
+    return () => ctx.revert(); // Clean up everything perfectly on unmount
+  }, []); // <--- EMPTY ARRAY: This stops the glitches completely!
 
-    return () => {
-      teamTrigger.kill();
-      clientsTrigger.kill();
-    };
-  }, []);
-
-  // TextUnveil effect for stats text
-  useEffect(() => {
-    if (statsTextRef.current) {
-      const topLayers = statsTextRef.current.querySelectorAll('.word-top-layer');
-      
-      gsap.fromTo(
-        topLayers,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          stagger: 0.08,
-          ease: "none",
-          scrollTrigger: {
-            trigger: statsTextRef.current,
-            start: "top 70%",
-            end: "top 20%",
-            scrub: true,
-          },
-        }
-      );
-    }
-  }, [statsBg]);
-
-  // TextUnveil effect for team design text
-  useEffect(() => {
-    if (teamDesignTextRef.current) {
-      const topLayers = teamDesignTextRef.current.querySelectorAll('.word-top-layer');
-      
-      gsap.fromTo(
-        topLayers,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          stagger: 0.08,
-          ease: "none",
-          scrollTrigger: {
-            trigger: teamDesignTextRef.current,
-            start: "top 70%",
-            end: "top 20%",
-            scrub: true,
-          },
-        }
-      );
-    }
-  }, [teamBg]);
 
   return (
     <>
@@ -234,14 +221,23 @@ export default function About() {
           color: statsBg === "black" ? "#fff" : "#000",
         }}
       >
-        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-0">
+        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-8 xl:px-0">
 
           {/* ABOUT */}
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit transition-colors duration-700 ease-in-out text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
-            About Us
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={statsBg === "black"}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              About Us
+            </AnimatedText>
           </h2>
 
-          <div className="ml-0 md:ml-[120px] lg:ml-[350px]">
+          <div className="ml-0 md:ml-[80px] lg:ml-[200px] xl:ml-[350px]">
             <AnimatedText
               className="[font-family:'Poppins',Helvetica] font-normal text-inherit transition-colors duration-700 ease-in-out text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
               isDarkBg={statsBg === "black"}
@@ -259,7 +255,7 @@ export default function About() {
             className="w-full mt-8 mb-[50px] md:mt-12"
           />
 
-          <div className="ml-0 md:ml-[120px] lg:ml-[350px] space-y-[16px] md:space-y-[56px]">
+          <div className="ml-0 md:ml-[80px] lg:ml-[200px] xl:ml-[350px] space-y-[16px] md:space-y-[56px]">
             <AnimatedText
               className="[font-family:'Poppins',Helvetica] font-normal text-inherit transition-colors duration-700 ease-in-out text-[18px] sm:text-[24px] lg:text-[32px]"
               isDarkBg={statsBg === "black"}
@@ -299,7 +295,7 @@ export default function About() {
               {("Our work speaks through numbers. Here's what we've achieved so far.").split(' ').map((word, index) => (
                 <span key={index} className="relative inline-block mr-[0.3em]">
                   <span 
-                    className="word-base-layer"
+                    className="word-base-layer transition-colors duration-700 ease-in-out" // <-- ADDED TRANSITION HERE
                     style={{ 
                       opacity: 0.3,
                       color: statsBg === "black" ? '#999999' : '#666666'
@@ -308,7 +304,7 @@ export default function About() {
                     {word}
                   </span>
                   <span 
-                    className="word-top-layer absolute inset-0"
+                    className="word-top-layer absolute inset-0 transition-colors duration-700 ease-in-out" // <-- ADDED TRANSITION HERE
                     style={{ 
                       opacity: 0,
                       color: statsBg === "black" ? '#ffffff' : '#000000'
@@ -323,39 +319,39 @@ export default function About() {
 
             <div
               ref={cardsRef}
-              className="flex flex-wrap gap-6 justify-center lg:grid lg:grid-cols-4 lg:justify-items-center"
+              className="flex flex-wrap gap-4 lg:gap-5 justify-center w-full"
             >
               {statsData.map((stat, index) => (
                 <Card
                   key={index}
                   className="
                     stat-card border-0 shadow-none rounded-none transition-all duration-700 ease-in-out flex-none
-                    h-auto min-h-[320px] sm:min-h-[372px] w-[calc(50%-12px)] sm:w-[300px]
+                    w-[285px] h-[372px]
                   "
                   style={{ 
                     backgroundColor: statsBg === "black" ? "#111" : "#fafafa",
                     color: statsBg === "black" ? "#fff" : "#000"
                   }}
                 >
-                  <CardContent className="h-full p-8 sm:p-10 flex flex-col gap-4 justify-center text-inherit">
+                  <CardContent className="h-full p-8 flex flex-col gap-4 justify-center text-inherit">
                     <div
                       className="
-                        min-h-[64px] sm:min-h-[72px] lg:min-h-[80px]
+                        min-h-[80px]
                         flex items-end
                         [font-family:'Poppins',Helvetica] font-semibold
-                        text-5xl sm:text-6xl lg:text-7xl
-                        leading-[48px] lg:leading-[56px]
+                        text-7xl
+                        leading-[56px]
                       "
                     >
                       {stat.number}
                     </div>
 
-                    <div className="flex flex-col gap-[10px] min-h-[120px] sm:min-h-[140px]">
+                    <div className="flex flex-col gap-[10px] min-h-[140px]">
                       <h4
                         className="
                           [font-family:'Poppins',Helvetica] font-bold
-                          text-[18px] sm:text-[20px] lg:text-[22px]
-                          leading-[28px] lg:leading-[33px]
+                          text-[22px]
+                          leading-[33px]
                         "
                       >
                         <AnimatedText
@@ -372,8 +368,8 @@ export default function About() {
                       <p
                         className="
                           [font-family:'Poppins',Helvetica] font-normal opacity-80
-                          text-base sm:text-lg
-                          leading-[24px] lg:leading-[27px]
+                          text-lg
+                          leading-[27px]
                         "
                       >
                         <AnimatedText
@@ -401,9 +397,8 @@ export default function About() {
           className="dark-section transition-colors duration-700 ease-in-out"
           style={{ backgroundColor: teamBg === "black" ? "#000" : "#fff" }}
         >
-          <div className="max-w-[1280px] mx-auto py-[70px] px-4 lg:px-0">
+          <div className="max-w-[1280px] mx-auto py-[70px] px-4 lg:px-8 xl:px-0">
 
-            {/* Heading – unchanged */}
             <h3 
               ref={teamDesignTextRef}
               className="[font-family:'Poppins',Helvetica] font-normal text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px] tracking-[0] leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px] mb-[40px] sm:mb-[72px] transition-colors duration-700 ease-in-out"
@@ -412,7 +407,7 @@ export default function About() {
               {("Design is more than visuals. It's the trust you earn, the emotion you spark, and the impact that lasts.").split(' ').map((word, index) => (
                 <span key={index} className="relative inline-block mr-[0.3em]">
                   <span 
-                    className="word-base-layer"
+                    className="word-base-layer transition-colors duration-700 ease-in-out" // <-- ADDED TRANSITION HERE
                     style={{ 
                       opacity: 0.3,
                       color: teamBg === "black" ? '#999999' : '#666666'
@@ -421,7 +416,7 @@ export default function About() {
                     {word}
                   </span>
                   <span 
-                    className="word-top-layer absolute inset-0"
+                    className="word-top-layer absolute inset-0 transition-colors duration-700 ease-in-out" // <-- ADDED TRANSITION HERE
                     style={{ 
                       opacity: 0,
                       color: teamBg === "black" ? '#ffffff' : '#000000'
@@ -432,6 +427,23 @@ export default function About() {
                 </span>
               ))}
             </h3>
+
+            {/* ===== TEAM HEADING ===== */}
+            <h2 
+              className="[font-family:'Poppins',Helvetica] font-semibold text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[40px] md:mb-[56px] transition-colors duration-700 ease-in-out"
+              style={{ color: teamBg === "black" ? "#fff" : "#000" }}
+            >
+              <AnimatedText
+                as="span"
+                className="block"
+                isDarkBg={teamBg === "black"}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
+                Team
+              </AnimatedText>
+            </h2>
 
             {/* ===== MOBILE + TABLET (Grid preferred, Flex fallback handled by grid) ===== */}
             <div className="grid grid-cols-2 gap-8 lg:hidden">
@@ -445,46 +457,36 @@ export default function About() {
               <div className="col-start-2">
                 <TeamCard card={team[0]} isDark={teamBg === "black"} />
               </div>
-
               <div className="col-start-4">
                 <TeamCard card={team[1]} isDark={teamBg === "black"} />
               </div>
-
               <div className="col-start-1">
                 <TeamCard card={team[2]} isDark={teamBg === "black"} />
               </div>
-
               <div className="col-start-3">
                 <TeamCard card={team[3]} isDark={teamBg === "black"} />
               </div>
-
               <div className="col-start-4">
                 <TeamCard card={team[4]} isDark={teamBg === "black"} />
               </div>
-
               <div className="col-start-2">
                 <TeamCard card={team[5]} isDark={teamBg === "black"} />
               </div>
-
               <div className="col-start-3">
                 <TeamCard card={team[6]} isDark={teamBg === "black"} />
               </div>
-
               <div className="col-start-4">
                 <TeamCard card={team[7]} isDark={teamBg === "black"} />
               </div>
-
               <div className="col-start-1">
                 <TeamCard card={team[8]} isDark={teamBg === "black"} />
               </div>
-
               <div className="col-start-4">
                 <TeamCard card={team[9]} isDark={teamBg === "black"} />
               </div>
             </div>
 
-            {/* Bottom paragraph – unchanged */}
-            <div className="ml-0 md:ml-[120px] lg:ml-[350px] pt-20">
+            <div className="ml-0 md:ml-[80px] lg:ml-[200px] xl:ml-[350px] pt-20">
               <p 
                 className="[font-family:'Poppins',Helvetica] font-normal text-[18px] sm:text-[24px] lg:text-[32px] tracking-[0] leading-[normal] transition-colors duration-700 ease-in-out"
                 style={{ color: teamBg === "black" ? "#fff" : "#000" }}
@@ -514,10 +516,10 @@ export default function About() {
             color: clientsBg === "black" ? "#fff" : "#000",
           }}
         >
-          <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-0">
+          <div className="max-w-[1280px] mx-auto py-10 md:py-20 px-4 lg:px-8 xl:px-0">
 
             {/* ABOUT */}
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
               <AnimatedText
                 as="span"
                 className="block"
@@ -530,7 +532,7 @@ export default function About() {
               </AnimatedText>
             </h2>
 
-            <div className="ml-0 md:ml-[120px] lg:ml-[350px]">
+            <div className="ml-0 md:ml-[80px] lg:ml-[200px] xl:ml-[350px]">
               <AnimatedText
                 className="[font-family:'Poppins',Helvetica] font-normal text-inherit text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
                 isDarkBg={clientsBg === "black"}
@@ -542,7 +544,7 @@ export default function About() {
               </AnimatedText>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-5">
               {brandLogos.map((src, index) => (
                 <div key={index} className="flex items-center justify-center">
                   <img

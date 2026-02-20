@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
+import { AnimatedText } from "@/components/AnimatedText";
 
 /* ================= DATA ================= */
 
@@ -93,14 +94,18 @@ export default function TermsAndUse() {
             className="
               w-full lg:w-[40%]
               pt-4 sm:pt-6 lg:pt-10
-              px-4 sm:px-10 lg:pl-20
+              px-4 sm:px-10 lg:pl-8 xl:pl-20
             "
           >
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1]">
-              Terms
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1]">
+              <AnimatedText as="span" className="block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
+                Terms
+              </AnimatedText>
             </h2>
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1]">
-              &amp; Use
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1]">
+              <AnimatedText as="span" className="block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
+                &amp; Use
+              </AnimatedText>
             </h2>
           </div>
 
@@ -118,7 +123,9 @@ export default function TermsAndUse() {
               {termsAndUse.map((section) => (
                 <div key={section.id} className="mb-10">
                   <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[22px] sm:text-[26px] lg:text-[32px] mb-4">
-                    {section.title}
+                    <AnimatedText as="span" className="inline-block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
+                      {section.title}
+                    </AnimatedText>
                   </h2>
                   <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[18px] lg:text-[22px] leading-[1.6]">
                     {section.desc}
@@ -130,7 +137,9 @@ export default function TermsAndUse() {
               {termsAndUseData.map((section) => (
                 <div key={section.id} className="mb-12">
                   <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[22px] sm:text-[26px] lg:text-[32px] mb-4">
-                    {section.title}
+                    <AnimatedText as="span" className="inline-block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
+                      {section.title}
+                    </AnimatedText>
                   </h2>
 
                   <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[18px] lg:text-[22px] leading-[1.6] mb-4">

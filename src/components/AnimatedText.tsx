@@ -192,14 +192,23 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          revealedRef.current = true;
-          lineRefs.current.forEach((line) => {
-            line.style.transform = "translateY(0)";
-            line.style.opacity = "1";
-            line.style.color = wordEndColor;
-          });
-          if (observerRef.current) observerRef.current.disconnect();
+          if (entry.isIntersecting) {
+            // Element entering viewport - reveal animation
+            revealedRef.current = true;
+            lineRefs.current.forEach((line) => {
+              line.style.transform = "translateY(0)";
+              line.style.opacity = "1";
+              line.style.color = wordEndColor;
+            });
+          } else {
+            // Element leaving viewport - reset to hidden state
+            revealedRef.current = false;
+            lineRefs.current.forEach((line) => {
+              line.style.transform = "translateY(100%)";
+              line.style.opacity = "0";
+              line.style.color = wordStartColor;
+            });
+          }
         });
       },
       { threshold: 0.2 }
