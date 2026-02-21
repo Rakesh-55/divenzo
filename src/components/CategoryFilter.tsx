@@ -17,8 +17,13 @@ const categories = [
   "Sports"
 ];
 
-export const CategoryFilter = (): JSX.Element => {
-  const [active, setActive] = useState("All");
+// Define the props we are expecting from the parent
+interface CategoryFilterProps {
+  activeCategory: string;
+  onCategoryChange: (category: string) => void;
+}
+
+export const CategoryFilter = ({ activeCategory, onCategoryChange }: CategoryFilterProps): JSX.Element => {
   const [expanded, setExpanded] = useState(false);
 
   // visible counts
@@ -31,7 +36,7 @@ export const CategoryFilter = (): JSX.Element => {
       <div className="flex flex-wrap gap-3 sm:gap-4">
 
         {categories.map((category, index) => {
-          const isActive = active === category;
+          const isActive = activeCategory === category;
 
           // hide logic for mobile & tablet
           const isHidden =
@@ -44,7 +49,7 @@ export const CategoryFilter = (): JSX.Element => {
           return (
             <button
               key={index}
-              onClick={() => setActive(category)}
+              onClick={() => onCategoryChange(category)}
               className={`
                 rounded-full border
                 transition-all duration-300

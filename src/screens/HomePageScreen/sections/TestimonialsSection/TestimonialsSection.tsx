@@ -346,27 +346,28 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
               }}
             >
               <Carousel
-                plugins={[plugin.current]}
+                // 1. REMOVED the plugins={[plugin.current]} line to stop auto-scrolling
                 opts={{ align: "start", loop: true }}
                 setApi={setCarouselApi}
-                className="max-w-7xl mx-auto"
+                className="w-full"
               >
-                <CarouselContent>
-                  {testimonials.map((t, i) => (
+                <CarouselContent className="-ml-4 cursor-grab active:cursor-grabbing">
+                  {/* 2. DUPLICATED the array so Embla has enough cards to create an infinite loop */}
+                  {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
                     <CarouselItem
                       key={i}
-                      className="md:basis-1/2 lg:basis-1/3 flex justify-center"
+                      className="pl-4 basis-[85%] md:basis-[45%] lg:basis-[40%]"
                     >
                       <Card
                         className={`
                           group relative border-0 shadow-none rounded-none overflow-hidden transition-colors duration-700
-                          h-auto min-h-[360px] sm:min-h-[419px] w-full max-w-[465px]
+                          h-full min-h-[360px] sm:min-h-[419px] w-full
                           ${isDark ? "bg-[#111111]" : "bg-[#fafafa]"}
                         `}
                       >
-                        <CardContent className="relfvative z-10 h-full p-8 flex flex-col gap-6 justify-start">
+                        <CardContent className="relative z-10 h-full p-6 sm:p-8 flex flex-col gap-6 justify-between">
                           <AnimatedText
-                            className="[font-family:'Poppins',Helvetica] text-inherit opacity-90 text-[14px] sm:text-[16px] lg:text-[17px] w-full min-h-[120px] sm:min-h-[168px]"
+                            className="[font-family:'Poppins',Helvetica] text-inherit opacity-90 text-[14px] sm:text-[16px] lg:text-[17px] w-full"
                             isDarkBg={isDark}
                             disableColorReveal
                             slideDuration={0.8}
@@ -375,15 +376,15 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                             {t.quote}
                           </AnimatedText>
 
-                          <div className="flex gap-4 items-center min-h-[64px] mt-auto">
-                            <Avatar className="w-12 h-12 sm:w-14 sm:h-14">
+                          <div className="flex gap-4 items-center mt-6">
+                            <Avatar className="w-12 h-12 sm:w-14 sm:h-14 shrink-0">
                               <AvatarImage src={t.image} />
                               <AvatarFallback>
                                 {t.name[0]}
                               </AvatarFallback>
                             </Avatar>
 
-                            <div>
+                            <div className="flex flex-col">
                               <AnimatedText
                                 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[14px] sm:text-[16px] lg:text-[18px]"
                                 isDarkBg={isDark}
