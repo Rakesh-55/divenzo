@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -12,6 +12,7 @@ const projectsData = [
     imageAlt: "Project 1",
     projectTitle: "Practice Coach",
     desc: "Crafting conversion focus website for leading Practice Coach Company",
+    category: "Tech", 
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ const projectsData = [
     imageAlt: "Project 2",
     projectTitle: "RWIT",
     desc: "A Deep Dive into RWIT’s Website Redesign",
+    category: "Tech",
   },
   {
     id: 3,
@@ -26,6 +28,7 @@ const projectsData = [
     imageAlt: "Project 3",
     projectTitle: "Hitayu Dairy",
     desc: "Improving digital experience for a dairy farm",
+    category: "Food & Beverage",
   },
   {
     id: 4,
@@ -33,14 +36,22 @@ const projectsData = [
     imageAlt: "Project 4",
     projectTitle: "Bhaskara Hospitals",
     desc: "Crafting the new Brand Identity for Bhaskara Hospital",
+    category: "Health & Wellness",
   },
 ];
 
 export default function Projects() {
+  const [activeCategory, setActiveCategory] = useState("All");
+
   const gridCursorRef = useRef<HTMLDivElement>(null);
   const cursorTargetRef = useRef({ x: 0, y: 0 });
   const cursorCurrentRef = useRef({ x: 0, y: 0 });
   const cursorActiveRef = useRef(false);
+
+  const filteredProjects = projectsData.filter((project) => {
+    if (activeCategory === "All") return true;
+    return project.category === activeCategory;
+  });
 
   useEffect(() => {
     if (!gridCursorRef.current) return;
@@ -67,18 +78,81 @@ export default function Projects() {
     return () => gsap.ticker.remove(tick);
   }, []);
 
-  const handleGridMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
-    document.body.dataset.cursorHidden = "true";
+  useEffect(() => {
+    if (!gridCursorRef.current) return;
+    cursorActiveRef.current = false;
+    gsap.set(gridCursorRef.current, {
+      xPercent: -50,
+      yPercent: -50,
+      scale: 0,
+      opacity: 0,
+    });
+  }, [filteredProjects.length]);
+
+  useEffect(() => {
+    document.body.dataset.cursorHidden = "false";
     if (gridCursorRef.current) {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+      cursorActiveRef.current = false;
+      gsap.set(gridCursorRef.current, { scale: 0, opacity: 0 });
+    }
+  }, [activeCategory]);
+
+  // Track the mouse everywhere in the grid, but keep cursor hidden unless hovering a card
+  const handleGridMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    cursorTargetRef.current = { x, y };
+
+    const isOverCard = !!(event.target as HTMLElement | null)?.closest(
+      "[data-project-card]"
+    );
+
+    if (isOverCard && gridCursorRef.current && !cursorActiveRef.current) {
+      document.body.dataset.cursorHidden = "true";
       cursorActiveRef.current = true;
-      cursorTargetRef.current = { x, y };
       cursorCurrentRef.current = { x, y };
       gsap.set(gridCursorRef.current, { x, y, force3D: true });
       gsap.to(gridCursorRef.current, {
-        scale: 1,
+        scale: 1.1,
+        opacity: 1,
+        duration: 0.2,
+        ease: "power3.out",
+      });
+    }
+
+    if (!isOverCard && gridCursorRef.current && cursorActiveRef.current) {
+      document.body.dataset.cursorHidden = "false";
+      cursorActiveRef.current = false;
+      gsap.to(gridCursorRef.current, {
+        scale: 0,
+        opacity: 0,
+        duration: 0.2,
+        ease: "power3.out",
+      });
+    }
+
+    // Snap the current position to target if inactive so it doesn't fly across the screen when appearing
+    if (!cursorActiveRef.current) {
+      cursorCurrentRef.current = { x, y };
+      gsap.set(gridCursorRef.current, { x, y, force3D: true });
+    }
+  };
+
+  // Only trigger the scaling animation when entering a specific card
+  const handleCardMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+    document.body.dataset.cursorHidden = "true";
+    if (gridCursorRef.current) {
+      const grid = gridCursorRef.current.parentElement;
+      const rect = (grid ?? event.currentTarget).getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      cursorTargetRef.current = { x, y };
+      cursorCurrentRef.current = { x, y };
+      gsap.set(gridCursorRef.current, { x, y, force3D: true });
+      cursorActiveRef.current = true;
+      gsap.to(gridCursorRef.current, {
+        scale: 1.1,
         opacity: 1,
         duration: 0.3,
         ease: "power3.out",
@@ -86,29 +160,23 @@ export default function Projects() {
     }
   };
 
-  const handleGridMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    cursorTargetRef.current = { x, y };
-  };
-
-  const handleGridMouseLeave = () => {
+  // Shrink the cursor when leaving a specific card
+  const handleCardMouseLeave = () => {
     document.body.dataset.cursorHidden = "false";
     if (gridCursorRef.current) {
       cursorActiveRef.current = false;
       gsap.to(gridCursorRef.current, {
         scale: 0,
         opacity: 0,
-        duration: 0,
-        ease: "none",
+        duration: 0.3,
+        ease: "power3.out",
       });
     }
   };
 
   return (
     <>
-      <section className="relative w-full bg-white overflow-x-hidden">
+      <section className="relative w-full bg-white overflow-x-hidden min-h-screen">
         <div className="max-w-[1280px] mx-auto pt-6 sm:pt-8 lg:pt-10 pb-16 px-4 lg:px-8 xl:px-0">
 
           {/* ===== HEADING ===== */}
@@ -131,43 +199,67 @@ export default function Projects() {
           </div>
 
           {/* ===== FILTER ===== */}
-          <CategoryFilter />
+          <CategoryFilter 
+            activeCategory={activeCategory} 
+            onCategoryChange={setActiveCategory} 
+          />
 
-          {/* ===== PROJECT GRID ===== */}
-          <div
-            className="relative mt-12 cursor-none [&_*]:cursor-none"
-            onMouseEnter={handleGridMouseEnter}
-            onMouseMove={handleGridMouseMove}
-            onMouseLeave={handleGridMouseLeave}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-12 gap-x-4 sm:gap-x-4">
-              {projectsData.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  image={project.image}
-                  title={project.projectTitle}
-                  category={project.desc}
-                  link={`/projects/${project.id}`}
-                  disableCursorEffect={true}
-                />
-              ))}
-            </div>
-
-            {/* Custom Cursor */}
+          {/* ===== PROJECT GRID OR EMPTY STATE ===== */}
+          {filteredProjects.length > 0 ? (
             <div
-              ref={gridCursorRef}
-              className="pointer-events-none absolute z-20 flex h-20 w-20 flex-col items-center justify-center rounded-full"
-              style={{
-                left: 0,
-                top: 0,
-                backgroundColor: "#ffffff",
-                color: "#000000",
-              }}
+              className="relative mt-12"
+              onMouseMove={handleGridMouseMove}
             >
-              <span className="[font-family:'Poppins',Helvetica] font-medium text-xs leading-tight">View</span>
-              <span className="[font-family:'Poppins',Helvetica] font-medium text-xs leading-tight">Site</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-12 gap-x-4 sm:gap-x-4">
+                {filteredProjects.map((project) => (
+                  <div 
+                    key={project.id}
+                    onMouseEnter={handleCardMouseEnter}
+                    onMouseLeave={handleCardMouseLeave}
+                    data-project-card
+                    className="cursor-none [&_*]:cursor-none" // Custom cursor applies ONLY to the card now
+                  >
+                    <ProjectCard
+                      image={project.image}
+                      title={project.projectTitle}
+                      category={project.desc}
+                      link={`/projects/${project.id}`}
+                      disableCursorEffect={true}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Custom Cursor */}
+              <div
+                ref={gridCursorRef}
+                className="pointer-events-none absolute z-20 flex h-20 w-20 flex-col items-center justify-center rounded-full bg-black/70 text-white backdrop-blur-md border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
+                style={{
+                  left: 0,
+                  top: 0,
+                }}
+              >
+                <span className="[font-family:'Poppins',Helvetica] font-medium text-xs leading-tight">View</span>
+                <span className="[font-family:'Poppins',Helvetica] font-medium text-xs leading-tight">Site</span>
+              </div>
             </div>
-          </div>
+          ) : (
+            /* ===== EMPTY STATE UI ===== */
+            <div className="flex flex-col items-center justify-center py-24 px-4 text-center mt-12 bg-[#fafafa] rounded-[24px]">
+              <h3 className="[font-family:'Poppins',Helvetica] text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4 text-black">
+                No projects found.
+              </h3>
+              <p className="[font-family:'Poppins',Helvetica] text-[#666] text-base sm:text-lg max-w-lg mb-8">
+                We don't have any public projects listed in the "{activeCategory}" category right now. Please explore our other categories!
+              </p>
+              <button 
+                onClick={() => setActiveCategory("All")}
+                className="[font-family:'Poppins',Helvetica] px-8 py-3 bg-black text-white rounded-full font-medium transition hover:scale-105"
+              >
+                View All Projects
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

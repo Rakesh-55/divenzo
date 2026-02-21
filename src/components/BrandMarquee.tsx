@@ -16,8 +16,8 @@ export function BrandMarquee(): JSX.Element {
   return (
     <div className="relative w-full overflow-hidden py-8 sm:py-10 lg:py-14">
       {/* Fade edges */}
-      <div className="pointer-events-none absolute left-0 top-0 h-full w-28 bg-gradient-to-r from-white to-transparent z-10" />
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-28 bg-gradient-to-l from-white to-transparent z-10" />
+      {/* <div className="pointer-events-none absolute left-0 top-0 h-full w-28 bg-gradient-to-r from-white to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-28 bg-gradient-to-l from-white to-transparent z-10" /> */}
 
       {/* Track */}
       <div className="marquee-track flex w-max items-center gap-5 sm:gap-10">

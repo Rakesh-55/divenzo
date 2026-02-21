@@ -1,4 +1,3 @@
-import Autoplay from "embla-carousel-autoplay";
 import React, { useEffect, useRef, useState } from "react";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import service_img from "../assets/service_img.png";
@@ -342,12 +341,6 @@ function StickyStackServices() {
 /* ================= PAGE ================= */
 
 export default function Services() {
-  const plugin = React.useRef(
-    Autoplay({
-      delay: 4000,
-      stopOnInteraction: false,
-    })
-  );
   const carouselCursorRef = useRef<HTMLDivElement | null>(null);
   const cursorTargetRef = useRef({ x: 0, y: 0 });
   const cursorCurrentRef = useRef({ x: 0, y: 0 });
@@ -581,16 +574,15 @@ export default function Services() {
     }}
   >
     <Carousel
-      plugins={[plugin.current]}
       opts={{ align: "start", loop: true }}
       setApi={setCarouselApi}
       className="w-full"
     >
-      <CarouselContent className="-ml-2 md:-ml-4">
+      <CarouselContent className="-ml-4 cursor-grab active:cursor-grabbing">
         {testimonials.map((testimonial, index) => (
           <CarouselItem
             key={index}
-            className="md:basis-1/2 lg:basis-1/3 flex justify-center"
+            className="basis-[85%] sm:basis-[70%] md:basis-1/2 lg:basis-[40%] flex justify-center"
           >
             <Card className="group relative border-0 shadow-none rounded-none overflow-hidden transition-colors duration-700 h-[419px] w-[465px] bg-[#fafafa]">
               <CardContent className="relative z-10 h-full p-8 flex flex-col gap-6 justify-start">
