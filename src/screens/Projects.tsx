@@ -230,6 +230,7 @@ export default function Projects() {
                 ))}
               </div>
 
+
               {/* Custom Cursor */}
               <div
                 ref={gridCursorRef}
