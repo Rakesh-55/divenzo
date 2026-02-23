@@ -6,6 +6,7 @@ import { Button } from "../../../../components/ui/button";
 import { Separator } from "../../../../components/ui/separator";
 import { AnimatedText } from "../../../../components/AnimatedText";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
+import { Link } from "react-router-dom";
 
 import imgResearch from "../../../../../public/client/s_research.png";
 import imgMarket from "../../../../../public/client/s_marketing.png";
@@ -185,6 +186,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
               can give you the time, attention and care you deserve.
             </AnimatedText>
 
+            <Link to="/services">
             <Button
               variant="link"
               className="relative h-auto w-fit p-0 pb-4 mt-8 text-inherit hover:text-inherit group no-underline hover:no-underline"
@@ -213,6 +215,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
                 "
               />
             </Button>
+            </Link>
           </div>
         </header>
 

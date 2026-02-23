@@ -208,8 +208,8 @@ export const HeroSection = (): JSX.Element => {
           <div
             className="
               overflow-hidden
-              w-[100px] sm:w-[140px] lg:w-[180px]
-              h-[28px] sm:h-[40px] lg:h-[48px]
+              w-[120px] sm:w-[150px] lg:w-[200px]
+              h-[28px] sm:h-[38px] lg:h-[48px]
             "
           >
             <div
@@ -220,9 +220,9 @@ export const HeroSection = (): JSX.Element => {
                 <div
                   key={index}
                   className="
-                    flex items-center justify-center h-[28px] sm:h-[40px] lg:h-[48px]
+                    flex items-center justify-center h-[28px] sm:h-[38px] lg:h-[48px]
                     [font-family:'Poppins',Helvetica] font-semibold
-                    text-[14px] sm:text-[20px] lg:text-[32px]
+                    text-[18px] sm:text-[24px] lg:text-[32px]
                     text-[#2b2b2b]
                   "
                 >
