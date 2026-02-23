@@ -120,9 +120,18 @@ export default function TermsAndUse() {
             <div className="px-4 sm:px-10 lg:px-[60px] xl:px-[100px] py-12 lg:py-20">
 
               <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[20px] lg:text-[24px] leading-[1.6] mb-6">
-                These Terms of Use (“Terms of Use”) have been drafted in accordance
-                with the provisions of Rule 3 (1) of the Information Technology
-                (Intermediaries guidelines) Rules, 2011 that require publishing the rules and regulations, privacy policy and Terms of Use for access or usage of https://divenzo.com/.
+                <AnimatedText
+                  as="span"
+                  className="block"
+                  isDarkBg={false}
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
+                  These Terms of Use (“Terms of Use”) have been drafted in accordance
+                  with the provisions of Rule 3 (1) of the Information Technology
+                  (Intermediaries guidelines) Rules, 2011 that require publishing the rules and regulations, privacy policy and Terms of Use for access or usage of https://divenzo.com/.
+                </AnimatedText>
               </p>
 
               {/* INTRO SECTIONS */}
@@ -134,7 +143,16 @@ export default function TermsAndUse() {
                     </AnimatedText>
                   </h2>
                   <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[18px] lg:text-[22px] leading-[1.6]">
-                    {section.desc}
+                    <AnimatedText
+                      as="span"
+                      className="block"
+                      isDarkBg={false}
+                      disableColorReveal
+                      slideDuration={0.8}
+                      slideStagger={0.08}
+                    >
+                      {section.desc}
+                    </AnimatedText>
                   </p>
                 </div>
               ))}
@@ -149,7 +167,16 @@ export default function TermsAndUse() {
                   </h2>
 
                   <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[18px] lg:text-[22px] leading-[1.6] mb-4">
-                    {section.description}
+                    <AnimatedText
+                      as="span"
+                      className="block"
+                      isDarkBg={false}
+                      disableColorReveal
+                      slideDuration={0.8}
+                      slideStagger={0.08}
+                    >
+                      {section.description}
+                    </AnimatedText>
                   </p>
 
                   <ul className="list-disc pl-6 grid gap-2">
@@ -158,7 +185,16 @@ export default function TermsAndUse() {
                         key={index}
                         className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[18px] lg:text-[22px] leading-[1.6]"
                       >
-                        {point}
+                        <AnimatedText
+                          as="span"
+                          className="block"
+                          isDarkBg={false}
+                          disableColorReveal
+                          slideDuration={0.8}
+                          slideStagger={0.08}
+                        >
+                          {point}
+                        </AnimatedText>
                       </li>
                     ))}
                   </ul>
