@@ -145,11 +145,29 @@ export default function PrivacyPolicy() {
 
               {/* Intro */}
               <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[18px] lg:text-[24px] leading-[1.6] mb-6">
-                This Privacy Policy describes Divenzo Design & Innovation Private Limited, a UI design company’s policies and procedures on the collection and use and disclosure of the Information provided by the Users and visitors of the Website (together referred to as the “Users”). The Company shall not use the User’s information in any manner except as provided under this Privacy Policy. Every User who accesses the Website agrees to be bound by the terms of this Privacy Policy.
+                <AnimatedText
+                  as="span"
+                  className="block"
+                  isDarkBg={false}
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
+                  This Privacy Policy describes Divenzo Design & Innovation Private Limited, a UI design company’s policies and procedures on the collection and use and disclosure of the Information provided by the Users and visitors of the Website (together referred to as the “Users”). The Company shall not use the User’s information in any manner except as provided under this Privacy Policy. Every User who accesses the Website agrees to be bound by the terms of this Privacy Policy.
+                </AnimatedText>
               </p>
 
               <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[18px] lg:text-[24px] leading-[1.6] mb-6">
-                Interpretation: In this Privacy Policy, references to “You”, “Your”, “User” shall mean the end user accessing the Website or the Services and “We”, “Us” and “Our” shall mean the Company, its affiliates and partners.
+                <AnimatedText
+                  as="span"
+                  className="block"
+                  isDarkBg={false}
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
+                  Interpretation: In this Privacy Policy, references to “You”, “Your”, “User” shall mean the end user accessing the Website or the Services and “We”, “Us” and “Our” shall mean the Company, its affiliates and partners.
+                </AnimatedText>
               </p>
 
               {/* First Section */}
@@ -162,7 +180,16 @@ export default function PrivacyPolicy() {
                   </h2>
 
                   <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[17px] lg:text-[20px] mb-3">
-                    {section.description}
+                    <AnimatedText
+                      as="span"
+                      className="block"
+                      isDarkBg={false}
+                      disableColorReveal
+                      slideDuration={0.8}
+                      slideStagger={0.08}
+                    >
+                      {section.description}
+                    </AnimatedText>
                   </p>
 
                   <ul className="list-disc pl-6 grid gap-2">
@@ -171,7 +198,16 @@ export default function PrivacyPolicy() {
                         key={i}
                         className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[17px] lg:text-[20px]"
                       >
-                        {point}
+                        <AnimatedText
+                          as="span"
+                          className="block"
+                          isDarkBg={false}
+                          disableColorReveal
+                          slideDuration={0.8}
+                          slideStagger={0.08}
+                        >
+                          {point}
+                        </AnimatedText>
                       </li>
                     ))}
                   </ul>
@@ -193,7 +229,16 @@ export default function PrivacyPolicy() {
                         key={i}
                         className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[17px] lg:text-[20px] leading-[1.7]"
                       >
-                        {point}
+                        <AnimatedText
+                          as="span"
+                          className="block"
+                          isDarkBg={false}
+                          disableColorReveal
+                          slideDuration={0.8}
+                          slideStagger={0.08}
+                        >
+                          {point}
+                        </AnimatedText>
                       </li>
                     ))}
                   </ul>
