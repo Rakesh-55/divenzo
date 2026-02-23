@@ -67,6 +67,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     <a
       ref={cardRef}
       href={link}
+      onClick={(e) => e.preventDefault()}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onMouseMove={handleMouseMove}

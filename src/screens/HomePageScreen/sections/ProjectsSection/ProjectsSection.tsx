@@ -32,16 +32,16 @@ const projectsData = [
     image: "projects/project_3.png",
     headerImage: "projects/project_3_header.png",
     imageAlt: "Project 3",
-    title: "Hitayu Dairy",
-    desc: "Improving digital experience for a dairy farm",
+    title: "Bhaskara Hospitals",
+    desc: "Crafting the new Brand Identity for Bhaskara Hospital",
   },
   {
     id: 4,
     image: "projects/project_4.png",
     headerImage: "projects/project_4_header.png",
     imageAlt: "Project 4",
-    title: "Bhaskara Hospitals",
-    desc: "Crafting the new Brand Identity for Bhaskara Hospital",
+    title: "Hitayu Dairy",
+    desc: "Improving digital experience for a dairy farm",
   },
 ];
 
@@ -161,7 +161,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         invalidateOnRefresh: true,
       });
 
-    }, cardsWrapperRef);
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
@@ -235,52 +235,63 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
             className="flex flex-col gap-1  overflow-hidden"
           >
             <div className="relative w-full h-[240px] sm:h-[280px]">
-              {/* Force object-cover ONLY on the 4th card to remove black bars */}
               <img
                 src={project.image}
                 alt={project.imageAlt}
-                className={`w-full h-full rounded-none ${project.id === 4 ? "object-cover" : "object-contain"}`}
+                className="w-full h-full rounded-none object-contain"
               /> 
               
               {project.id === 4 && (
-                // justify-between pushes h3 to top, p to bottom. Removed the black overlay.
-                <div className="absolute inset-0 z-20 flex flex-col justify-between p-6 sm:p-8">
-                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-[32px] sm:text-[40px] leading-[1.1] w-full text-left">
-                    Explore Projects
+                <div className="absolute inset-0 z-20 flex flex-col gap-12 sm:gap-16 md:gap-12 lg:justify-between items-start justify-center lg:justify-between p-4 sm:p-6">
+                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-lg sm:text-2xl md:text-2xl leading-tight text-left lg:text-left">
+                    <AnimatedText
+                      as="span"
+                      className="inline-block"
+                      isDarkBg
+                      disableColorReveal
+                      slideDuration={0.8}
+                      slideStagger={0.08}
+                    >
+                      Explore Projects
+                    </AnimatedText>
                   </h3>
-                  {/* max-w-full ensures it wraps safely on 320px screens */}
-                  <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 text-[14px] sm:text-[15px] max-w-full sm:max-w-[85%] leading-snug text-left">
-                    These aren’t just projects they’re stories. Stories of our clients, our craft, and the impact we’ve created together.
+                  <div className="space-y-1">
+                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 text-xs sm:text-sm md:text-sm leading-snug text-left lg:text-left">
+                      These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.
+                    </p>
                     <Link
                       to="/projects"
-                      className="ml-2 inline-block text-white group relative whitespace-nowrap"
+                      className="inline-block text-white text-xs sm:text-sm md:text-xs group relative"
                     >
                       View all Projects
                       <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-neutral-400/70 transition-opacity duration-300 group-hover:opacity-0" />
                       <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-current scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                     </Link>
-                  </p>
+                  </div>
                 </div>
               )}
             </div>
 
-            <div className="flex flex-col gap-2">
-              <h3 className="[font-family:'Poppins',Helvetica] font-semibold  text-[20px]">
-                <AnimatedText
-                  as="span"
-                  className="inline-block"
-                  isDarkBg={isDark}
-                  disableColorReveal
-                  slideDuration={0.8}
-                  slideStagger={0.08}
-                >
-                  {project.title}
-                </AnimatedText>
-              </h3>
-              <p className="[font-family:'Poppins',Helvetica] font-normal opacity-80 text-[16px]">
-                {project.desc}
-              </p>
-            </div>
+            {/* Hide title/description for the 4th card since it has the overlay CTA */}
+            {project.id !== 4 && (
+              <div className="flex flex-col gap-2">
+                <h3 className="[font-family:'Poppins',Helvetica] font-semibold  text-[20px]">
+                  <AnimatedText
+                    as="span"
+                    className="inline-block"
+                    isDarkBg={isDark}
+                    disableColorReveal
+                    slideDuration={0.8}
+                    slideStagger={0.08}
+                  >
+                    {project.title}
+                  </AnimatedText>
+                </h3>
+                <p className="[font-family:'Poppins',Helvetica] font-normal opacity-80 text-[16px]">
+                  {project.desc}
+                </p>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -290,7 +301,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       <div
         ref={cardsWrapperRef}
         className="
-          relative w-full max-w-[1260px] mx-auto
+          relative w-full
           h-screen
           hidden lg:flex items-start justify-center
           overflow-hidden
@@ -299,7 +310,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       >
         <div
           className="
-            relative w-full
+            relative w-full max-w-[1260px] mx-auto
             h-[460px] sm:h-[560px] lg:h-[95vh]
             overflow-hidden
           "
@@ -318,23 +329,17 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
               "
               style={{
                 zIndex: 100 + index,
-                height:
-                  index === projectsData.length - 1
-                    ? "90vh" // 🔥 Increase ONLY last card height
-                    : "100%",
               }}
             >
-              {/* Force object-cover ONLY on the 4th card */}
               <img
                 src={project.image}
                 alt={project.imageAlt}
-                className={`w-full h-full rounded-[0px] ${project.id === 4 ? "object-cover" : "object-contain"}`}
+                className="w-full h-full rounded-[0px] object-contain"
               />
               
               {project.id === 4 && (
-                // justify-between pushes h3 to top, p to bottom. Removed the black overlay.
-                <div className="absolute inset-0 z-20 flex flex-col justify-between p-12 lg:p-16 xl:p-20 2xl:p-24">
-                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-[56px] lg:text-[72px] xl:text-[88px] 2xl:text-[100px] leading-[1.1] w-full text-left">
+                <div className="absolute inset-0 z-20 flex flex-col justify-between lg:justify-center lg:gap-[160px] p-8 lg:p-12 xl:p-16">
+                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight">
                     <AnimatedText
                       as="span"
                       className="inline-block"
@@ -346,18 +351,19 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                       Explore Projects
                     </AnimatedText>
                   </h3>
-                  {/* Strict max-width in pixels prevents 1920px stretching/overflow */}
-                  <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 text-[18px] lg:text-[22px] xl:text-[26px] 2xl:text-[28px] max-w-[800px] xl:max-w-[900px] leading-relaxed text-left">
-                    These aren’t just projects they’re stories. Stories of our clients, our craft, and the impact we’ve created together.
+                  <div className="space-y-2 max-w-2xl xl:max-w-3xl">
+                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 text-base lg:text-xl xl:text-2xl min-[1440px]:text-[30px] min-[1440px]:leading-relaxed leading-relaxed">
+                      These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.
+                    </p>
                     <Link
                       to="/projects"
-                      className="ml-3 inline-block text-white group relative whitespace-nowrap"
+                      className="inline-block text-white text-base lg:text-xl group relative"
                     >
                       View all Projects
                       <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-neutral-400/70 transition-opacity duration-300 group-hover:opacity-0" />
                       <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-current scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                     </Link>
-                  </p>
+                  </div>
                 </div>
               )}
               {/* {project.headerImage && (

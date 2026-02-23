@@ -351,7 +351,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                 setApi={setCarouselApi}
                 className="w-full"
               >
-                <CarouselContent className="-ml-4 cursor-grab active:cursor-grabbing">
+                <CarouselContent className="-ml-4 cursor-none">
                   {/* 2. DUPLICATED the array so Embla has enough cards to create an infinite loop */}
                   {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
                     <CarouselItem

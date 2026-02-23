@@ -80,9 +80,16 @@ export const HeroSection = (): JSX.Element => {
         const textRect = text.getBoundingClientRect();
 
         const headingWidth = headingRect.width;
+        // At 1280px+ use outer container width, below 1280px use inner content width
+        const outerContainer = wrapper.parentElement?.parentElement;
+        const rowParent = wrapper.parentElement;
+        const outerWidth = outerContainer?.getBoundingClientRect().width || headingWidth;
+        const rowWidth = rowParent?.getBoundingClientRect().width || headingWidth;
+        const containerWidth = window.innerWidth >= 1280 ? outerWidth : rowWidth;
+        
         // Center image under the heading
         const headingCenterX = headingRect.left + headingRect.width / 2;
-        const targetX = headingCenterX - headingWidth / 2 - imgRect.left;
+        const targetX = headingCenterX - containerWidth / 2 - imgRect.left;
         // Place image right below the text paragraph
         const targetY = textRect.bottom - imgRect.top + 50;
 
@@ -99,7 +106,7 @@ export const HeroSection = (): JSX.Element => {
 
         // No pin — just scrub the image transform as user scrolls
         gsap.to(img, {
-          width: headingWidth,
+          width: containerWidth,
           height: "80vh",
           x: targetX,
           y: targetY,
@@ -165,23 +172,19 @@ export const HeroSection = (): JSX.Element => {
       {/* <Navbar /> */}
 
       {/* 🟣 TITLE + ROTATING WORDS */}
-      <div
-        className="
-          flex flex-col gap-4 z-10 relative
-          px-4 sm:px-8 lg:px-12 xl:px-[71px]
-        "
-      >
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-8 xl:px-20">
+        <div
+          className="
+            flex flex-col gap-4 z-10 relative
+          "
+        >
         <h1
           ref={headingRef}
           className="
             flex items-center justify-center
             font-varela font-bold text-black text-center
             tracking-[0] whitespace-nowrap
-            text-[56px] leading-[70px]
-            sm:text-[120px] sm:leading-[150px]
-            md:text-[160px] md:leading-[200px]
-            lg:text-[140px] lg:leading-[180px]
-            xl:text-[355px] xl:leading-[450px]
+            text-[23vw] leading-[1.2]
           "
         >
           Divenzo
@@ -190,7 +193,7 @@ export const HeroSection = (): JSX.Element => {
         <div
           className="
             flex gap-2 flex-wrap
-             sm:ml-6 lg:ml-[45px]
+            sm:ml-6 lg:ml-0
           "
         >
           <AnimatedText className="flex items-center justify-center [font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
@@ -230,14 +233,15 @@ export const HeroSection = (): JSX.Element => {
           </div>
         </div>
       </div>
+      </div>
 
       {/* 🖼 IMAGE + TEXT */}
       <div
         className="
-          relative
-          max-w-[1280px] mx-auto mt-6 lg:mt-16
-          px-4 sm:px-8
-          lg:pb-[80vh]
+          max-w-[1280px] mx-auto
+          px-4 sm:px-8 lg:px-8 xl:px-20
+          relative mt-6 lg:mt-16
+          lg:pb-[100vh]
         "
       >
         {/* Row: image + text */}
@@ -245,14 +249,14 @@ export const HeroSection = (): JSX.Element => {
           {/* Image — absolutely positioned on desktop so it doesn't push text */}
           <div
             ref={imageWrapperRef}
-            className="relative lg:absolute lg:top-0 lg:left-[-34px] flex-shrink-0"
+            className="relative w-full lg:absolute lg:top-0 lg:left-0 flex-shrink-0"
           >
             <img
               ref={imageRef}
               src="/hero_image.png"
               alt="Expanding Image"
               className="
-                object-cover shadow-xl z-[2]
+                block object-cover shadow-xl z-[2]
                 w-full
                 h-[200px] sm:h-[240px]
                 lg:w-[400px] lg:h-[228px]

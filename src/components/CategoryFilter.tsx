@@ -5,7 +5,7 @@ const categories = [
   "All",
   "Ecommerce",
   "Food & Beverage",
-  "Real State",
+  "Real Estate",
   "Health & Wellness",
   "Hospitality & Travel",
   "Transport",

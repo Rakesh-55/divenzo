@@ -30,13 +30,13 @@ const processSteps = [
     number: "02",
     title: "Build",
     description:
-      "Our expert team at Beyond works together to turn ideas into reality, combining design innovation with cutting-edge tech. We keep projects on track with clear communication and consistent progress checks.",
+      "Our expert team at Divenzo works together to turn ideas into reality, combining design innovation with cutting-edge tech. We keep projects on track with clear communication and consistent progress checks.",
   },
   {
     number: "03",
     title: "Launch",
     description:
-      "This is the stage where plans turn into results. At Beyond, we deliver solutions that reflect your brand's vision, meet defined goals, and elevate your digital presence through expert design, development, and strategy.",
+      "This is the stage where plans turn into results. At Divenzo, we deliver solutions that reflect your brand's vision, meet defined goals, and elevate your digital presence through expert design, development, and strategy.",
   },
   {
     number: "04",
@@ -67,13 +67,6 @@ const testimonials = [
     name: "Vijay Kumar",
     title: "Co-Founder, Hitayu Dairy",
     image: "/ellipse-9-1.svg",
-  },
-  {
-    quote:
-      "We're grateful to Divenzo for their exceptional work on our project website. Their responsiveness, creativity, and dedication led to an outstanding result. It's been a pleasure collaborating, and we wholeheartedly recommend them.",
-    name: "Jaswinder Singh",
-    title: "Founder, RW Infotech",
-    image: "/ellipse-9.svg",
   },
 ];
 
@@ -162,109 +155,16 @@ const servicesData = [
 /* ============ STICKY-STACK SERVICES ============ */
 
 function StickyStackServices() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const headerRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    let ctx: gsap.Context | null = null;
-    let raf = 0;
-
-    raf = requestAnimationFrame(() => {
-      ctx = gsap.context(() => {
-        const contents = contentRefs.current.filter(Boolean) as HTMLDivElement[];
-        const headers = headerRefs.current.filter(Boolean) as HTMLDivElement[];
-        const items = itemRefs.current.filter(Boolean) as HTMLDivElement[];
-        if (contents.length === 0) return;
-
-        // Measure natural heights
-        const heights = contents.map((el) => el.scrollHeight);
-        contents.forEach((content, i) => {
-          gsap.set(content, { height: heights[i], overflow: "hidden" });
-        });
-
-        const collapsibleTotal = heights
-          .slice(0, -1)
-          .reduce((sum, h) => sum + h, 0);
-
-        /* 1. MASTER TIMELINE */
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            id: "services-sticky-stack",
-            trigger: container,
-            start: "top top",
-            end: `+=${collapsibleTotal}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: 1,
-            anticipatePin: 1,
-          },
-        });
-
-        /* 2. BUILD THE SHRINKING ANIMATION */
-        let pos = 0;
-        contents.forEach((content, i) => {
-          const header = headers[i];
-          const item = items[i];
-
-          if (i < contents.length - 1) {
-            tl.to(content, { height: 0, opacity: 0, duration: 1, ease: "none" }, pos);
-            if (item) {
-              tl.to(item, { marginBottom: 0, duration: 1, ease: "none" }, pos);
-            }
-          }
-
-          if (header) {
-            tl.to(
-              header,
-              {
-                scale: 0.82,
-                x: -20,
-                paddingTop: "6px",
-                paddingBottom: "6px",
-                duration: 1,
-                ease: "none",
-                transformOrigin: "left center",
-              },
-              i < contents.length - 1 ? pos : pos - 0.5
-            );
-          }
-          if (i < contents.length - 1) pos += 1;
-        });
-      }, container);
-    });
-
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      if (ctx) ctx.revert();
-    };
-  }, []);
-
   return (
-    <section
-      ref={containerRef}
-      className="bg-black text-white dark-section overflow-x-clip"
-    >
-      <div className="max-w-[90vw] xl:max-w-[1440px] mx-auto px-4 sm:px-10 md:px-16 py-12 md:py-20">
-        {servicesData.map((service, i) => (
+    <section className="bg-black text-white dark-section overflow-x-clip px-4 lg:px-8 xl:px-20">
+      <div className="max-w-[1260px] mx-auto py-12 md:py-20">
+        {servicesData.map((service) => (
           <div
             key={service.id}
-            ref={(el) => { itemRefs.current[i] = el; }}
-            className="mb-6 md:mb-10"
+            className="mb-8 md:mb-12"
           >
-            {/* ── STICKY HEADER WRAPPER (holds header + line separately so line is not affected by GSAP transforms) ── */}
-            <div
-              className="sticky top-0 bg-black"
-              style={{ zIndex: 10 + i }}
-            >
-              <div
-                ref={(el) => { headerRefs.current[i] = el; }}
-                className="py-4 md:py-5 will-change-transform"
-              >
+            <div className="relative">
+              <div className="py-4 md:py-5">
                 <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]">
                   <AnimatedText
                     className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]"
@@ -277,7 +177,6 @@ function StickyStackServices() {
                   </AnimatedText>
                 </h2>
               </div>
-              {/* Full-bleed separator — outside the GSAP-transformed div so width stays fixed */}
               <div
                 className="absolute bottom-0 h-px pointer-events-none"
                 style={{
@@ -289,11 +188,7 @@ function StickyStackServices() {
               />
             </div>
 
-            {/* ── COLLAPSIBLE CONTENT (pointer-events + select enabled) ── */}
-            <div
-              ref={(el) => { contentRefs.current[i] = el; }}
-              className="will-change-[height,opacity] pointer-events-auto select-text"
-            >
+            <div className="pointer-events-auto select-text">
               <div className="flex flex-col lg:flex-row gap-4 lg:gap-16 py-5 md:py-8">
                 <div className="hidden lg:block lg:w-[280px] xl:w-[340px] shrink-0" />
 
@@ -385,8 +280,8 @@ export default function Services() {
     <>
       {/* HERO */}
       <section className="relative w-full bg-white">
-        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-8 xl:px-0">
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[85px] mb-[36px] md:mb-[56px]">
+        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
             <AnimatedText
               as="span"
               className="block"
@@ -505,7 +400,7 @@ export default function Services() {
       {/* TESTIMONIALS */}
 <section className="pb-24">
   <div className="max-w-[1280px] mx-auto px-4 lg:px-0">
-    <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[46px] sm:text-[80px] lg:text-[120px] mb-4">
+    <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
       <AnimatedText
         as="span"
         className="block"
@@ -519,8 +414,17 @@ export default function Services() {
     </h2>
 
     <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[18px] sm:text-[24px] lg:text-[32px] max-w-[930px] ml-0 lg:ml-[200px] xl:ml-[350px]">
-      We work with forward-thinking clients who value creativity and results.
-      Together, we build experiences that inspire and deliver growth.
+      <AnimatedText
+        as="span"
+        className="block"
+        isDarkBg={false}
+        disableColorReveal
+        slideDuration={0.8}
+        slideStagger={0.08}
+      >
+        We work with forward-thinking clients who value creativity and results.
+        Together, we build experiences that inspire and deliver growth.
+      </AnimatedText>
     </p>
   </div>
 
@@ -540,8 +444,8 @@ export default function Services() {
         gsap.to(carouselCursorRef.current, {
           scale: 1,
           opacity: 1,
-          duration: 0.3,
-          ease: "power3.out",
+          duration: 0.4,
+          ease: "power2.out",
         });
       }
     }}
@@ -559,8 +463,8 @@ export default function Services() {
         gsap.to(carouselCursorRef.current, {
           scale: 0,
           opacity: 0,
-          duration: 0,
-          ease: "none",
+          duration: 0.5,
+          ease: "power2.out",
         });
       }
     }}
@@ -578,8 +482,8 @@ export default function Services() {
       setApi={setCarouselApi}
       className="w-full"
     >
-      <CarouselContent className="-ml-4 cursor-grab active:cursor-grabbing">
-        {testimonials.map((testimonial, index) => (
+      <CarouselContent className="-ml-4 cursor-none">
+        {[...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
           <CarouselItem
             key={index}
             className="basis-[85%] sm:basis-[70%] md:basis-1/2 lg:basis-[40%] flex justify-center"
@@ -587,7 +491,16 @@ export default function Services() {
             <Card className="group relative border-0 shadow-none rounded-none overflow-hidden transition-colors duration-700 h-[419px] w-[465px] bg-[#fafafa]">
               <CardContent className="relative z-10 h-full p-8 flex flex-col gap-6 justify-start">
                 <p className="[font-family:'Poppins',Helvetica] text-[14px] sm:text-[16px] lg:text-[17px] text-[#000000e6] leading-relaxed opacity-90 w-full min-h-[168px]">
-                  {testimonial.quote}
+                  <AnimatedText
+                    as="span"
+                    className="block"
+                    isDarkBg={false}
+                    disableColorReveal
+                    slideDuration={0.6}
+                    slideStagger={0.05}
+                  >
+                    {testimonial.quote}
+                  </AnimatedText>
                 </p>
 
                 <div className="flex gap-4 items-center min-h-[64px] mt-auto">
@@ -603,10 +516,28 @@ export default function Services() {
 
                   <div>
                     <div className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[14px] sm:text-[16px] lg:text-[18px]">
-                      {testimonial.name}
+                      <AnimatedText
+                        as="span"
+                        className="inline"
+                        isDarkBg={false}
+                        disableColorReveal
+                        slideDuration={0.5}
+                        slideStagger={0.05}
+                      >
+                        {testimonial.name}
+                      </AnimatedText>
                     </div>
                     <div className="[font-family:'Poppins',Helvetica] text-[#555] text-[12px] sm:text-[13px] lg:text-[14px]">
-                      {testimonial.title}
+                      <AnimatedText
+                        as="span"
+                        className="inline"
+                        isDarkBg={false}
+                        disableColorReveal
+                        slideDuration={0.5}
+                        slideStagger={0.05}
+                      >
+                        {testimonial.title}
+                      </AnimatedText>
                     </div>
                   </div>
                 </div>
