@@ -19,13 +19,13 @@ const processSteps = [
     number: "02",
     title: "Build",
     description:
-      "Our expert team at Beyond works together to turn ideas into reality, combining design innovation with cutting-edge tech. We keep projects on track with clear communication and consistent progress checks.",
+      "Our expert team at Divenzo works together to turn ideas into reality, combining design innovation with cutting-edge tech. We keep projects on track with clear communication and consistent progress checks.",
   },
   {
     number: "03",
     title: "Launch",
     description:
-      "This is the stage where plans turn into results. At Beyond, we deliver solutions that reflect your brand's vision, meet defined goals, and elevate your digital presence through expert design, development, and strategy.",
+      "This is the stage where plans turn into results. At Divenzo, we deliver solutions that reflect your brand's vision, meet defined goals, and elevate your digital presence through expert design, development, and strategy.",
   },
   {
     number: "04",

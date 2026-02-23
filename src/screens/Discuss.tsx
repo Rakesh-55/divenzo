@@ -2,6 +2,11 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import { AnimatedText } from "@/components/AnimatedText";
+import { SuccessPopup } from "@/components/SuccessPopup";
+import emailjs from "@emailjs/browser";
+
+// Initialize EmailJS (replace with your actual Public Key from EmailJS)
+emailjs.init("YOUR_PUBLIC_KEY_HERE");
 
 /* ─────────────────────────────────────────────
    Animated Input / Textarea
@@ -237,6 +242,10 @@ export default function Discuss() {
   const [budget, setBudget] = useState("");
   const [service, setService] = useState("");
   const [message, setMessage] = useState("");
+  
+  const [showPopup, setShowPopup] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("Email sent successfully!");
 
   /* heading + description reveal */
   useEffect(() => {
@@ -259,24 +268,69 @@ export default function Discuss() {
     return () => ctx.revert();
   }, []);
 
-  /* form submit — frontend only, does NOT touch any backend */
+  /* form submit — send email via EmailJS */
   const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
+    async (e: React.FormEvent) => {
       e.preventDefault();
-      alert("Form submitted successfully!");
+      
+      // Validate required fields
+      if (!fullName || !email || !phone || !service || !message) {
+        setPopupMessage("Please fill in all required fields!");
+        setShowPopup(true);
+        return;
+      }
+
+      setIsSubmitting(true);
+
+      try {
+        // Send email via EmailJS
+        await emailjs.send(
+          "YOUR_SERVICE_ID", // Replace with your EmailJS Service ID
+          "YOUR_TEMPLATE_ID", // Replace with your EmailJS Template ID
+          {
+            to_email: "hello@divenzo.com",
+            from_name: fullName,
+            from_email: email,
+            phone: phone,
+            company: company || "Not provided",
+            budget: budget || "Not specified",
+            service: service,
+            message: message,
+          }
+        );
+
+        // Success - show popup and reset form
+        setPopupMessage("Email sent successfully! We'll get back to you soon.");
+        setShowPopup(true);
+
+        // Reset form
+        setFullName("");
+        setEmail("");
+        setPhone("");
+        setCompany("");
+        setBudget("");
+        setService("");
+        setMessage("");
+      } catch (error) {
+        console.error("Email sending failed:", error);
+        setPopupMessage("Failed to send email. Please try again or email hello@divenzo.com");
+        setShowPopup(true);
+      } finally {
+        setIsSubmitting(false);
+      }
     },
-    []
+    [fullName, email, phone, company, budget, service, message]
   );
 
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden">
-        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-8 xl:px-0">
+        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
 
           {/* ===== HEADING ===== */}
           <h2
             ref={headingRef}
-            className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1] mb-[36px] lg:mb-[56px]"
+            className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]"
             style={{ opacity: 0 }}
           >
             <AnimatedText
@@ -361,15 +415,17 @@ export default function Discuss() {
               {/* Submit — same hover underline as Navbar links */}
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="
                   relative self-start group
                   [font-family:'Poppins',Helvetica]
                   text-[18px] sm:text-[20px] lg:text-[24px]
                   text-black font-normal
                   py-1
+                  disabled:opacity-50 disabled:cursor-not-allowed
                 "
               >
-                Submit
+                {isSubmitting ? "Sending..." : "Submit"}
                 <span
                   className="
                     absolute left-0 -bottom-0.5 h-[1.5px] w-full
@@ -390,6 +446,12 @@ export default function Discuss() {
           </div>
         </div>
       </section>
+
+      <SuccessPopup 
+        isOpen={showPopup} 
+        onClose={() => setShowPopup(false)}
+        message={popupMessage}
+      />
 
       <FooterSection />
     </>

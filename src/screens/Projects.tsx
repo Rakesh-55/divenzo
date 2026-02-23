@@ -12,7 +12,7 @@ const projectsData = [
     imageAlt: "Project 1",
     projectTitle: "Practice Coach",
     desc: "Crafting conversion focus website for leading Practice Coach Company",
-    category: "Tech", 
+    category: "Sports", 
   },
   {
     id: 2,
@@ -177,10 +177,10 @@ export default function Projects() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden min-h-screen">
-        <div className="max-w-[1280px] mx-auto pt-6 sm:pt-8 lg:pt-10 pb-16 px-4 lg:px-8 xl:px-0">
+        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-16 px-4 lg:px-8 xl:px-0">
 
           {/* ===== HEADING ===== */}
-          <AnimatedText className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1.25] pb-3 mb-[40px] lg:mb-[56px]" isDarkBg={false}>
+          <AnimatedText className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]" isDarkBg={false}>
             Projects
           </AnimatedText>
 

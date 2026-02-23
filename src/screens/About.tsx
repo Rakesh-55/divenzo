@@ -136,31 +136,50 @@ export default function AboutSection() {
       // 1. Color Background Triggers (Direct DOM manipulation for smoothness)
       if (teamSectionRef.current && clientsSectionRef.current && mainRef.current) {
         
-        // Enter Team Section (White -> Black)
+        // Transition to Black (at Team Section start)
         ScrollTrigger.create({
           trigger: teamSectionRef.current,
-          start: "top 50%",
-          end: "bottom 50%",
+          start: "top 70%",
           onEnter: () => { 
-            gsap.to(mainRef.current, { backgroundColor: "#000", color: "#fff", duration: 0.8, ease: "power2.inOut", overwrite: "auto" });
+            gsap.to(mainRef.current, { 
+              backgroundColor: "#000", 
+              color: "#fff", 
+              duration: 0.8, 
+              ease: "power2.inOut"
+            });
             setIsDarkTheme(true); 
           },
           onLeaveBack: () => { 
-            gsap.to(mainRef.current, { backgroundColor: "#fff", color: "#000", duration: 0.8, ease: "power2.inOut", overwrite: "auto" });
+            gsap.to(mainRef.current, { 
+              backgroundColor: "#fff", 
+              color: "#000", 
+              duration: 0.8, 
+              ease: "power2.inOut"
+            });
             setIsDarkTheme(false); 
           },
         });
 
-        // Enter Clients Section (Black -> White)
+        // Transition to White (at Clients Section start)
         ScrollTrigger.create({
           trigger: clientsSectionRef.current,
-          start: "top 50%",
+          start: "top 70%",
           onEnter: () => { 
-            gsap.to(mainRef.current, { backgroundColor: "#fff", color: "#000", duration: 0.8, ease: "power2.inOut", overwrite: "auto" });
+            gsap.to(mainRef.current, { 
+              backgroundColor: "#fff", 
+              color: "#000", 
+              duration: 0.8, 
+              ease: "power2.inOut"
+            });
             setIsDarkTheme(false); 
           },
           onLeaveBack: () => { 
-            gsap.to(mainRef.current, { backgroundColor: "#000", color: "#fff", duration: 0.8, ease: "power2.inOut", overwrite: "auto" });
+            gsap.to(mainRef.current, { 
+              backgroundColor: "#000", 
+              color: "#fff", 
+              duration: 0.8, 
+              ease: "power2.inOut"
+            });
             setIsDarkTheme(true); 
           },
         });
@@ -226,10 +245,10 @@ export default function AboutSection() {
         className={`relative w-full overflow-x-hidden ${isDarkTheme ? "dark-section" : ""}`}
         style={{ backgroundColor: "#fff", color: "#000" }} // Initial state for GSAP to animate from
       >
-        <div className="max-w-[1280px] mx-auto pt-3 pb-8 md:pt-8 md:pb-16 px-4 lg:px-8 xl:px-0">
+        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
 
           {/* ABOUT */}
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[120px] leading-[1] mb-[36px] md:mb-[56px]">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
             <AnimatedText
               as="span"
               className="block"

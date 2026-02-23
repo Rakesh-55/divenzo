@@ -13,7 +13,7 @@ const socialLinks = [
   { name: "Instagram", url: "https://www.instagram.com/divenzo.design" },
   { name: "LinkedIn", url: "https://www.linkedin.com/company/divenzo-design-digital-marketing-agency/" },
   { name: "Twitter", url: "#" },
-  { name: "Facebook", url: "#" },
+  { name: "Facebook", url: "https://www.facebook.com/share/19guPkqrpU/?mibextid=wwXIfr" },
 ];
 
 const navigationLinks = [
@@ -115,13 +115,13 @@ export const FooterSection = (): JSX.Element => {
     <footer
       className="
         sticky bottom-0 w-full bg-black dark-section
-        pt-[80px] sm:pt-[120px] lg:pt-[150px]
+        pt-[53px] sm:pt-[80px] lg:pt-[100px]
         pb-[25px] sm:pb-[30px] lg:pb-[35px]
-        px-4 sm:px-8 lg:px-12 xl:px-20
+        px-[4vw]
         overflow-hidden
       "
     >
-      <div ref={contentRef} className="flex flex-col gap-[23px]">
+      <div ref={contentRef} className="flex flex-col gap-[56px]">
         {/* ===== Social Links ===== */}
         <nav
           className="
@@ -135,6 +135,7 @@ export const FooterSection = (): JSX.Element => {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => link.url === "#" && e.preventDefault()}
               className="
                 inline-flex items-center justify-center
                 h-auto p-0 footer-no-underline overflow-hidden group
@@ -155,7 +156,7 @@ export const FooterSection = (): JSX.Element => {
           ))}
         </nav>
 
-        <div className="flex flex-col gap-[29px]">
+        <div className="flex flex-col gap-[56px]">
           <Separator className="bg-[#ffffff33] h-0.5" />
 
           {/* ===== Main Footer Content ===== */}
@@ -169,7 +170,7 @@ export const FooterSection = (): JSX.Element => {
             {/* ---- Lets Chat ---- */}
             <section
               className="
-                flex flex-col gap-4
+                flex flex-col gap-8
                 w-full lg:flex-1
               "
             >
@@ -303,8 +304,7 @@ export const FooterSection = (): JSX.Element => {
                 aria-label="Divenzo"
                 className="
                   font-varela font-bold text-white text-center
-                  text-[60px] sm:text-[120px] md:text-[160px] lg:text-[200px] xl:text-[290px]
-                  leading-[1]
+                  text-[23vw] leading-[1.2]
                   whitespace-nowrap
                   overflow-hidden
                 "

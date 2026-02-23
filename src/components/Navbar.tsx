@@ -21,7 +21,7 @@ const socialLinks = [
   { name: "Instagram", url: "https://www.instagram.com/divenzo.design" },
   { name: "LinkedIn", url: "https://www.linkedin.com/company/divenzo-design-digital-marketing-agency/" },
   { name: "Twitter", url: "#" },
-  { name: "Facebook", url: "#" },
+  { name: "Facebook", url: "https://www.facebook.com/share/19guPkqrpU/?mibextid=wwXIfr" },
 ];
 
 export const Navbar = (): JSX.Element => {
@@ -101,6 +101,23 @@ export const Navbar = (): JSX.Element => {
     setMenuOpen(false);
   }, [location]);
 
+  /* ================= CLEAR HOVER STATES WHEN MENU CLOSES ================= */
+  useEffect(() => {
+    if (!menuOpen) {
+      setHoveredMenuLink(null);
+      setMenuImageVisible(false);
+      if (imageClearTimeoutRef.current) {
+        window.clearTimeout(imageClearTimeoutRef.current);
+        imageClearTimeoutRef.current = null;
+      }
+      // Clear image after visibility animation
+      const timer = window.setTimeout(() => {
+        setMenuImage(null);
+      }, 50);
+      return () => window.clearTimeout(timer);
+    }
+  }, [menuOpen]);
+
   /* ================= SCROLL STATE ================= */
   useEffect(() => {
     const onScroll = () => {
@@ -171,11 +188,12 @@ export const Navbar = (): JSX.Element => {
   return (
     <div className="font-nav">
       {/* ================= MOBILE HEADER ================= */}
-      <header className="lg:hidden fixed top-0 left-0 w-full z-[500]">
+      <header className="md:hidden fixed top-0 left-0 w-full z-[500]">
         <nav 
           className={`
             flex items-center justify-between px-6 py-4 
             transition-all duration-500 
+            ${menuOpen ? "border-b border-transparent" : ""}
             ${
               scrolled && !menuOpen
                 ? `
@@ -235,10 +253,11 @@ export const Navbar = (): JSX.Element => {
       <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${menuOpen ? "z-[400]" : ""}`}>
         <nav
           className={`
-            hidden lg:block
+            hidden md:block
             w-full
             px-8 lg:px-12 xl:px-20 py-4
             transition-all duration-500
+            ${menuOpen ? "border-b border-transparent" : ""}
             ${scrolled && !menuOpen
               ? `
                 backdrop-blur-xl
@@ -296,7 +315,7 @@ export const Navbar = (): JSX.Element => {
             {/* CENTER NAV */}
             <div
               className={`
-                flex justify-center gap-6 xl:gap-12
+                flex justify-center gap-12
                 transition-all duration-700
                 ${scrolled ? "-translate-y-6 opacity-0" : "opacity-100"}
               `}
@@ -362,7 +381,7 @@ export const Navbar = (): JSX.Element => {
             {/* HAMBURGER / X BUTTON */}
             <div
               className={`
-                hidden lg:flex items-center justify-center
+                hidden md:flex items-center justify-center
                 transition-all duration-700 ease-out
                 ${showHamburger ? "w-12 opacity-100" : "w-0 opacity-0"}
               `}
@@ -580,6 +599,7 @@ export const Navbar = (): JSX.Element => {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => link.url === "#" && e.preventDefault()}
                     className="relative group text-white transition-colors duration-300"
                   >
                     {link.name}
