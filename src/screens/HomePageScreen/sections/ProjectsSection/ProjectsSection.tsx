@@ -261,7 +261,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                     </p>
                     <Link
                       to="/projects"
-                      className="inline-block text-white text-xs sm:text-sm md:text-xs group relative"
+                      className="[font-family:'Poppins',Helvetica] inline-block text-white text-xs sm:text-sm md:text-xs group relative"
                     >
                       View all Projects
                       <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-neutral-400/70 transition-opacity duration-300 group-hover:opacity-0" />
@@ -357,7 +357,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                     </p>
                     <Link
                       to="/projects"
-                      className="inline-block text-white text-base lg:text-xl group relative"
+                      className="[font-family:'Poppins',Helvetica] inline-block text-white text-base lg:text-xl group relative"
                     >
                       View all Projects
                       <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-neutral-400/70 transition-opacity duration-300 group-hover:opacity-0" />
