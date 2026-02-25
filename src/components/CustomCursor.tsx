@@ -1,12 +1,30 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useCursor } from "@/hooks/useCursor";
 
 const CustomCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const { isHovering } = useCursor();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const checkDevice = () => {
+      // 1. Checks if screen is 1024px or wider
+      const isLargeScreen = window.innerWidth >= 1024;
+      // 2. Checks if the device actually uses a mouse (fine pointer)
+      const hasMouse = window.matchMedia("(pointer: fine)").matches;
+      
+      setIsVisible(isLargeScreen && hasMouse);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
+    return () => window.removeEventListener("resize", checkDevice);
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     const cursorEl = cursorRef.current;
     if (!cursorEl) return;
 
@@ -28,9 +46,11 @@ const CustomCursor = () => {
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [isVisible]);
 
   useEffect(() => {
+    if (!isVisible) return;
+
     const cursorEl = cursorRef.current;
     if (!cursorEl) return;
 
@@ -39,7 +59,7 @@ const CustomCursor = () => {
       duration: 0.35,
       ease: isHovering ? "power3.out" : "power3.inOut",
     });
-  }, [isHovering]);
+  }, [isHovering, isVisible]);
 
 
   // uncoment this to hide the default cursor and use only the custom one
@@ -51,7 +71,8 @@ const CustomCursor = () => {
   //     document.body.style.cursor = previousCursor;
   //   };
   // }, []);
-
+  if (!isVisible) return null;
+  
   return (
     <div
       ref={cursorRef}

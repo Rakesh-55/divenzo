@@ -26,7 +26,6 @@ import {
   CarouselItem,
 } from "../../../../components/ui/carousel";
 import { BrandMarquee } from "@/components/BrandMarquee";
-import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -266,38 +265,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
             We work with forward-thinking clients who value creativity and results. Together, we build experiences that inspire and deliver growth.
             </AnimatedText>
 
-            <Link to="/about">
-            <Button
-              variant="link"
-              className="relative h-auto w-fit p-0 mt-4 group no-underline hover:no-underline"
-            >
-              <span
-                className="
-                  [font-family:'Poppins',Helvetica] font-normal
-                    text-[20px] sm:text-[24px] lg:text-[32px]
-                    leading-[40px] lg:leading-[51px]
-                "
-              >
-                Discover More
-              </span>
-              <span
-                className="
-                  absolute left-0 -bottom-1 h-0.5 w-full
-                  bg-current opacity-40 transition-opacity duration-300
-                  group-hover:opacity-0
-                "
-              />
-              <span
-                className="
-                  absolute left-0 -bottom-1 h-0.5 w-full
-                  bg-current scale-x-0 origin-left
-                  transition-transform duration-500 ease-out
-                  group-hover:scale-x-100
-                "
-              />
-
-            </Button>
-            </Link>
+            
           </div>
 
             <div
