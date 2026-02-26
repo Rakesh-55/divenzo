@@ -4,7 +4,6 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedText } from "@/components/AnimatedText";
-// import { useScrollProgress } from "@/hooks/useScrollProgress";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,17 +15,12 @@ export const HeroSection = (): JSX.Element => {
   const imageRef = useRef<HTMLImageElement | null>(null);
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const marqueeRef = useRef<HTMLDivElement | null>(null);
-  // const sectionRef = useRef<HTMLElement | null>(null);
-  // const progress = useScrollProgress(sectionRef);
-
-  // const textColorValue = 180 + progress * 75; // grey → white
-
 
   useEffect(() => {
     const isDesktop = window.innerWidth >= 1024;
 
     const ctx = gsap.context(() => {
-      // 🟣 Fade-in heading (UNCHANGED)
+      // 🟣 Fade-in heading
       gsap.fromTo(
         headingRef.current,
         { opacity: 0, y: 60, scale: 0.95 },
@@ -53,7 +47,6 @@ export const HeroSection = (): JSX.Element => {
           ? 40
           : 48;
 
-      // All words - 2 seconds each with cylinder rolling effect
       rotatingWords.forEach((_, index) => {
         tl.to(
           marqueeRef.current,
@@ -80,20 +73,16 @@ export const HeroSection = (): JSX.Element => {
         const textRect = text.getBoundingClientRect();
 
         const headingWidth = headingRect.width;
-        // At 1280px+ use outer container width, below 1280px use inner content width
         const outerContainer = wrapper.parentElement?.parentElement;
         const rowParent = wrapper.parentElement;
         const outerWidth = outerContainer?.getBoundingClientRect().width || headingWidth;
         const rowWidth = rowParent?.getBoundingClientRect().width || headingWidth;
         const containerWidth = window.innerWidth >= 1280 ? outerWidth : rowWidth;
         
-        // Center image under the heading
         const headingCenterX = headingRect.left + headingRect.width / 2;
         const targetX = headingCenterX - containerWidth / 2 - imgRect.left;
-        // Place image right below the text paragraph
         const targetY = textRect.bottom - imgRect.top + 50;
 
-        // Force initial size
         gsap.set(img, {
           width: 400,
           height: 228,
@@ -104,7 +93,6 @@ export const HeroSection = (): JSX.Element => {
           zIndex: 2,
         });
 
-        // No pin — just scrub the image transform as user scrolls
         gsap.to(img, {
           width: containerWidth,
           height: "80vh",
@@ -121,7 +109,6 @@ export const HeroSection = (): JSX.Element => {
           },
         });
 
-        // Image wrapper appears above text during scroll (start immediately)
         gsap.to(wrapper, {
           zIndex: 10,
           ease: "none",
@@ -133,7 +120,6 @@ export const HeroSection = (): JSX.Element => {
           },
         });
 
-        // Push text behind image during scroll (start immediately)
         gsap.to(text, {
           zIndex: 0,
           ease: "none",
@@ -148,7 +134,6 @@ export const HeroSection = (): JSX.Element => {
         const img = imageRef.current;
         if (!img) return;
 
-        // Mobile: keep layout stable (no pin), just a subtle scale/height change
         gsap.to(img, {
           width: "100%",
           height: "45vh",
@@ -168,89 +153,71 @@ export const HeroSection = (): JSX.Element => {
   }, []);
 
   return (
-    <section className="relative w-full bg-white overflow-visible z-10">
+    <section className="relative w-full bg-white overflow-visible z-10 px-4 sm:px-8 lg:px-8 xl:px-20">
       {/* <Navbar /> */}
 
       {/* 🟣 TITLE + ROTATING WORDS */}
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-8 xl:px-20">
-        <div
-          className="
-            flex flex-col gap-4 z-10 relative
-          "
-        >
-        <h1
+      <div className="max-w-[1280px] mx-auto w-full">
+        <div className="flex flex-col gap-4 z-10 relative">
+         <h1
           ref={headingRef}
+          aria-label="Divenzo"
           className="
-            flex items-center justify-center
             font-varela font-bold text-black text-center
-            tracking-[0] whitespace-nowrap
-            text-[23vw] leading-[1.2]
+            text-[22vw] leading-[1.2]
+            whitespace-nowrap overflow-hidden
           "
         >
-          Divenzo
+          {"Divenzo".split("").map((char, i) => (
+            <span
+              key={i}
+              className={`
+                inline-block company-letter
+                ${i === 0 ? "-ml-[0.06em]" : ""}
+              `}
+              aria-hidden="true"
+            >
+              {char}
+            </span>
+          ))}
         </h1>
 
-        <div
-          className="
-            flex gap-2 flex-wrap
-            sm:ml-6 lg:ml-0
-          "
-        >
-          <AnimatedText className="flex items-center justify-center [font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
-          isDarkBg={false}
-          disableColorReveal
-          slideDuration={0.8}
-          slideStagger={0.08}
-          >
-            Building brands through
-          </AnimatedText>
-
-          <div
-            className="
-              overflow-hidden
-              w-[120px] sm:w-[150px] lg:w-[200px]
-              h-[28px] sm:h-[38px] lg:h-[48px]
-            "
-          >
-            <div
-              ref={marqueeRef}
-              className="flex flex-col items-start gap-0"
+          <div className="flex gap-2 flex-wrap sm:ml-6 lg:ml-0">
+            <AnimatedText 
+              className="flex items-center justify-center [font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px]"
+              isDarkBg={false}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
             >
-              {rotatingWords.map((word, index) => (
-                <div
-                  key={index}
-                  className="
-                    flex items-center justify-center h-[28px] sm:h-[38px] lg:h-[48px]
-                    [font-family:'Poppins',Helvetica] font-semibold
-                    text-[18px] sm:text-[24px] lg:text-[32px]
-                    text-[#2b2b2b]
-                  "
-                >
-                  {word}
-                </div>
-              ))}
+              Building brands through
+            </AnimatedText>
+
+            <div className="overflow-hidden w-[120px] sm:w-[150px] lg:w-[200px] h-[28px] sm:h-[38px] lg:h-[48px]">
+              <div ref={marqueeRef} className="flex flex-col items-start gap-0">
+                {rotatingWords.map((word, index) => (
+                  <div
+                    key={index}
+                    className="
+                      flex items-center justify-center h-[28px] sm:h-[38px] lg:h-[48px]
+                      [font-family:'Poppins',Helvetica] font-semibold
+                      text-[18px] sm:text-[24px] lg:text-[32px]
+                      text-[#2b2b2b]
+                    "
+                  >
+                    {word}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
 
       {/* 🖼 IMAGE + TEXT */}
-      <div
-        className="
-          max-w-[1280px] mx-auto
-          px-4 sm:px-8 lg:px-8 xl:px-20
-          relative mt-6 lg:mt-16
-          lg:pb-[100vh]
-        "
-      >
-        {/* Row: image + text */}
-        <div className="relative flex flex-col lg:block items-start gap-10">
-          {/* Image — absolutely positioned on desktop so it doesn't push text */}
-          <div
-            ref={imageWrapperRef}
-            className="relative w-full lg:absolute lg:top-0 lg:left-0 flex-shrink-0"
-          >
+      <div className="max-w-[1280px] mx-auto w-full relative mt-6 lg:mt-16 lg:pb-[100vh]">
+        <div className="relative flex flex-col lg:block items-start gap-10 w-full">
+          <div ref={imageWrapperRef} className="relative w-full lg:absolute lg:top-0 lg:left-0 flex-shrink-0">
             <img
               ref={imageRef}
               src="/hero_image.png"
@@ -266,8 +233,7 @@ export const HeroSection = (): JSX.Element => {
             />
           </div>
 
-          {/* Text — stays in place, not affected by image growth */}
-          <div ref={textRef} className="mt-4 lg:mt-0 lg:relative lg:top-[114px]" style={{ zIndex: 3 }}>
+          <div ref={textRef} className="mt-4 lg:mt-0 lg:relative lg:top-[114px] w-full" style={{ zIndex: 3 }}>
             <AnimatedText
               className="
                 [font-family:'Poppins',Helvetica]

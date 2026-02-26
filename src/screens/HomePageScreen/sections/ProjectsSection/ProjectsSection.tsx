@@ -184,7 +184,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       `}
     >
       {/* ================= HEADER & MOBILE CONTENT CONTAINER ================= */}
-      <div className="max-w-[1260px] mx-auto">
+      <div className="max-w-[1280px] mx-auto">
       {/* ================= HEADER ================= */}
       <header
         ref={headerRef}
@@ -310,7 +310,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       >
         <div
           className="
-            relative w-full max-w-[1260px] mx-auto
+            relative w-full max-w-[1280px] mx-auto
             h-[460px] sm:h-[560px] lg:h-[95vh]
             overflow-hidden
           "
