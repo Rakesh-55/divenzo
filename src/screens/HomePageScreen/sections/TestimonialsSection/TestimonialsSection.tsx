@@ -441,7 +441,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                   className={index === faqItems.length - 1 ? "border-0" : "border-b border-[#cccccc]"}
                 >
                   <AccordionTrigger className="py-6">
-                    <span className="block [font-family:'Poppins',Helvetica] font-normal text-[14px] sm:text-[22px] lg:text-[28px] leading-[1.4]">
+                    <span className="block [font-family:'Poppins',Helvetica] font-normal text-[18px] sm:text-[22px] lg:text-[28px] leading-[1.4]">
                       {item.question}
                     </span>
                   </AccordionTrigger>

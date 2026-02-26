@@ -321,28 +321,32 @@ export const Navbar = (): JSX.Element => {
               `}
               style={{ transitionDelay: scrolled ? "0ms" : "520ms" }}
             >
-              {navLinks.map(link => (
-                <Link
-                  key={link.page}
-                  to={link.page}
-                  onClick={() => handleNavClick(link.page)}
-                  className={`
-                    relative text-[14px] lg:text-[15px] xl:text-[16px] font-normal tracking-wide
-                    ${onDarkSection ? "text-white" : "text-black"}
-                    group
-                  `}
-                >
-                  {link.label}
-                  <span
-                    className="
-                      absolute left-0 -bottom-1 h-[1.5px] w-full
-                      bg-current scale-x-0 origin-left
-                      transition-transform duration-500 ease-out
-                      group-hover:scale-x-100
-                    "
-                  />
-                </Link>
-              ))}
+              {navLinks.map(link => {
+                const isActive = location.pathname === link.page; // Checks if this is the current page
+                
+                return (
+                  <Link
+                    key={link.page}
+                    to={link.page}
+                    onClick={() => handleNavClick(link.page)}
+                    className={`
+                      relative text-[14px] lg:text-[15px] xl:text-[16px] font-normal tracking-wide
+                      ${onDarkSection ? "text-white" : "text-black"}
+                      group
+                    `}
+                  >
+                    {link.label}
+                    <span
+                      className={`
+                        absolute left-0 -bottom-1 h-[1.5px] w-full
+                        bg-current origin-left
+                        transition-transform duration-500 ease-out
+                        ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}
+                      `}
+                    />
+                  </Link>
+                );
+              })}
             </div>
 
 
@@ -361,19 +365,30 @@ export const Navbar = (): JSX.Element => {
               style={{ transitionDelay: scrolled ? "120ms" : "0ms" }}
             >
               Discuss with us
+              
+              {/* INACTIVE FADED LINE: Fades out on hover, completely hidden if active */}
               <span
-                className="
-                  absolute left-0 -bottom-1 h-[1.5px] w-full
-                  bg-neutral-400/70 transition-opacity duration-300
-                  group-hover:opacity-0
-                "
+                className={`
+                  absolute left-0 -bottom-1 h-[1.5px] w-full bg-neutral-400/70 
+                  transition-opacity duration-300
+                  ${location.pathname === "/discuss" ? "opacity-0" : "group-hover:opacity-0"}
+                `}
               />
+              
+              {/* ACTIVE LINE: Shrinks away to the right on hover */}
+              <span
+                className={`
+                  absolute left-0 -bottom-1 h-[1.5px] w-full bg-current origin-right 
+                  transition-transform duration-500 ease-out
+                  ${location.pathname === "/discuss" ? "scale-x-100 group-hover:scale-x-0" : "scale-x-0"}
+                `}
+              />
+              
+              {/* HOVER LINE: Always sweeps in from the left on hover */}
               <span
                 className="
-                  absolute left-0 -bottom-1 h-[1.5px] w-full
-                  bg-current scale-x-0 origin-left
-                  transition-transform duration-500 ease-out
-                  group-hover:scale-x-100
+                  absolute left-0 -bottom-1 h-[1.5px] w-full bg-current origin-left scale-x-0 
+                  transition-transform duration-500 ease-out group-hover:scale-x-100
                 "
               />
             </Link>

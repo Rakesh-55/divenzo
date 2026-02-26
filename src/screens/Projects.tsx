@@ -177,7 +177,7 @@ export default function Projects() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden min-h-screen">
-        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-16 px-4 lg:px-8 xl:px-0">
+        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-16 lg:pb-40 px-4 lg:px-8 xl:px-0">
 
           {/* ===== HEADING ===== */}
           <AnimatedText className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]" isDarkBg={false}>

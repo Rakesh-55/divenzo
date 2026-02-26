@@ -189,7 +189,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
             <Link to="/services">
             <Button
               variant="link"
-              className="relative h-auto w-fit p-0 pb-4 mt-[32px] lg:mt-[56px] text-inherit hover:text-inherit group no-underline hover:no-underline"
+              className="relative h-auto w-fit p-0 pb-4 mt-[32px] lg:mt-[56px] text-inherit hover:text-inherit group no-underline hover:no-underline mb-5"
             >
               <span
                 className="
