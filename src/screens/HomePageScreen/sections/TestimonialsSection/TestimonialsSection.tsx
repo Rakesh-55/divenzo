@@ -186,17 +186,20 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 }, []);
   return (
     <section
-      className={`relative w-full overflow-x-hidden transition-colors duration-700 ${
-        isDark ? "dark-section" : ""
-      }`}
+      className={`
+        relative w-full overflow-x-hidden transition-colors duration-700
+        py-[40px] sm:py-[50px] lg:py-[50px]
+        px-4 sm:px-8 lg:px-8 xl:px-20
+        ${isDark ? "dark-section" : ""}
+      `}
       style={{
         backgroundColor: isDark ? "#000" : "#fff",
         color: isDark ? "#fff" : "#000",
       }}
       data-section="testimonials"
     >
-      <div className="w-full pt-[40px] sm:pt-[50px] lg:pt-[50px] pb-[40px] sm:pb-[50px] lg:pb-[50px]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* <div className="w-full pt-[40px] sm:pt-[50px] lg:pt-[50px] pb-[40px] sm:pb-[50px] lg:pb-[50px]"> */}
+        <div className="max-w-[1280px] mx-auto relative">
           <div className="flex flex-col gap-10 md:gap-20">
 
           {/* ===== BRANDS (MARQUEE) ===== */}
@@ -459,7 +462,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
             </div>
           
         </div>
-      </div>
+      {/* </div> */}
     </section>
   );
 };

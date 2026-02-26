@@ -284,7 +284,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
                   key={index}
                   className="
                     stat-card border-0 shadow-none rounded-none transition-all duration-700 ease-in-out flex-none
-                    w-[285px] h-[372px]
+                    w-[296px] h-[372px]
                   "
                   style={{
                     backgroundColor: isDark ? "#111111" : "#fafafa",
@@ -299,6 +299,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
                         [font-family:'Poppins',Helvetica] font-semibold
                         text-7xl
                         leading-[56px]
+                        mb-10
                       "
                     >
                       {stat.number}
@@ -310,6 +311,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
                           [font-family:'Poppins',Helvetica] font-bold
                           text-[22px]
                           leading-[33px]
+                          mb-4
                         "
                       >
                         <AnimatedText

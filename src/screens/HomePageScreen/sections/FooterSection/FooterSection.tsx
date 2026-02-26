@@ -118,15 +118,21 @@ export const FooterSection = (): JSX.Element => {
         pt-[53px] sm:pt-[80px] lg:pt-[100px]
         pb-[25px] sm:pb-[30px] lg:pb-[35px]
         px-[4vw]
-        overflow-hidden
+        overflow-x-hidden overflow-y-visible
       "
     >
+      <div className="max-w-[1280px] mx-auto w-full">
       <div ref={contentRef} className="flex flex-col gap-[56px]">
         {/* ===== Social Links ===== */}
         <nav
           className="
-            flex flex-wrap items-center
-            gap-6 sm:gap-10 lg:gap-16 xl:gap-[137px]
+            flex flex-wrap w-full
+            justify-between
+            gap-y-6
+
+            min-[425px]:items-center
+            min-[425px]:justify-between
+            min-[425px]:gap-6 sm:gap-10 lg:gap-16 xl:gap-[137px]
           "
         >
           {socialLinks.map((link, index) => (
@@ -137,6 +143,7 @@ export const FooterSection = (): JSX.Element => {
               rel="noopener noreferrer"
               onClick={(e) => link.url === "#" && e.preventDefault()}
               className="
+              w-1/2 text-center min-[425px]:w-auto
                 inline-flex items-center justify-center
                 h-auto p-0 footer-no-underline overflow-hidden group
                 hover:bg-transparent focus:bg-transparent active:bg-transparent
@@ -162,9 +169,9 @@ export const FooterSection = (): JSX.Element => {
           {/* ===== Main Footer Content ===== */}
           <div
             className="
-              flex flex-col lg:grid lg:grid-cols-[1fr_auto_1fr]
+              flex flex-col lg:grid lg:grid-cols-[1fr_minmax(200px,auto)_1fr]
               lg:items-start
-              gap-6 lg:gap-6 xl:gap-[80px]
+              gap-10 sm:gap-12 md:gap-14 lg:gap-6 xl:gap-[80px]
             "
           >
             {/* ---- Lets Chat ---- */}
@@ -172,6 +179,7 @@ export const FooterSection = (): JSX.Element => {
               className="
                 flex flex-col gap-8
                 w-full lg:flex-1
+                py-2 sm:py-3 md:py-4 lg:py-0
               "
             >
               <div className="flex flex-col gap-6">
@@ -234,6 +242,7 @@ export const FooterSection = (): JSX.Element => {
                 w-full lg:w-auto lg:shrink-0
                 items-start lg:items-start
                 lg:justify-self-center
+                py-2 sm:py-3 md:py-4 lg:py-0
               "
             >
               {navigationLinks.map((link, index) => (
@@ -247,11 +256,11 @@ export const FooterSection = (): JSX.Element => {
                       text-[16px] sm:text-[18px] lg:text-[20px]
                     "
                   >
-                    <span className="relative block leading-[1.3] pb-1">
-                      <span className="block transition-transform duration-500 ease-out group-hover:-translate-y-full">
+                    <span className="relative block overflow-hidden leading-[1.2]">
+                      <span className="block transition-transform duration-500 ease-out group-hover:-translate-y-[105%]">
                         {link.name}
                       </span>
-                      <span className="absolute left-0 top-0 translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0">
+                      <span className="absolute left-0 top-0 translate-y-[105%] transition-transform duration-500 ease-out group-hover:translate-y-0">
                         {link.name}
                       </span>
                     </span>
@@ -267,6 +276,7 @@ export const FooterSection = (): JSX.Element => {
                 w-full lg:flex-1 lg:max-w-[354px]
                 lg:justify-self-end
                 not-italic
+                py-2 sm:py-3 md:py-4 lg:py-0
               "
             >
               {contactInfo.map((info, index) => (
@@ -304,7 +314,7 @@ export const FooterSection = (): JSX.Element => {
                 aria-label="Divenzo"
                 className="
                   font-varela font-bold text-white text-center
-                  text-[23vw] leading-[1.2]
+                  text-[22vw] leading-[1.2]
                   whitespace-nowrap
                   overflow-hidden
                 "
@@ -366,6 +376,7 @@ export const FooterSection = (): JSX.Element => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </footer>
     </section>

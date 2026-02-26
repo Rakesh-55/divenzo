@@ -347,7 +347,7 @@ export default function AboutSection() {
                   key={index}
                   className="
                     stat-card border-0 shadow-none rounded-none transition-colors duration-700 ease-in-out flex-none
-                    w-[285px] h-[372px]
+                    w-[296px] h-[372px]
                   "
                   style={{ 
                     backgroundColor: isDarkTheme ? "#111" : "#fafafa",
@@ -362,6 +362,7 @@ export default function AboutSection() {
                         [font-family:'Poppins',Helvetica] font-semibold
                         text-7xl
                         leading-[56px]
+                        mb-10
                       "
                     >
                       {stat.number}
@@ -373,6 +374,7 @@ export default function AboutSection() {
                           [font-family:'Poppins',Helvetica] font-bold
                           text-[22px]
                           leading-[33px]
+                          mb-4
                         "
                       >
                         <AnimatedText

@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import service_img from "../assets/service_img.png";
@@ -154,9 +155,14 @@ const servicesData = [
 
 /* ============ STICKY-STACK SERVICES ============ */
 
-function StickyStackServices() {
+interface StickyStackServicesProps {
+  sectionRef: React.RefObject<HTMLElement | null>;
+  isDark: boolean;
+}
+
+function StickyStackServices({ sectionRef, isDark }: StickyStackServicesProps) {
   return (
-    <section className="bg-black text-white dark-section overflow-x-clip px-4 lg:px-8 xl:px-20">
+    <section ref={sectionRef} className="overflow-x-clip px-4 lg:px-8 xl:px-20">
       <div className="max-w-[1260px] mx-auto py-12 md:py-20">
         {servicesData.map((service) => (
           <div
@@ -168,7 +174,7 @@ function StickyStackServices() {
                 <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]">
                   <AnimatedText
                     className="[font-family:'Poppins',Helvetica] font-semibold text-[28px] sm:text-[36px] lg:text-[44px]"
-                    isDarkBg
+                    isDarkBg={isDark}
                     disableColorReveal
                     slideDuration={0.8}
                     slideStagger={0.08}
@@ -178,12 +184,14 @@ function StickyStackServices() {
                 </h2>
               </div>
               <div
-                className="absolute bottom-0 h-px pointer-events-none"
+                className="absolute bottom-0 h-px pointer-events-none transition-all duration-700"
                 style={{
                   left: "50%",
                   width: "100vw",
                   marginLeft: "-50vw",
-                  background: "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
+                  background: isDark 
+                    ? "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)"
+                    : "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 50%, transparent 100%)",
                 }}
               />
             </div>
@@ -194,8 +202,8 @@ function StickyStackServices() {
 
                 <div className="flex-1">
                   <AnimatedText
-                    className="[font-family:'Poppins',Helvetica] font-normal text-[16px] sm:text-[20px] lg:text-[26px] text-[#cccccc] max-w-[900px] leading-relaxed"
-                    isDarkBg
+                    className="[font-family:'Poppins',Helvetica] font-normal text-[16px] sm:text-[20px] lg:text-[26px] opacity-80 max-w-[900px] leading-relaxed"
+                    isDarkBg={isDark}
                     disableColorReveal
                     slideDuration={0.8}
                     slideStagger={0.08}
@@ -207,13 +215,13 @@ function StickyStackServices() {
                     {service.points.map((point, idx) => (
                       <li
                         key={idx}
-                        className="[font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#ffffffcc] flex items-center gap-3"
+                        className="[font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] opacity-80 flex items-center gap-3"
                       >
                         <span className="flex-shrink-0 text-[18px] sm:text-[22px] lg:text-[24px] leading-none">•</span>
                         <AnimatedText
                           as="span"
-                          className="inline-block [font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#ffffffcc]"
-                          isDarkBg
+                          className="inline-block [font-family:'Poppins',Helvetica] font-normal text-[15px] sm:text-[18px] lg:text-[20px]"
+                          isDarkBg={isDark}
                           disableColorReveal
                           slideDuration={0.8}
                           slideStagger={0.08}
@@ -241,9 +249,29 @@ export default function Services() {
   const cursorCurrentRef = useRef({ x: 0, y: 0 });
   const cursorActiveRef = useRef(false);
   const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
-  const [carouselCursorDir, setCarouselCursorDir] = useState<"left" | "right">(
-    "right"
-  );
+  const [carouselCursorDir, setCarouselCursorDir] = useState<"left" | "right">("right");
+
+  // State to track if the page should be dark
+  const [isDark, setIsDark] = useState(false);
+  const darkSectionRef = useRef<HTMLElement | null>(null);
+
+  // Scroll transition logic
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      if (darkSectionRef.current) {
+        ScrollTrigger.create({
+          trigger: darkSectionRef.current,
+          start: "top 50%", // Fades to black when Sticky section reaches mid-screen
+          end: "bottom 50%", // Fades to white when Sticky section leaves mid-screen
+          onEnter: () => setIsDark(true),
+          onLeave: () => setIsDark(false),
+          onEnterBack: () => setIsDark(true),
+          onLeaveBack: () => setIsDark(false),
+        });
+      }
+    });
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     if (!carouselCursorRef.current) return;
@@ -277,15 +305,23 @@ export default function Services() {
   }, []);
 
   return (
-    <>
+    <main
+      className={`relative w-full overflow-x-hidden transition-colors duration-700 ${
+        isDark ? "dark-section" : ""
+      }`}
+      style={{
+        backgroundColor: isDark ? "#000" : "#fff",
+        color: isDark ? "#fff" : "#000",
+      }}
+    >
       {/* HERO */}
-      <section className="relative w-full bg-white">
+      <section className="relative w-full">
         <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
             <AnimatedText
               as="span"
               className="block"
-              isDarkBg={false}
+              isDarkBg={isDark}
               disableColorReveal
               slideDuration={0.8}
               slideStagger={0.08}
@@ -295,11 +331,11 @@ export default function Services() {
           </h2>
 
           <div className="ml-0 lg:ml-[200px] xl:ml-[350px]">
-            <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]">
+            <p className="[font-family:'Poppins',Helvetica] font-normal text-inherit text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]">
               <AnimatedText
                 as="span"
                 className="inline"
-                isDarkBg={false}
+                isDarkBg={isDark}
                 disableColorReveal
                 slideDuration={0.8}
                 slideStagger={0.08}
@@ -309,23 +345,21 @@ export default function Services() {
             </p>
           </div>
 
-          <img src={service_img} alt="service" className="w-full h-auto  my-8 md:my-12" />
+          <img src={service_img} alt="service" className="w-full h-auto my-8 md:my-12" />
         </div>
       </section>
 
       {/* SERVICES — Sticky Stack */}
-      <StickyStackServices />
-
-    
+      <StickyStackServices sectionRef={darkSectionRef} isDark={isDark} />
 
       {/* PROCESS */}
-      <section className="relative w-full bg-white pt-10 pb-20  px-4 lg:px-8 xl:px-20 ">
+      <section className="relative w-full pt-10 pb-20 px-4 lg:px-8 xl:px-20">
         <div className="max-w-[1260px] mx-auto">
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
             <AnimatedText
               as="span"
               className="block"
-              isDarkBg={false}
+              isDarkBg={isDark}
               disableColorReveal
               slideDuration={0.8}
               slideStagger={0.08}
@@ -334,11 +368,11 @@ export default function Services() {
             </AnimatedText>
           </h2>
 
-          <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[18px] sm:text-[24px] lg:text-[32px] mb-[46px] md:mb-[86px] max-w-[930px] ml-0 lg:ml-auto">
+          <p className="[font-family:'Poppins',Helvetica] font-normal text-inherit opacity-80 text-[18px] sm:text-[24px] lg:text-[32px] mb-[46px] md:mb-[86px] max-w-[930px] ml-0 lg:ml-auto">
             <AnimatedText
               as="span"
               className="inline"
-              isDarkBg={false}
+              isDarkBg={isDark}
               disableColorReveal
               slideDuration={0.8}
               slideStagger={0.08}
@@ -350,11 +384,11 @@ export default function Services() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-[78px] gap-y-[32px] md:gap-y-[72px]">
             {processSteps.map((step, index) => (
               <div key={index} className="flex flex-col gap-2 md:gap-4">
-                <div className="[font-family:'Poppins',Helvetica] font-normal text-black text-2xl">
+                <div className="[font-family:'Poppins',Helvetica] font-normal text-inherit text-2xl">
                   <AnimatedText
                     as="span"
                     className="inline-block"
-                    isDarkBg={false}
+                    isDarkBg={isDark}
                     disableColorReveal
                     slideDuration={0.8}
                     slideStagger={0.08}
@@ -363,11 +397,11 @@ export default function Services() {
                   </AnimatedText>
                 </div>
 
-                <h3 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[24px] lg:text-[32px]">
+                <h3 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[24px] lg:text-[32px]">
                   <AnimatedText
                     as="span"
                     className="inline-block"
-                    isDarkBg={false}
+                    isDarkBg={isDark}
                     disableColorReveal
                     slideDuration={0.8}
                     slideStagger={0.08}
@@ -376,9 +410,9 @@ export default function Services() {
                   </AnimatedText>
                 </h3>
 
-                <Separator.Root className="bg-neutral-200 h-[2px]" />
+                <Separator.Root className="bg-current opacity-20 h-[2px]" />
 
-                <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000CC] text-[16px] sm:text-[18px] lg:text-2xl">
+                <p className="[font-family:'Poppins',Helvetica] font-normal opacity-80 text-[16px] sm:text-[18px] lg:text-2xl">
                   <AnimatedText
                     as="span"
                     className="inline"
@@ -398,173 +432,176 @@ export default function Services() {
       </section>
 
       {/* TESTIMONIALS */}
-<section className="pb-24">
-  <div className="max-w-[1280px] mx-auto px-4 lg:px-0">
-    <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
-      <AnimatedText
-        as="span"
-        className="block"
-        isDarkBg={false}
-        disableColorReveal
-        slideDuration={0.8}
-        slideStagger={0.08}
-      >
-        Testimonials
-      </AnimatedText>
-    </h2>
+      <section className="pb-24">
+        <div className="max-w-[1280px] mx-auto px-4 lg:px-0">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Testimonials
+            </AnimatedText>
+          </h2>
 
-    <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[18px] sm:text-[24px] lg:text-[32px] max-w-[930px] ml-0 lg:ml-[200px] xl:ml-[350px]">
-      <AnimatedText
-        as="span"
-        className="block"
-        isDarkBg={false}
-        disableColorReveal
-        slideDuration={0.8}
-        slideStagger={0.08}
-      >
-        We work with forward-thinking clients who value creativity and results.
-        Together, we build experiences that inspire and deliver growth.
-      </AnimatedText>
-    </p>
-  </div>
+          <p className="[font-family:'Poppins',Helvetica] font-normal opacity-80 text-[18px] sm:text-[24px] lg:text-[32px] max-w-[930px] ml-0 lg:ml-[200px] xl:ml-[350px]">
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              We work with forward-thinking clients who value creativity and results.
+              Together, we build experiences that inspire and deliver growth.
+            </AnimatedText>
+          </p>
+        </div>
 
-  {/* 🔹 RELATIVE WRAPPER IS REQUIRED */}
-  <div
-    className="relative max-w-7xl mx-auto px-4 md:px-6 mt-12"
-    onMouseEnter={(event) => {
-      document.body.dataset.cursorHidden = "true";
-      if (carouselCursorRef.current) {
-        const rect = event.currentTarget.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        cursorActiveRef.current = true;
-        cursorTargetRef.current = { x, y };
-        cursorCurrentRef.current = { x, y };
-        gsap.set(carouselCursorRef.current, { x, y, force3D: true });
-        gsap.to(carouselCursorRef.current, {
-          scale: 1,
-          opacity: 1,
-          duration: 0.4,
-          ease: "power2.out",
-        });
-      }
-    }}
-    onMouseMove={(event) => {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      setCarouselCursorDir(x < rect.width / 2 ? "left" : "right");
-      cursorTargetRef.current = { x, y };
-    }}
-    onMouseLeave={() => {
-      document.body.dataset.cursorHidden = "false";
-      if (carouselCursorRef.current) {
-        cursorActiveRef.current = false;
-        gsap.to(carouselCursorRef.current, {
-          scale: 0,
-          opacity: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-      }
-    }}
-    onClick={() => {
-      if (!carouselApi) return;
-      if (carouselCursorDir === "left") {
-        carouselApi.scrollPrev();
-      } else {
-        carouselApi.scrollNext();
-      }
-    }}
-  >
-    <Carousel
-      opts={{ align: "start", loop: true }}
-      setApi={setCarouselApi}
-      className="w-full"
-    >
-      <CarouselContent className="-ml-4 cursor-none">
-        {[...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
-          <CarouselItem
-            key={index}
-            className="basis-[85%] sm:basis-[70%] md:basis-1/2 lg:basis-[40%] flex justify-center"
+        <div
+          className="relative max-w-7xl mx-auto px-4 md:px-6 mt-12"
+          onMouseEnter={(event) => {
+            document.body.dataset.cursorHidden = "true";
+            if (carouselCursorRef.current) {
+              const rect = event.currentTarget.getBoundingClientRect();
+              const x = event.clientX - rect.left;
+              const y = event.clientY - rect.top;
+              cursorActiveRef.current = true;
+              cursorTargetRef.current = { x, y };
+              cursorCurrentRef.current = { x, y };
+              gsap.set(carouselCursorRef.current, { x, y, force3D: true });
+              gsap.to(carouselCursorRef.current, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.4,
+                ease: "power2.out",
+              });
+            }
+          }}
+          onMouseMove={(event) => {
+            const rect = event.currentTarget.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            setCarouselCursorDir(x < rect.width / 2 ? "left" : "right");
+            cursorTargetRef.current = { x, y };
+          }}
+          onMouseLeave={() => {
+            document.body.dataset.cursorHidden = "false";
+            if (carouselCursorRef.current) {
+              cursorActiveRef.current = false;
+              gsap.to(carouselCursorRef.current, {
+                scale: 0,
+                opacity: 0,
+                duration: 0.5,
+                ease: "power2.out",
+              });
+            }
+          }}
+          onClick={() => {
+            if (!carouselApi) return;
+            if (carouselCursorDir === "left") {
+              carouselApi.scrollPrev();
+            } else {
+              carouselApi.scrollNext();
+            }
+          }}
+        >
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            setApi={setCarouselApi}
+            className="w-full"
           >
-            <Card className="group relative border-0 shadow-none rounded-none overflow-hidden transition-colors duration-700 h-[419px] w-[465px] bg-[#fafafa]">
-              <CardContent className="relative z-10 h-full p-8 flex flex-col gap-6 justify-start">
-                <p className="[font-family:'Poppins',Helvetica] text-[14px] sm:text-[16px] lg:text-[17px] text-[#000000e6] leading-relaxed opacity-90 w-full min-h-[168px]">
-                  <AnimatedText
-                    as="span"
-                    className="block"
-                    isDarkBg={false}
-                    disableColorReveal
-                    slideDuration={0.6}
-                    slideStagger={0.05}
+            <CarouselContent className="-ml-4 cursor-none">
+              {[...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-[85%] sm:basis-[70%] md:basis-1/2 lg:basis-[40%] flex justify-center"
+                >
+                  <Card 
+                    className="group relative border-0 shadow-none rounded-none overflow-hidden transition-colors duration-700 h-[419px] w-[465px]"
+                    style={{
+                      backgroundColor: isDark ? "#111111" : "#fafafa",
+                      color: isDark ? "#ffffff" : "#000000"
+                    }}
                   >
-                    {testimonial.quote}
-                  </AnimatedText>
-                </p>
+                    <CardContent className="relative z-10 h-full p-8 flex flex-col gap-6 justify-start">
+                      <p className="[font-family:'Poppins',Helvetica] text-[14px] sm:text-[16px] lg:text-[17px] opacity-90 leading-relaxed w-full min-h-[168px]">
+                        <AnimatedText
+                          as="span"
+                          className="block"
+                          isDarkBg={isDark}
+                          disableColorReveal
+                          slideDuration={0.6}
+                          slideStagger={0.05}
+                        >
+                          {testimonial.quote}
+                        </AnimatedText>
+                      </p>
 
-                <div className="flex gap-4 items-center min-h-[64px] mt-auto">
-                  <Avatar className="w-12 h-12 sm:w-14 sm:h-14">
-                    <AvatarImage src={testimonial.image} />
-                    <AvatarFallback>
-                      {testimonial.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
+                      <div className="flex gap-4 items-center min-h-[64px] mt-auto">
+                        <Avatar className="w-12 h-12 sm:w-14 sm:h-14">
+                          <AvatarImage src={testimonial.image} />
+                          <AvatarFallback>
+                            {testimonial.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </AvatarFallback>
+                        </Avatar>
 
-                  <div>
-                    <div className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[14px] sm:text-[16px] lg:text-[18px]">
-                      <AnimatedText
-                        as="span"
-                        className="inline"
-                        isDarkBg={false}
-                        disableColorReveal
-                        slideDuration={0.5}
-                        slideStagger={0.05}
-                      >
-                        {testimonial.name}
-                      </AnimatedText>
-                    </div>
-                    <div className="[font-family:'Poppins',Helvetica] text-[#555] text-[12px] sm:text-[13px] lg:text-[14px]">
-                      <AnimatedText
-                        as="span"
-                        className="inline"
-                        isDarkBg={false}
-                        disableColorReveal
-                        slideDuration={0.5}
-                        slideStagger={0.05}
-                      >
-                        {testimonial.title}
-                      </AnimatedText>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-
-    </Carousel>
-    <div
-      ref={carouselCursorRef}
-      className="pointer-events-none absolute z-20 flex h-20 w-20 items-center justify-center rounded-full"
-      style={{
-        left: 0,
-        top: 0,
-        backgroundColor: "#000000",
-        color: "#ffffff",
-      }}
-    >
-      <span className="font-medium text-sm">Drag</span>
-    </div>
-  </div>
-</section>
-
+                        <div>
+                          <div className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[14px] sm:text-[16px] lg:text-[18px]">
+                            <AnimatedText
+                              as="span"
+                              className="inline"
+                              isDarkBg={isDark}
+                              disableColorReveal
+                              slideDuration={0.5}
+                              slideStagger={0.05}
+                            >
+                              {testimonial.name}
+                            </AnimatedText>
+                          </div>
+                          <div className="[font-family:'Poppins',Helvetica] opacity-70 text-[12px] sm:text-[13px] lg:text-[14px]">
+                            <AnimatedText
+                              as="span"
+                              className="inline"
+                              isDarkBg={isDark}
+                              disableColorReveal
+                              slideDuration={0.5}
+                              slideStagger={0.05}
+                            >
+                              {testimonial.title}
+                            </AnimatedText>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+          <div
+            ref={carouselCursorRef}
+            className="pointer-events-none absolute z-20 flex h-20 w-20 items-center justify-center rounded-full transition-colors duration-700"
+            style={{
+              left: 0,
+              top: 0,
+              backgroundColor: isDark ? "#ffffff" : "#000000",
+              color: isDark ? "#000000" : "#ffffff",
+            }}
+          >
+            <span className="font-medium text-sm">Drag</span>
+          </div>
+        </div>
+      </section>
 
       <FooterSection />
-    </>
+    </main>
   );
 }
