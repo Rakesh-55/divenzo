@@ -238,7 +238,7 @@ export const HeroSection = (): JSX.Element => {
               className="
                 [font-family:'Poppins',Helvetica]
                 font-normal text-black
-                text-[16px] sm:text-[20px] lg:text-[32px]
+                text-[20px] sm:text-[24px] lg:text-[32px]
                 leading-[1.4]
                 lg:ml-[506px]
                 relative

@@ -163,7 +163,7 @@ interface StickyStackServicesProps {
 function StickyStackServices({ sectionRef, isDark }: StickyStackServicesProps) {
   return (
     <section ref={sectionRef} className="overflow-x-clip px-4 lg:px-8 xl:px-20">
-      <div className="max-w-[1260px] mx-auto py-12 md:py-20">
+      <div className="max-w-[1260px] mx-auto pt-4 pb-2 md:py-20">
         {servicesData.map((service) => (
           <div
             key={service.id}
@@ -316,7 +316,7 @@ export default function Services() {
     >
       {/* HERO */}
       <section className="relative w-full">
-        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
+        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-4 md:pb-16 px-4 lg:px-8 xl:px-0">
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
             <AnimatedText
               as="span"
@@ -345,7 +345,7 @@ export default function Services() {
             </p>
           </div>
 
-          <img src={service_img} alt="service" className="w-full h-auto my-8 md:my-12" />
+          <img src={service_img} alt="service" className="w-full h-auto mt-8 mb-4 md:mb-12 md:mt-12 lg:mt-[120px]" />
         </div>
       </section>
 
@@ -353,7 +353,7 @@ export default function Services() {
       <StickyStackServices sectionRef={darkSectionRef} isDark={isDark} />
 
       {/* PROCESS */}
-      <section className="relative w-full pt-10 pb-20 px-4 lg:px-8 xl:px-20">
+      <section className="relative w-full pt-2 pb-20 px-4 lg:px-8 xl:px-20">
         <div className="max-w-[1260px] mx-auto">
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
             <AnimatedText

@@ -190,6 +190,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         ref={headerRef}
         className="flex flex-col gap-[26px] mb-[40px] lg:mb-[60px] z-20 relative"
       >
+        {/* TITLE: Stays on the left naturally */}
         <h2
           ref={titleRef}
           className="
@@ -210,21 +211,22 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
           </AnimatedText>
         </h2>
 
-        <AnimatedText
-          className="
-            max-w-full
-            ml-0 lg:ml-auto
-            [font-family:'Poppins',Helvetica] font-normal 
-            text-[18px] sm:text-[24px] lg:text-[32px]
-            tracking-[0] leading-normal
-          "
-          isDarkBg={isDark}
-          disableColorReveal
-          slideDuration={0.8}
-          slideStagger={0.08}
-        >
-          Dive into our design journey. Our portfolio showcases how we transform concepts into real-world success through thoughtful, tailored design.
-        </AnimatedText>
+        {/* SUBTEXT: Pushed to the right using max-width and ml-auto */}
+        <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
+          <AnimatedText
+            className="
+              [font-family:'Poppins',Helvetica] font-normal 
+              text-[18px] sm:text-[24px] lg:text-[32px]
+              tracking-[0] leading-normal
+            "
+            isDarkBg={isDark}
+            disableColorReveal
+            slideDuration={0.8}
+            slideStagger={0.08}
+          >
+            Dive into our design journey. Our portfolio showcases how we transform concepts into real-world success through thoughtful, tailored design.
+          </AnimatedText>
+        </div>
       </header>
 
            {/* ================= MOBILE & TABLET ================= */}
@@ -338,8 +340,8 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
               />
               
               {project.id === 4 && (
-                <div className="absolute inset-0 z-20 flex flex-col justify-between lg:justify-center lg:gap-[160px] p-8 lg:p-12 xl:p-16">
-                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight">
+                <div className="absolute inset-0 z-20 flex flex-col justify-between lg:justify-center lg:gap-[150px] p-8 lg:p-12 xl:p-16 lg:pb-[150px]">
+                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight lg:-mt-20">
                     <AnimatedText
                       as="span"
                       className="inline-block"
@@ -352,16 +354,16 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                     </AnimatedText>
                   </h3>
                   <div className="space-y-2 max-w-2xl xl:max-w-3xl">
-                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 text-base lg:text-xl xl:text-2xl min-[1440px]:text-[30px] min-[1440px]:leading-relaxed leading-relaxed">
+                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 leading-normal text-[18px] sm:text-[24px] lg:text-[32px]">
                       These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.
                     </p>
                     <Link
                       to="/projects"
-                      className="[font-family:'Poppins',Helvetica] inline-block text-white text-base lg:text-xl group relative"
+                      className="[font-family:'Poppins',Helvetica] inline-block text-white text-base lg:text-[40px] group relative w-fit leading-tight"
                     >
                       View all Projects
-                      <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-neutral-400/70 transition-opacity duration-300 group-hover:opacity-0" />
-                      <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-current scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                      <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-neutral-400/70 transition-opacity duration-300 group-hover:opacity-0" />
+                      <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-current scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                     </Link>
                   </div>
                 </div>
