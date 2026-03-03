@@ -15,6 +15,16 @@
   .footer-no-underline:active {
     text-decoration: none !important;
   }
+
+  /* Header spacing utilities: centralize space below fixed header */
+  .header-spacer {
+    @apply h-16 lg:h-[80px];
+  }
+
+  /* Optional: padding top to offset content when preferred */
+  .pt-header {
+    @apply pt-16 lg:pt-[80px];
+  }
 }
 
 :root {

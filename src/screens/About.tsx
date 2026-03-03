@@ -133,54 +133,60 @@ export default function AboutSection() {
   useEffect(() => {
     let ctx = gsap.context(() => {
 
-      // 1. Color Background Triggers (Direct DOM manipulation for smoothness)
+      // 1. Color Background Triggers
+      // 1. Color Background Triggers
       if (teamSectionRef.current && clientsSectionRef.current && mainRef.current) {
         
         // Transition to Black (at Team Section start)
         ScrollTrigger.create({
           trigger: teamSectionRef.current,
-          start: "top 70%",
-          onEnter: () => { 
-            gsap.to(mainRef.current, { 
-              backgroundColor: "#000", 
-              color: "#fff", 
-              duration: 0.8, 
-              ease: "power2.inOut"
+          start: "top 50%",
+          end: "bottom 30%",
+          onEnter: () => {
+            gsap.to(mainRef.current, {
+              backgroundColor: "#000",
+              color: "#fff",
+              duration: 0.8,
+              ease: "power2.inOut",
+              overwrite: "auto",
             });
-            setIsDarkTheme(true); 
+            setIsDarkTheme(true);
           },
-          onLeaveBack: () => { 
-            gsap.to(mainRef.current, { 
-              backgroundColor: "#fff", 
-              color: "#000", 
-              duration: 0.8, 
-              ease: "power2.inOut"
+          onLeaveBack: () => {
+            gsap.to(mainRef.current, {
+              backgroundColor: "#fff",
+              color: "#000",
+              duration: 0.8,
+              ease: "power2.inOut",
+              overwrite: "auto",
             });
-            setIsDarkTheme(false); 
+            setIsDarkTheme(false);
           },
         });
 
         // Transition to White (at Clients Section start)
         ScrollTrigger.create({
           trigger: clientsSectionRef.current,
-          start: "top 70%",
-          onEnter: () => { 
-            gsap.to(mainRef.current, { 
-              backgroundColor: "#fff", 
-              color: "#000", 
-              duration: 0.8, 
-              ease: "power2.inOut"
+          start: "top 50%",
+          onEnter: () => {
+            gsap.to(mainRef.current, {
+              backgroundColor: "#fff",
+              color: "#000",
+              duration: 0.8,
+              ease: "power2.inOut",
+              overwrite: "auto",
             });
-            setIsDarkTheme(false); 
+            setIsDarkTheme(false);
           },
-          onLeaveBack: () => { 
-            gsap.to(mainRef.current, { 
-              backgroundColor: "#000", 
-              color: "#fff", 
-              duration: 0.8, 
-              ease: "power2.inOut"
+          onLeaveBack: () => {
+            gsap.to(mainRef.current, {
+              backgroundColor: "#000",
+              color: "#fff",
+              duration: 0.8,
+              ease: "power2.inOut",
+              overwrite: "auto",
             });
-            setIsDarkTheme(true); 
+            setIsDarkTheme(true);
           },
         });
       }
@@ -192,10 +198,11 @@ export default function AboutSection() {
           cards,
           { y: 80, opacity: 0, scale: 0.9 },
           {
-            y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power4.out",
+            y: 0, opacity: 1, scale: 1, ease: "power4.out",
             scrollTrigger: {
               trigger: cardsRef.current,
-              start: "top 85%", end: "top 30%", toggleActions: "play none none reverse",
+              start: "top 85%", end: "top 30%",
+              scrub: true,
             },
           }
         );
@@ -340,14 +347,14 @@ export default function AboutSection() {
 
             <div
               ref={cardsRef}
-              className="flex flex-wrap gap-4 lg:gap-5 justify-center w-full"
+              className="flex flex-wrap gap-4 lg:gap-5 justify-center w-full max-w-[1280px] mx-auto"
             >
               {statsData.map((stat, index) => (
                 <Card
                   key={index}
                   className="
                     stat-card border-0 shadow-none rounded-none transition-colors duration-700 ease-in-out flex-none
-                    w-[296px] h-[372px]
+                    w-full sm:w-[296px] h-[372px]
                   "
                   style={{ 
                     backgroundColor: isDarkTheme ? "#111" : "#fafafa",

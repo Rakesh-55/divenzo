@@ -1,4 +1,3 @@
-
 "use client";
 import { useEffect, useRef, type JSX } from "react";
 import { Link } from "react-router-dom";
@@ -6,7 +5,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { AnimatedText } from "@/components/AnimatedText";
-
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,16 +14,22 @@ const projectsData = [
     image: "projects/project_1.png",
     headerImage: "projects/project_1_header.png",
     imageAlt: "Project 1",
-    title: "Practice Coach",
-    desc: "Crafting conversion focus website for leading Practice Coach Company",
+    title: "RWIT",
+    desc: "A Deep Dive into RWIT’s Website Redesign",
+    mobileBg: "projects/mobile_projectcards/mobile_1_bg.png",
+    mobileImage: "projects/mobile_projectcards/mobile_1_image.png",
+    mobileLogo: "projects/mobile_projectcards/mobile_1_logo.png",
   },
   {
     id: 2,
     image: "projects/project_2.png",
     headerImage: "projects/project_2_header.png",
     imageAlt: "Project 2",
-    title: "RWIT",
-    desc: "A Deep Dive into RWIT’s Website Redesign",
+    title: "Practice Coach",
+    desc: "Crafting conversion focus website for leading Practice Coach Company",
+    mobileBg: "projects/mobile_projectcards/mobile_2_bg.png",
+    mobileImage: "projects/mobile_projectcards/mobile_2_image.png",
+    mobileLogo: "projects/mobile_projectcards/mobile_2_logo.png",
   },
   {
     id: 3,
@@ -34,6 +38,9 @@ const projectsData = [
     imageAlt: "Project 3",
     title: "Bhaskara Hospitals",
     desc: "Crafting the new Brand Identity for Bhaskara Hospital",
+    mobileBg: "projects/mobile_projectcards/mobile_3_bg.png",
+    mobileImage: "projects/mobile_projectcards/mobile_3_image.png",
+    mobileLogo: "projects/mobile_projectcards/mobile_3_logo.png",
   },
   {
     id: 4,
@@ -42,6 +49,8 @@ const projectsData = [
     imageAlt: "Project 4",
     title: "Hitayu Dairy",
     desc: "Improving digital experience for a dairy farm",
+    mobileBg: "projects/mobile_projectcards/mobile_4_bg.png",
+    // mobile image/logo not provided for item 4
   },
 ];
 
@@ -61,10 +70,8 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
 
   const isDark = theme ? theme === "dark" : progress > 0.5;
 
-
   useEffect(() => {
-    const isDesktop = window.innerWidth >= 1024;
-
+    // I DELETED the `if (window.innerWidth <= 425) return;` here so your cards actually work.
     const ctx = gsap.context(() => {
       // 🟢 HEADER ANIMATION
       const headerTimeline = gsap.timeline({
@@ -93,50 +100,44 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
           "-=0.6"
         );
 
-      // ❗ Stacked card animation → DESKTOP ONLY
-
-      if (!isDesktop) return;
-
+      // ❗ Stacked card animation → ALL SCREENS
       const cards = cardsRef.current.filter(Boolean);
       if (cards.length < 2) return;
 
-      // The distance (in pixels) each card peaks out from under the one above it
-      const stackOffset = 40; 
+      const isDesktop = window.innerWidth >= 1024;
+      const stackOffset = isDesktop ? 40 : 24; 
 
       // Set initial positions
       gsap.set(cards[0], { y: 0, scale: 1 });
       for (let i = 1; i < cards.length; i++) {
-        // Hide subsequent cards completely off-screen to start
-        gsap.set(cards[i], { y: window.innerHeight, scale: 1 });
+        gsap.set(cards[i], { y: "120%", scale: 1 });
       }
 
-      // Build timeline — each card slides up and scales down the ones behind it
+      // Build timeline
       const tl = gsap.timeline();
       const snapPoints: number[] = [0];
 
       for (let i = 1; i < cards.length; i++) {
-        // 1. Animate the NEW card coming up
         tl.to(
           cards[i],
           {
-            y: i * stackOffset, // Stop slightly lower than the previous card
+            y: i * stackOffset, 
             duration: 1,
             ease: "none",
           },
-          i === 1 ? 0 : "+=0" // Sequence them consecutively
+          i === 1 ? 0 : "+=0" 
         );
 
-        // 2. Scale down ALL previously stacked cards simultaneously
         for (let j = 0; j < i; j++) {
           tl.to(
             cards[j],
             {
-              scale: 1 - ((i - j) * 0.04), // Shrink 4% for every card stacked on top
+              scale: 1 - ((i - j) * 0.04), 
               duration: 1,
               ease: "none",
-              transformOrigin: "top center", // Crucial: scale from the top edge to keep the top pinned
+              transformOrigin: "top center", 
             },
-            "<" // Run at the exact same time as the new card coming up
+            "<" 
           );
         }
 
@@ -147,9 +148,9 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       ScrollTrigger.create({
         trigger: cardsWrapperRef.current,
         start: "top top",
-        end: () => `+=${(cards.length - 1) * 150}%`, // Reduced end distance slightly so it feels faster
+        end: () => `+=${(cards.length - 1) * 150}%`,
         pin: true,
-        scrub: 0.5, // Smoother scrub
+        scrub: 0.5, 
         snap: {
           snapTo: snapPoints,
           duration: { min: 0.2, max: 0.5 },
@@ -183,120 +184,48 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         ${isDark ? "dark-section" : ""}
       `}
     >
-      {/* ================= HEADER & MOBILE CONTENT CONTAINER ================= */}
       <div className="max-w-[1280px] mx-auto">
-      {/* ================= HEADER ================= */}
-      <header
-        ref={headerRef}
-        className="flex flex-col gap-[26px] mb-[40px] lg:mb-[60px] z-20 relative"
-      >
-        {/* TITLE: Stays on the left naturally */}
-        <h2
-          ref={titleRef}
-          className="
-            [font-family:'Poppins',Helvetica] font-semibold 
-            text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
-            tracking-[0] leading-normal
-          "
+        {/* ================= HEADER ================= */}
+        <header
+          ref={headerRef}
+          className="flex flex-col gap-[26px] mb-[40px] lg:mb-[60px] z-20 relative"
         >
-          <AnimatedText
-            as="span"
-            className="block"
-            isDarkBg={isDark}
-            disableColorReveal
-            slideDuration={0.8}
-            slideStagger={0.08}
-          >
-            Projects
-          </AnimatedText>
-        </h2>
-
-        {/* SUBTEXT: Pushed to the right using max-width and ml-auto */}
-        <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
-          <AnimatedText
+          <h2
+            ref={titleRef}
             className="
-              [font-family:'Poppins',Helvetica] font-normal 
-              text-[18px] sm:text-[24px] lg:text-[32px]
+              [font-family:'Poppins',Helvetica] font-semibold 
+              text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
               tracking-[0] leading-normal
             "
-            isDarkBg={isDark}
-            disableColorReveal
-            slideDuration={0.8}
-            slideStagger={0.08}
           >
-            Dive into our design journey. Our portfolio showcases how we transform concepts into real-world success through thoughtful, tailored design.
-          </AnimatedText>
-        </div>
-      </header>
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Projects
+            </AnimatedText>
+          </h2>
 
-           {/* ================= MOBILE & TABLET ================= */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-12 gap-x-4 sm:gap-x-4 mb-4 lg:hidden">
-        {projectsData.map((project) => (
-          <div
-            key={project.id}
-            className="flex flex-col gap-1  overflow-hidden"
-          >
-            <div className="relative w-full h-[240px] sm:h-[280px]">
-              <img
-                src={project.image}
-                alt={project.imageAlt}
-                className="w-full h-full rounded-none object-contain"
-              /> 
-              
-              {project.id === 4 && (
-                <div className="absolute inset-0 z-20 flex flex-col gap-12 sm:gap-16 md:gap-12 lg:justify-between items-start justify-center lg:justify-between p-4 sm:p-6">
-                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-lg sm:text-2xl md:text-2xl leading-tight text-left lg:text-left">
-                    <AnimatedText
-                      as="span"
-                      className="inline-block"
-                      isDarkBg
-                      disableColorReveal
-                      slideDuration={0.8}
-                      slideStagger={0.08}
-                    >
-                      Explore Projects
-                    </AnimatedText>
-                  </h3>
-                  <div className="space-y-1">
-                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 text-xs sm:text-sm md:text-sm leading-snug text-left lg:text-left">
-                      These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.
-                    </p>
-                    <Link
-                      to="/projects"
-                      className="[font-family:'Poppins',Helvetica] inline-block text-white text-xs sm:text-sm md:text-xs group relative"
-                    >
-                      View all Projects
-                      <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-neutral-400/70 transition-opacity duration-300 group-hover:opacity-0" />
-                      <span className="absolute left-0 -bottom-1 h-[1.5px] w-full bg-current scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Hide title/description for the 4th card since it has the overlay CTA */}
-            {project.id !== 4 && (
-              <div className="flex flex-col gap-2">
-                <h3 className="[font-family:'Poppins',Helvetica] font-semibold  text-[20px]">
-                  <AnimatedText
-                    as="span"
-                    className="inline-block"
-                    isDarkBg={isDark}
-                    disableColorReveal
-                    slideDuration={0.8}
-                    slideStagger={0.08}
-                  >
-                    {project.title}
-                  </AnimatedText>
-                </h3>
-                <p className="[font-family:'Poppins',Helvetica] font-normal opacity-80 text-[16px]">
-                  {project.desc}
-                </p>
-              </div>
-            )}
+          <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
+            <AnimatedText
+              className="
+                [font-family:'Poppins',Helvetica] font-normal 
+                text-[18px] sm:text-[24px] lg:text-[32px]
+                tracking-[0] leading-normal
+              "
+              isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Dive into our design journey. Our portfolio showcases how we transform concepts into real-world success through thoughtful, tailored design.
+            </AnimatedText>
           </div>
-        ))}
-      </div>
+        </header>
       </div>
 
       {/* ================= STACKED CARDS ================= */}
@@ -305,15 +234,15 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         className="
           relative w-full
           h-screen
-          hidden lg:flex items-start justify-center
+          flex items-start justify-center
           overflow-hidden
-          pt-[5vh]
+          pt-[10vh] lg:pt-[5vh]
         "
       >
         <div
           className="
             relative w-full max-w-[1280px] mx-auto
-            h-[460px] sm:h-[560px] lg:h-[95vh]
+            h-[65vh] sm:h-[75vh] lg:h-[95vh]
             overflow-hidden
           "
         >
@@ -324,24 +253,68 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                 if (el) cardsRef.current[index] = el;
               }}
               className="
-                absolute top-0 left-0 w-full
+                absolute top-0 left-0 w-full h-full
                 rounded-[0px] overflow-hidden
                 flex items-center justify-center
-                shadow-2xl
+                shadow-2xl bg-[#0a0a0a]
               "
               style={{
                 zIndex: 100 + index,
               }}
             >
+              {/* DESKTOP IMAGE */}
               <img
                 src={project.image}
                 alt={project.imageAlt}
-                className="w-full h-full rounded-[0px] object-contain"
+                className="hidden md:block w-full h-full rounded-[0px] object-cover object-bottom"
               />
+
+              {/* MOBILE VARIANT */}
+              <div className="block md:hidden relative w-full h-full">
+                {project.mobileBg && (
+                  <img
+                    src={project.mobileBg}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                )}
+                {project.mobileLogo && (
+                  <img
+                    src={project.mobileLogo}
+                    alt="logo"
+                    className={`absolute top-12 h-auto ${
+                      index === 0 ? "w-[60px] left-8" :  "w-[108px] left-8"
+                    }`}
+                  />
+                )}
+                <div className="absolute inset-0 flex flex-col justify-between items-center p-4 pt-28">
+                  <div className="max-w-[90%] w-full">
+                    <div
+                      className={`text-white text-base md:text-lg mb-4 [font-family:'Poppins',Helvetica] text-left ${
+                        project.id === 4 ? "hidden md:block" : ""
+                      }`}
+                    >
+                      {project.desc}
+                    </div>
+                  </div>
+                  {project.mobileImage && (
+                    <div className={`bg-transparent p-0 mb-4 flex items-end justify-center ${
+                      index === 1 ? "w-full max-w-[90%] pb-4 h-[140px]" : index === 2 ? "max-w-[65%] h-[50px]" : "w-full max-w-[90%] h-[140px]"
+                    }`}>
+                      <img
+                        src={project.mobileImage}
+                        alt=""
+                        className="w-full h-auto object-contain"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
               
+              {/* CARD 4 OVERLAY */}
               {project.id === 4 && (
-                <div className="absolute inset-0 z-20 flex flex-col justify-between lg:justify-center lg:gap-[150px] p-8 lg:p-12 xl:p-16 lg:pb-[150px]">
-                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight lg:-mt-20">
+                <div className="absolute inset-0 z-20 flex flex-col justify-center gap-24 lg:justify-center lg:gap-[150px] p-6 sm:p-8 lg:p-12 xl:p-16 lg:pb-[150px]">
+                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-3xl sm:text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight lg:-mt-20">
                     <AnimatedText
                       as="span"
                       className="inline-block"
@@ -353,28 +326,22 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                       Explore Projects
                     </AnimatedText>
                   </h3>
-                  <div className="space-y-2 max-w-2xl xl:max-w-3xl">
-                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 leading-normal text-[18px] sm:text-[24px] lg:text-[32px]">
-                      These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.
+                  <div className="max-w-2xl xl:max-w-4xl space-y-4 lg:space-y-0">
+                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 leading-normal text-[15px] sm:text-[18px] lg:text-[32px]">
+                      These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.{" "}
+                      
+                      <Link
+                        to="/projects"
+                        className="inline-block text-white group relative w-fit transition-transform duration-300 hover:scale-105 origin-left lg:ml-2"
+                      >
+                        <span className="font-medium">View all Projects</span>
+                        <span className="absolute left-0 -bottom-1 h-[1px] lg:h-[2px] w-full bg-white/30 transition-opacity duration-300 group-hover:opacity-0" />
+                        <span className="absolute left-0 -bottom-1 h-[1px] lg:h-[2px] w-full bg-current scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                      </Link>
                     </p>
-                    <Link
-                      to="/projects"
-                      className="[font-family:'Poppins',Helvetica] inline-block text-white text-base lg:text-[40px] group relative w-fit leading-tight"
-                    >
-                      View all Projects
-                      <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-neutral-400/70 transition-opacity duration-300 group-hover:opacity-0" />
-                      <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-current scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
-                    </Link>
                   </div>
                 </div>
               )}
-              {/* {project.headerImage && (
-                <img
-                  src={project.headerImage}
-                  alt=""
-                  className="absolute top-0 left-0 right-0 z-10 w-full h-auto object-contain pointer-events-none"
-                />
-              )} */}
             </div>
           ))}
         </div>
@@ -382,4 +349,3 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
     </section>
   );
 };
-     

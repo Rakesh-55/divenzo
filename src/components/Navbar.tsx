@@ -634,8 +634,7 @@ export const Navbar = (): JSX.Element => {
         </div>
       )}
 
-      {/* SPACER */}
-      <div className="h-16 lg:h-[80px]" />
+      {/* spacer removed — handled by main content padding (`pt-header`) */}
 
       {/* ANIMATION STYLES */}
       <style>{`

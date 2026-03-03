@@ -395,7 +395,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                   color: isDark ? "#000000" : "#ffffff",
                 }}
               >
-                <span className="font-medium text-sm">Drag</span>
+                <span className="font-medium text-sm [font-family:'Poppins',Helvetica]">Drag</span>
               </div>
             </div>
           </div>

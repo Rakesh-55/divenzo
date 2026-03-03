@@ -162,12 +162,13 @@ interface StickyStackServicesProps {
 
 function StickyStackServices({ sectionRef, isDark }: StickyStackServicesProps) {
   return (
+    // attach ref to entire section so background toggles when the full block is in view
     <section ref={sectionRef} className="overflow-x-clip px-4 lg:px-8 xl:px-20">
-      <div className="max-w-[1260px] mx-auto pt-4 pb-2 md:py-20">
+      <div className="max-w-[1280px] mx-auto pt-4 pb-2 md:py-20">
         {servicesData.map((service) => (
           <div
             key={service.id}
-            className="mb-8 md:mb-12"
+            className="mb-16 md:mb-24"
           >
             <div className="relative">
               <div className="py-4 md:py-5">
@@ -211,7 +212,7 @@ function StickyStackServices({ sectionRef, isDark }: StickyStackServicesProps) {
                     {service.description}
                   </AnimatedText>
 
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6 mt-6 list-none left-0">
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6 mt-12 list-none left-0">
                     {service.points.map((point, idx) => (
                       <li
                         key={idx}
@@ -261,8 +262,9 @@ export default function Services() {
       if (darkSectionRef.current) {
         ScrollTrigger.create({
           trigger: darkSectionRef.current,
-          start: "top 50%", // Fades to black when Sticky section reaches mid-screen
-          end: "bottom 50%", // Fades to white when Sticky section leaves mid-screen
+          // use center of viewport to more accurately reflect when section is "active"
+          start: "top center", // switch to dark when top hits center
+          end: "bottom center", // back to light when bottom leaves center
           onEnter: () => setIsDark(true),
           onLeave: () => setIsDark(false),
           onEnterBack: () => setIsDark(true),
@@ -354,7 +356,7 @@ export default function Services() {
 
       {/* PROCESS */}
       <section className="relative w-full pt-2 pb-20 px-4 lg:px-8 xl:px-20">
-        <div className="max-w-[1260px] mx-auto">
+        <div className="max-w-[1280px] mx-auto">
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
             <AnimatedText
               as="span"
@@ -596,7 +598,7 @@ export default function Services() {
               color: isDark ? "#000000" : "#ffffff",
             }}
           >
-            <span className="font-medium text-sm">Drag</span>
+            <span className="font-medium text-sm [font-family:'Poppins',Helvetica]">Drag</span>
           </div>
         </div>
       </section>
