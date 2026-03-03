@@ -81,15 +81,17 @@ export default function App() {
       <Navbar />
       <ScrollToTop />
       <RouteCleanup />
-      <Routes>
-      <Route path="/" element={<HomePageScreen />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/services" element={<Services />} />
-      <Route path="/projects" element={<Projects />} />
-      <Route path="/discuss" element={<Discuss />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/terms-of-use" element={<TermsAndUse />} />
-    </Routes>
+      <main className="pt-header">
+        <Routes>
+          <Route path="/" element={<HomePageScreen />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/discuss" element={<Discuss />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-use" element={<TermsAndUse />} />
+        </Routes>
+      </main>
     </CursorProvider>
     
   );

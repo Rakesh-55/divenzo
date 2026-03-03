@@ -10,16 +10,16 @@ const projectsData = [
     id: 1,
     image: "projects/projectpage_images/project_1.png",
     imageAlt: "Project 1",
-    projectTitle: "Practice Coach",
-    desc: "Crafting conversion focus website for leading Practice Coach Company",
+    projectTitle: "RWIT",
+    desc: "A Deep Dive into RWIT’s Website Redesign",
     category: "Sports", 
   },
   {
     id: 2,
     image: "projects/projectpage_images/project_2.png",
     imageAlt: "Project 2",
-    projectTitle: "RWIT",
-    desc: "A Deep Dive into RWIT’s Website Redesign",
+    projectTitle: "Practice Coach",
+    desc: "Crafting conversion focus website for leading Practice Coach Company",
     category: "Tech",
   },
   {
@@ -240,8 +240,8 @@ export default function Projects() {
                   top: 0,
                 }}
               >
-                <span className="[font-family:'Poppins',Helvetica] font-medium text-xs leading-tight">View</span>
-                <span className="[font-family:'Poppins',Helvetica] font-medium text-xs leading-tight">Site</span>
+                <span className="[font-family:'Poppins',Helvetica] font-medium text-xs leading-tight">Coming</span>
+                <span className="[font-family:'Poppins',Helvetica] font-medium text-xs leading-tight">Soon</span>
               </div>
             </div>
           ) : (

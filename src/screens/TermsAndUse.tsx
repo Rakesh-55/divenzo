@@ -103,7 +103,7 @@ export default function TermsAndUse() {
               px-4 sm:px-10 lg:pl-8 xl:pl-20
             "
           >
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-0 md:mb-2">
               <AnimatedText as="span" className="block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
                 Terms
               </AnimatedText>
@@ -117,21 +117,13 @@ export default function TermsAndUse() {
 
           {/* RIGHT: CONTENT */}
           <div className="w-full lg:w-[60%] overflow-visible lg:overflow-y-auto no-scrollbar">
-            <div className="px-4 sm:px-10 lg:px-[60px] xl:px-[100px] py-12 lg:py-20">
+            <div className="px-4 sm:px-8 lg:px-[60px] xl:px-[100px] pt-8 pb-20 lg:pt-[340px] lg:pb-20">
 
+              {/* INTRO PARAGRAPH */}
               <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[20px] lg:text-[24px] leading-[1.6] mb-6">
-                <AnimatedText
-                  as="span"
-                  className="block"
-                  isDarkBg={false}
-                  disableColorReveal
-                  slideDuration={0.8}
-                  slideStagger={0.08}
-                >
-                  These Terms of Use (“Terms of Use”) have been drafted in accordance
-                  with the provisions of Rule 3 (1) of the Information Technology
-                  (Intermediaries guidelines) Rules, 2011 that require publishing the rules and regulations, privacy policy and Terms of Use for access or usage of https://divenzo.com/.
-                </AnimatedText>
+                These Terms of Use (“Terms of Use”) have been drafted in accordance
+                with the provisions of Rule 3 (1) of the Information Technology
+                (Intermediaries guidelines) Rules, 2011 that require publishing the rules and regulations, privacy policy and Terms of Use for access or usage of https://divenzo.com/.
               </p>
 
               {/* INTRO SECTIONS */}
@@ -142,17 +134,9 @@ export default function TermsAndUse() {
                       {section.title}
                     </AnimatedText>
                   </h2>
+                  {/* 👇 AnimatedText removed here 👇 */}
                   <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[18px] lg:text-[22px] leading-[1.6]">
-                    <AnimatedText
-                      as="span"
-                      className="block"
-                      isDarkBg={false}
-                      disableColorReveal
-                      slideDuration={0.8}
-                      slideStagger={0.08}
-                    >
-                      {section.desc}
-                    </AnimatedText>
+                    {section.desc}
                   </p>
                 </div>
               ))}
@@ -166,17 +150,9 @@ export default function TermsAndUse() {
                     </AnimatedText>
                   </h2>
 
+                  {/* 👇 AnimatedText removed here 👇 */}
                   <p className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[18px] lg:text-[22px] leading-[1.6] mb-4">
-                    <AnimatedText
-                      as="span"
-                      className="block"
-                      isDarkBg={false}
-                      disableColorReveal
-                      slideDuration={0.8}
-                      slideStagger={0.08}
-                    >
-                      {section.description}
-                    </AnimatedText>
+                    {section.description}
                   </p>
 
                   <ul className="list-disc pl-6 grid gap-2">
@@ -185,16 +161,8 @@ export default function TermsAndUse() {
                         key={index}
                         className="[font-family:'Poppins',Helvetica] font-normal text-[#000000cc] text-[15px] sm:text-[18px] lg:text-[22px] leading-[1.6]"
                       >
-                        <AnimatedText
-                          as="span"
-                          className="block"
-                          isDarkBg={false}
-                          disableColorReveal
-                          slideDuration={0.8}
-                          slideStagger={0.08}
-                        >
-                          {point}
-                        </AnimatedText>
+                        {/* 👇 AnimatedText removed here 👇 */}
+                        {point}
                       </li>
                     ))}
                   </ul>

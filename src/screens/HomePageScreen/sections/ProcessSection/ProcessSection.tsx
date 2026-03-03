@@ -90,7 +90,7 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
         ${isDark ? "dark-section" : ""}
       `}
     >
-      <div className="max-w-[1260px] mx-auto">
+      <div className="max-w-[1280px] mx-auto">
         {/* ================= HEADER ================= */}
         <h2
           className="

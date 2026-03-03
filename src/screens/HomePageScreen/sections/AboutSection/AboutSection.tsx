@@ -105,13 +105,14 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
           y: 0,
           opacity: 1,
           scale: 1,
-          duration: 1.2,
+          // duration no longer needed when scrubbing
           ease: "power4.out",
           scrollTrigger: {
             trigger: cardsRef.current,
             start: "top 85%",
             end: "top 30%",
-            toggleActions: "play none none reverse",
+            scrub: true,          // tie progress to scroll
+            // remove toggleActions since scrub handles reversal automatically
           },
         }
       );
@@ -277,18 +278,18 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
 
             <div
               ref={cardsRef}
-              className="flex flex-wrap gap-4 lg:gap-5 justify-center w-full"
+              className="flex flex-wrap gap-4 lg:gap-5 justify-center w-full max-w-[1280px] mx-auto"
             >
               {statsData.map((stat, index) => (
                 <Card
                   key={index}
                   className="
-                    stat-card border-0 shadow-none rounded-none transition-all duration-700 ease-in-out flex-none
-                    w-[296px] h-[372px]
+                    stat-card border-0 shadow-none rounded-none transition-colors duration-700 ease-in-out flex-none
+                    w-full sm:w-[296px] h-[372px]
                   "
                   style={{
-                    backgroundColor: isDark ? "#111111" : "#fafafa",
-                    color: isDark ? "#ffffff" : "#000000"
+                    backgroundColor: isDark ? "#111" : "#fafafa",
+                    color: "inherit"
                   }}
                 >
                   <CardContent className="h-full p-8 flex flex-col gap-4 justify-center text-inherit">

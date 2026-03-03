@@ -6,7 +6,7 @@ import { SuccessPopup } from "@/components/SuccessPopup";
 import emailjs from "@emailjs/browser";
 
 // Initialize EmailJS (replace with your actual Public Key from EmailJS)
-emailjs.init("YOUR_PUBLIC_KEY_HERE");
+emailjs.init("InF5FPJq29cFTUVbG");
 
 /* ─────────────────────────────────────────────
    Animated Input / Textarea
@@ -285,8 +285,8 @@ export default function Discuss() {
       try {
         // Send email via EmailJS
         await emailjs.send(
-          "YOUR_SERVICE_ID", // Replace with your EmailJS Service ID
-          "YOUR_TEMPLATE_ID", // Replace with your EmailJS Template ID
+          "service_88abooq", // Replace with your EmailJS Service ID
+          "template_qsb5bxc", // Replace with your EmailJS Template ID
           {
             to_email: "hello@divenzo.com",
             from_name: fullName,
