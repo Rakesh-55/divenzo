@@ -56,7 +56,7 @@ export const SuccessPopup: React.FC<SuccessPopupProps> = ({
       onClick={handleClose}
     >
       <div
-        className="success-popup-content bg-white rounded-2xl px-8 py-6 shadow-2xl max-w-sm text-center"
+        className="success-popup-content bg-white rounded-2xl px-8 py-6 shadow-2xl max-w-sm text-center [font-family:'Poppins',Helvetica]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 text-5xl">✓</div>
