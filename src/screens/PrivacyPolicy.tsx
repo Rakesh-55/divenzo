@@ -109,6 +109,7 @@ export default function PrivacyPolicy() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden">
+        <div className="max-w-[1280px] mx-auto w-full">
         <div className="lg:flex h-auto lg:h-[100vh]">
 
           {/* ===== LEFT HEADING ===== */}
@@ -118,7 +119,7 @@ export default function PrivacyPolicy() {
               w-full lg:w-[40%]
               flex flex-col justify-start
               pt-[30px] md:pt-[80px] pb-8 md:pb-16
-              px-4 sm:px-8 lg:px-8 xl:px-20
+              px-4 sm:px-8 lg:px-8 xl:pl-10 xl:pr-4
             "
           >
             <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-0 md:mb-2">
@@ -141,7 +142,7 @@ export default function PrivacyPolicy() {
               no-scrollbar
             "
           >
-            <div className="px-4 sm:px-8 lg:px-[60px] xl:px-[100px] pt-8 pb-20 lg:pt-[340px] lg:pb-20">
+            <div className="px-4 sm:px-8 lg:px-[40px] xl:px-[60px] pt-8 pb-20 lg:pt-[340px] lg:pb-20">
 
               {/* Intro */}
               <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[18px] lg:text-[24px] leading-[1.6] mb-6">
@@ -204,6 +205,7 @@ export default function PrivacyPolicy() {
               ))}
             </div>
           </div>
+        </div>
         </div>
       </section>
 

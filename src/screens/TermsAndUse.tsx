@@ -92,6 +92,7 @@ export default function TermsAndUse() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden">
+        <div className="max-w-[1280px] mx-auto w-full">
         <div className="flex flex-col lg:flex-row lg:h-screen">
 
           {/* LEFT: HEADING */}
@@ -100,7 +101,7 @@ export default function TermsAndUse() {
             className="
               w-full lg:w-[40%]
               pt-[30px] md:pt-[80px]
-              px-4 sm:px-10 lg:pl-8 xl:pl-20
+              px-4 sm:px-10 lg:pl-8 xl:pl-12
             "
           >
             <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-0 md:mb-2">
@@ -117,7 +118,7 @@ export default function TermsAndUse() {
 
           {/* RIGHT: CONTENT */}
           <div className="w-full lg:w-[60%] overflow-visible lg:overflow-y-auto no-scrollbar">
-            <div className="px-4 sm:px-8 lg:px-[60px] xl:px-[100px] pt-8 pb-20 lg:pt-[340px] lg:pb-20">
+            <div className="px-4 sm:px-8 lg:px-[60px] xl:px-[60px] pt-8 pb-20 lg:pt-[340px] lg:pb-20">
 
               {/* INTRO PARAGRAPH */}
               <p className="[font-family:'Poppins',Helvetica] font-normal text-black text-[16px] sm:text-[20px] lg:text-[24px] leading-[1.6] mb-6">
@@ -170,6 +171,7 @@ export default function TermsAndUse() {
               ))}
             </div>
           </div>
+        </div>
         </div>
       </section>
 

@@ -266,11 +266,11 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
               <img
                 src={project.image}
                 alt={project.imageAlt}
-                className="hidden md:block w-full h-full rounded-[0px] object-cover object-bottom"
+                className="hidden lg:block w-full h-full rounded-[0px] object-cover object-bottom"
               />
 
               {/* MOBILE VARIANT */}
-              <div className="block md:hidden relative w-full h-full">
+              <div className="block lg:hidden relative w-full h-full">
                 {project.mobileBg && (
                   <img
                     src={project.mobileBg}

@@ -133,61 +133,24 @@ export default function AboutSection() {
   useEffect(() => {
     let ctx = gsap.context(() => {
 
+      
       // 1. Color Background Triggers
-      // 1. Color Background Triggers
-      if (teamSectionRef.current && clientsSectionRef.current && mainRef.current) {
+      if (teamSectionRef.current && clientsSectionRef.current) {
         
         // Transition to Black (at Team Section start)
         ScrollTrigger.create({
           trigger: teamSectionRef.current,
-          start: "top 50%",
-          end: "bottom 30%",
-          onEnter: () => {
-            gsap.to(mainRef.current, {
-              backgroundColor: "#000",
-              color: "#fff",
-              duration: 0.8,
-              ease: "power2.inOut",
-              overwrite: "auto",
-            });
-            setIsDarkTheme(true);
-          },
-          onLeaveBack: () => {
-            gsap.to(mainRef.current, {
-              backgroundColor: "#fff",
-              color: "#000",
-              duration: 0.8,
-              ease: "power2.inOut",
-              overwrite: "auto",
-            });
-            setIsDarkTheme(false);
-          },
+          start: "top 75%", // Triggers earlier as it enters the view
+          onEnter: () => setIsDarkTheme(true),
+          onLeaveBack: () => setIsDarkTheme(false),
         });
 
         // Transition to White (at Clients Section start)
         ScrollTrigger.create({
           trigger: clientsSectionRef.current,
-          start: "top 50%",
-          onEnter: () => {
-            gsap.to(mainRef.current, {
-              backgroundColor: "#fff",
-              color: "#000",
-              duration: 0.8,
-              ease: "power2.inOut",
-              overwrite: "auto",
-            });
-            setIsDarkTheme(false);
-          },
-          onLeaveBack: () => {
-            gsap.to(mainRef.current, {
-              backgroundColor: "#000",
-              color: "#fff",
-              duration: 0.8,
-              ease: "power2.inOut",
-              overwrite: "auto",
-            });
-            setIsDarkTheme(true);
-          },
+          start: "top 75%", // Triggers right as Clients enter
+          onEnter: () => setIsDarkTheme(false),
+          onLeaveBack: () => setIsDarkTheme(true),
         });
       }
 
@@ -249,8 +212,11 @@ export default function AboutSection() {
     <>
       <section
         ref={mainRef}
-        className={`relative w-full overflow-x-hidden ${isDarkTheme ? "dark-section" : ""}`}
-        style={{ backgroundColor: "#fff", color: "#000" }} // Initial state for GSAP to animate from
+        className={`relative w-full overflow-x-hidden transition-colors duration-700 ease-in-out ${isDarkTheme ? "dark-section" : ""}`}
+        style={{ 
+          backgroundColor: isDarkTheme ? "#000000" : "#ffffff", 
+          color: isDarkTheme ? "#ffffff" : "#000000" 
+        }}
       >
         <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
 
