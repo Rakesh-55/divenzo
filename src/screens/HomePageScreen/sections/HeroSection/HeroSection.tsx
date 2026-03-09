@@ -103,8 +103,8 @@ export const HeroSection = (): JSX.Element => {
           ease: "none",
           scrollTrigger: {
             trigger: wrapper,
-            start: "top 60%",
-            end: "top 10%",
+            start: "top top+=300", 
+            end: "top top+=50",
             scrub: 0.5,
           },
         });
@@ -114,8 +114,8 @@ export const HeroSection = (): JSX.Element => {
           ease: "none",
           scrollTrigger: {
             trigger: wrapper,
-            start: "top 75%",
-            end: "top 10%",
+            start: "top top+=350", // Adjusted to match new trigger timing
+            end: "top top+=50",
             scrub: 0.5,
           },
         });
@@ -125,8 +125,8 @@ export const HeroSection = (): JSX.Element => {
           ease: "none",
           scrollTrigger: {
             trigger: wrapper,
-            start: "top 75%",
-            end: "top 10%",
+            start: "top top+=350", // Adjusted to match new trigger timing
+            end: "top top+=50",
             scrub: 0.5,
           },
         });
@@ -163,9 +163,11 @@ export const HeroSection = (): JSX.Element => {
           ref={headingRef}
           aria-label="Divenzo"
           className="
-            font-varela font-bold text-black text-center
-            text-[22vw] leading-[1.2]
-            whitespace-nowrap overflow-hidden
+            flex justify-between items-center w-full
+            font-varela font-bold text-black
+            text-[min(24vw,310px)] leading-[1.1]
+            whitespace-nowrap overflow-visible
+            pb-4 lg:pb-8
           "
         >
           {"Divenzo".split("").map((char, i) => (

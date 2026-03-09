@@ -313,10 +313,11 @@ export const FooterSection = (): JSX.Element => {
                 ref={companyRef}
                 aria-label="Divenzo"
                 className="
-                  font-varela font-bold text-white text-center
-                  text-[22vw] leading-[1.2]
-                  whitespace-nowrap
-                  overflow-hidden
+                  flex justify-between items-center w-full
+                  font-varela font-bold text-white
+                  text-[min(24vw,310px)] leading-[1.1]
+                  whitespace-nowrap overflow-visible
+                  pb-4 lg:pb-8
                 "
               >
                 {"Divenzo".split("").map((char, i) => (

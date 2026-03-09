@@ -18,12 +18,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Kills all ScrollTriggers and removes leftover GSAP pin-spacer wrappers
- * BEFORE the DOM is mutated for the new route. useLayoutEffect cleanup
- * runs synchronously before React applies DOM changes, so pin-spacers
- * are still in the DOM and can be properly unwrapped.
- */
+
 function RouteCleanup() {
   const location = useLocation();
   const prevPath = useRef(location.pathname);
