@@ -15,6 +15,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -255,23 +256,37 @@ export default function Services() {
   // State to track if the page should be dark
   const [isDark, setIsDark] = useState(false);
   const darkSectionRef = useRef<HTMLElement | null>(null);
+  const processSectionRef = useRef<HTMLElement | null>(null);
 
   // Scroll transition logic
   useEffect(() => {
     const ctx = gsap.context(() => {
-      if (darkSectionRef.current) {
+      // Small timeout ensures mobile DOM paints completely before tracking
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
+
+      if (darkSectionRef.current && processSectionRef.current) {
+        
         ScrollTrigger.create({
           trigger: darkSectionRef.current,
-          // use center of viewport to more accurately reflect when section is "active"
-          start: "top center", // switch to dark when top hits center
-          end: "bottom center", // back to light when bottom leaves center
+          start: "top 60%", // Turns dark when Services hits 60% of the screen
+          
+          // MAGIC FIX: Binds the end of the dark mode explicitly to the Process section
+          endTrigger: processSectionRef.current, 
+          end: "top 60%",   // Turns white when Process hits 60% of the screen
+          
           onEnter: () => setIsDark(true),
           onLeave: () => setIsDark(false),
           onEnterBack: () => setIsDark(true),
           onLeaveBack: () => setIsDark(false),
+          
+          // MOBILE FIX: Recalculates perfectly when the phone's address bar hides/shows
+          invalidateOnRefresh: true, 
         });
       }
     });
+    
     return () => ctx.revert();
   }, []);
 
@@ -347,7 +362,12 @@ export default function Services() {
             </p>
           </div>
 
-          <img src={service_img} alt="service" className="w-full h-auto mt-8 mb-4 md:mb-12 md:mt-12 lg:mt-[120px]" />
+          <img 
+            src={service_img} 
+            alt="service" 
+            className="w-full h-auto mt-8 mb-4 md:mb-12 md:mt-12 lg:mt-[120px]" 
+            onLoad={() => ScrollTrigger.refresh()} // <--- ADD THIS LINE
+          />
         </div>
       </section>
 
@@ -355,7 +375,7 @@ export default function Services() {
       <StickyStackServices sectionRef={darkSectionRef} isDark={isDark} />
 
       {/* PROCESS */}
-      <section className="relative w-full pt-2 pb-20 px-4 lg:px-8 xl:px-20">
+      <section ref={processSectionRef} className="relative w-full pt-2 pb-20 px-4 lg:px-8 xl:px-20">
         <div className="max-w-[1280px] mx-auto">
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
             <AnimatedText

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 
 /* ================= DATA ================= */
 

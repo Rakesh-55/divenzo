@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Autoplay from "embla-carousel-autoplay";
 import { Button } from "../../../../components/ui/button";
 import { AnimatedText } from "../../../../components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 
 
 import {
@@ -125,7 +126,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
   );
 
   useEffect(() => {
-    // Brands text Dzinr word reveal
+    // Brands text word reveal with PAGE PINNING
     if (brandsTextRef.current) {
       const topLayers = brandsTextRef.current.querySelectorAll('.word-top-layer');
       
@@ -134,16 +135,24 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
         { opacity: 0 },
         {
           opacity: 1,
-          stagger: 0.08,
+          stagger: 0.1, 
           ease: "none",
           scrollTrigger: {
             trigger: brandsTextRef.current,
-            start: "top 70%",
-            end: "top 20%",
-            scrub: true,
+            pin: true, 
+            start: "center center", 
+            end: "+=150%", 
+            scrub: 1, 
+            pinSpacing: true,
+            invalidateOnRefresh: true, // <--- THE FIX FOR BREAKPOINTS
           },
         }
       );
+
+      // Forces perfect math after fonts finish rendering
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
 
       return () => {
         scrollTrigger.scrollTrigger?.kill();
@@ -204,37 +213,17 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
           {/* ===== BRANDS (MARQUEE) ===== */}
           <div className="flex flex-col gap-6 md:gap-12">
-            <div 
-              ref={brandsTextRef}
+  
+            <PinnedTextReveal 
+              text="Years of collaboration, countless ideas shared, and amazing brands by our side."
+              isDark={isDark}
               className="
                 [font-family:'Poppins',Helvetica] font-normal
                 text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
                 leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
               "
-            >
-              {("Years of collaboration, countless ideas shared, and amazing brands by our side.").split(' ').map((word, index) => (
-                <span key={index} className="relative inline-block mr-[0.3em]">
-                  <span 
-                    className="word-base-layer"
-                    style={{ 
-                      opacity: 0.3,
-                      color: isDark ? '#999999' : '#666666'
-                    }}
-                  >
-                    {word}
-                  </span>
-                  <span 
-                    className="word-top-layer absolute inset-0"
-                    style={{ 
-                      opacity: 0,
-                      color: isDark ? '#ffffff' : '#000000'
-                    }}
-                  >
-                    {word}
-                  </span>
-                </span>
-              ))}
-            </div>
+            />
+
             <BrandMarquee />
           </div>
           

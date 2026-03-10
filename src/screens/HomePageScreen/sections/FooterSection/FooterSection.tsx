@@ -315,7 +315,7 @@ export const FooterSection = (): JSX.Element => {
                 className="
                   flex justify-between items-center w-full
                   font-varela font-bold text-white
-                  text-[min(24vw,310px)] leading-[1.1]
+                  text-[min(24vw,330px)] leading-[1.1]
                   whitespace-nowrap overflow-visible
                   pb-4 lg:pb-8
                 "

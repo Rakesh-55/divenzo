@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,7 +49,7 @@ const projectsData = [
     headerImage: "projects/project_4_header.png",
     imageAlt: "Project 4",
     title: "Hitayu Dairy",
-    desc: "Improving digital experience for a dairy farm",
+    // desc: "Improving digital experience for a dairy farm",
     mobileBg: "projects/mobile_projectcards/mobile_4_bg.png",
     // mobile image/logo not provided for item 4
   },
@@ -110,7 +111,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       // Set initial positions
       gsap.set(cards[0], { y: 0, scale: 1 });
       for (let i = 1; i < cards.length; i++) {
-        gsap.set(cards[i], { y: "120%", scale: 1 });
+        gsap.set(cards[i], { y: "100%", scale: 1 });
       }
 
       // Build timeline
@@ -242,7 +243,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         <div
           className="
             relative w-full max-w-[1280px] mx-auto
-            h-[65vh] sm:h-[75vh] lg:h-[95vh]
+            h-[65vh] sm:h-[75vh] lg:h-auto lg:aspect-video 
             overflow-hidden
           "
         >
@@ -266,7 +267,11 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
               <img
                 src={project.image}
                 alt={project.imageAlt}
-                className="hidden lg:block w-full h-full rounded-[0px] object-cover object-bottom"
+                className={`hidden lg:block rounded-[0px] ${
+                  project.id === 4 
+                    ? "w-full h-full object-cover object-center" 
+                    : "absolute top-0 left-0 w-full h-auto"
+                }`}
               />
 
               {/* MOBILE VARIANT */}
@@ -287,24 +292,31 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                     }`}
                   />
                 )}
-                <div className="absolute inset-0 flex flex-col justify-between items-center p-4 pt-28">
+                <div className="absolute inset-0 flex flex-col justify-between items-center p-4 pt-28 pb-8">
+                  
+                  {/* TEXT */}
                   <div className="max-w-[90%] w-full">
                     <div
-                      className={`text-white text-base md:text-lg mb-4 [font-family:'Poppins',Helvetica] text-left ${
-                        project.id === 4 ? "hidden md:block" : ""
+                      className={`text-white text-base lg:text-lg mb-4 [font-family:'Poppins',Helvetica] text-left ${
+                        project.id === 4 ? "hidden lg:block" : ""
                       }`}
                     >
                       {project.desc}
                     </div>
                   </div>
+                  
+                  {/* IMAGES */}
                   {project.mobileImage && (
-                    <div className={`bg-transparent p-0 mb-4 flex items-end justify-center ${
-                      index === 1 ? "w-full max-w-[90%] pb-4 h-[140px]" : index === 2 ? "max-w-[65%] h-[50px]" : "w-full max-w-[90%] h-[140px]"
+                    <div className={`bg-transparent p-0 flex items-end justify-center ${
+                      index === 0 ? "w-[95%] lg:w-[80%]" :        // Card 1
+                      index === 1 ? "w-[95%] lg:w-[80%] pb-4" :   // Card 2
+                      index === 2 ? "w-[70%] lg:w-[75%]" :        // Card 3
+                      "w-[90%]"
                     }`}>
                       <img
                         src={project.mobileImage}
                         alt=""
-                        className="w-full h-auto object-contain"
+                        className="w-full h-auto max-h-[55vh] object-contain"
                       />
                     </div>
                   )}
@@ -313,8 +325,10 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
               
               {/* CARD 4 OVERLAY */}
               {project.id === 4 && (
-                <div className="absolute inset-0 z-20 flex flex-col justify-center gap-24 lg:justify-center lg:gap-[150px] p-6 sm:p-8 lg:p-12 xl:p-16 lg:pb-[150px]">
-                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-3xl sm:text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight lg:-mt-20">
+                <div className="absolute inset-0 z-20 flex flex-col justify-center gap-24 lg:justify-center lg:gap-[110px] p-6 sm:p-8 lg:p-12 xl:p-16 lg:pb-[150px]">
+                  
+                  {/* HEADING */}
+                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-3xl sm:text-4xl md:text-6xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight lg:-mt-20">
                     <AnimatedText
                       as="span"
                       className="inline-block"
@@ -326,8 +340,11 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                       Explore Projects
                     </AnimatedText>
                   </h3>
+                  
                   <div className="max-w-2xl xl:max-w-4xl space-y-4 lg:space-y-0">
-                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 leading-normal text-[15px] sm:text-[18px] lg:text-[32px]">
+                    
+                    {/* PARAGRAPH */}
+                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 leading-normal text-[15px] sm:text-[18px] md:text-[28px] lg:text-[25px]">
                       These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.{" "}
                       
                       <Link
@@ -339,6 +356,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                         <span className="absolute left-0 -bottom-1 h-[1px] lg:h-[2px] w-full bg-current scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
                       </Link>
                     </p>
+
                   </div>
                 </div>
               )}
