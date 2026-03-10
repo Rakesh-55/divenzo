@@ -246,7 +246,7 @@ export const FooterSection = (): JSX.Element => {
               "
             >
               {navigationLinks.map((link, index) => (
-                <Link key={index} to={link.page}>
+                <Link key={index} to={link.page} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                   <Button
                     variant="link"
                     className="

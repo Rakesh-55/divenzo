@@ -46,8 +46,14 @@ export const HomePageScreen = (): JSX.Element => {
       }),
     ];
 
+    // THE OVERLAP FIX: Forces GSAP to recalculate after the route finishes loading
+    const timeoutId = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
     return () => {
       triggers.forEach((trigger) => trigger.kill());
+      clearTimeout(timeoutId); // Clean up the timeout to prevent memory leaks
     };
   }, []);
 
