@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@radix-ui/react-separator";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 
 import about_img from "../assets/about_img.png";
@@ -188,20 +189,20 @@ export default function AboutSection() {
       }
 
       // 4. Team Design Text Unveil
-      if (teamDesignTextRef.current) {
-        const topLayers = teamDesignTextRef.current.querySelectorAll('.word-top-layer');
-        gsap.fromTo(
-          topLayers,
-          { opacity: 0 },
-          {
-            opacity: 1, stagger: 0.08, ease: "none",
-            scrollTrigger: {
-              trigger: teamDesignTextRef.current,
-              start: "top 70%", end: "top 20%", scrub: true,
-            }
-          }
-        );
-      }
+      // if (teamDesignTextRef.current) {
+      //   const topLayers = teamDesignTextRef.current.querySelectorAll('.word-top-layer');
+      //   gsap.fromTo(
+      //     topLayers,
+      //     { opacity: 0 },
+      //     {
+      //       opacity: 1, stagger: 0.08, ease: "none",
+      //       scrollTrigger: {
+      //         trigger: teamDesignTextRef.current,
+      //         start: "top 70%", end: "top 20%", scrub: true,
+      //       }
+      //     }
+      //   );
+      // }
 
     });
 
@@ -278,38 +279,17 @@ export default function AboutSection() {
             ref={statsContainerRef}
             className="mt-[40px] md:mt-[100px] -mx-4 lg:mx-0 px-4 py-8"
           >
-            <h3
-              ref={statsTextRef}
+            
+            <PinnedTextReveal 
+              text="Our work speaks through numbers. Here's what we've achieved so far."
+              isDark={isDarkTheme}
               className="
-              [font-family:'Poppins',Helvetica] font-normal 
-              text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
-              leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
-              mb-[40px] lg:mb-[72px]
-            "
-            >
-              {("Our work speaks through numbers. Here's what we've achieved so far.").split(' ').map((word, index) => (
-                <span key={index} className="relative inline-block mr-[0.3em]">
-                  <span 
-                    className="word-base-layer transition-colors duration-700 ease-in-out" 
-                    style={{ 
-                      opacity: 0.3,
-                      color: isDarkTheme ? '#999999' : '#666666'
-                    }}
-                  >
-                    {word}
-                  </span>
-                  <span 
-                    className="word-top-layer absolute inset-0 transition-colors duration-700 ease-in-out" 
-                    style={{ 
-                      opacity: 0,
-                      color: isDarkTheme ? '#ffffff' : '#000000'
-                    }}
-                  >
-                    {word}
-                  </span>
-                </span>
-              ))}
-            </h3>
+                [font-family:'Poppins',Helvetica] font-normal 
+                text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
+                leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
+                mb-[40px] lg:mb-[72px]
+              "
+            />
 
             <div
               ref={cardsRef}
@@ -394,33 +374,16 @@ export default function AboutSection() {
         >
           <div className="max-w-[1280px] mx-auto">
 
-            <h3 
-              ref={teamDesignTextRef}
-              className="[font-family:'Poppins',Helvetica] font-normal text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px] tracking-[0] leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px] mb-[40px] sm:mb-[72px]"
-            >
-              {("Design is more than visuals. It's the trust you earn, the emotion you spark, and the impact that lasts.").split(' ').map((word, index) => (
-                <span key={index} className="relative inline-block mr-[0.3em]">
-                  <span 
-                    className="word-base-layer transition-colors duration-700 ease-in-out" 
-                    style={{ 
-                      opacity: 0.3,
-                      color: isDarkTheme ? '#999999' : '#666666'
-                    }}
-                  >
-                    {word}
-                  </span>
-                  <span 
-                    className="word-top-layer absolute inset-0 transition-colors duration-700 ease-in-out" 
-                    style={{ 
-                      opacity: 0,
-                      color: isDarkTheme ? '#ffffff' : '#000000'
-                    }}
-                  >
-                    {word}
-                  </span>
-                </span>
-              ))}
-            </h3>
+            <PinnedTextReveal 
+              text="Design is more than visuals. It's the trust you earn, the emotion you spark, and the impact that lasts."
+              isDark={isDarkTheme}
+              className="
+                [font-family:'Poppins',Helvetica] font-normal 
+                text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px] tracking-[0] 
+                leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px] 
+                mb-[40px] sm:mb-[72px]
+              "
+            />
 
             {/* ===== TEAM HEADING ===== */}
             <h2 

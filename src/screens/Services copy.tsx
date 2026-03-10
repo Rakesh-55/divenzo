@@ -4,6 +4,7 @@ import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 import service_img from "../assets/service_img.png";
 import * as Separator from "@radix-ui/react-separator";
 import { TestimonialsSection } from "./HomePageScreen/sections/TestimonialsSection";

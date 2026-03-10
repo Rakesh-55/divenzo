@@ -3,6 +3,7 @@ import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import { ProjectCard } from "@/components/ProjectCard";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 import gsap from "gsap";
 
 const projectsData = [

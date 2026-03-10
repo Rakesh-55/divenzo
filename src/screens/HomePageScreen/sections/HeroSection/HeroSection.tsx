@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -153,7 +154,7 @@ export const HeroSection = (): JSX.Element => {
   }, []);
 
   return (
-    <section className="relative w-full bg-white overflow-visible z-10 px-4 sm:px-8 lg:px-8 xl:px-20">
+    <section className="relative w-full bg-white overflow-visible z-10 px-4 sm:px-8 lg:px-8 xl:px-20 pt-[40px]">
       {/* <Navbar /> */}
 
       {/* 🟣 TITLE + ROTATING WORDS */}
@@ -165,7 +166,7 @@ export const HeroSection = (): JSX.Element => {
           className="
             flex justify-between items-center w-full
             font-varela font-bold text-black
-            text-[min(24vw,310px)] leading-[1.1]
+            text-[min(24vw,330px)] leading-[1.1]
             whitespace-nowrap overflow-visible
             pb-4 lg:pb-8
           "

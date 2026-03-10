@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 
 const categories = [
   "All",

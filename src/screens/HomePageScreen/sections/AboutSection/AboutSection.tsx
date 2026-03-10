@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -242,38 +243,17 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
 
         {/* ================= STATS ================= */}
         <div className="mt-[60px] sm:mt-[80px] lg:mt-[100px]">
-        <div 
-          ref={statsTextRef}
+
+        <PinnedTextReveal 
+          text="Our work speaks through numbers. Here's what we've achieved so far."
+          isDark={isDark}
           className="
             [font-family:'Poppins',Helvetica] font-normal
             text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
             leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
             mb-[40px] lg:mb-[72px]
           "
-        >
-          {("Our work speaks through numbers. Here's what we've achieved so far.").split(' ').map((word, index) => (
-            <span key={index} className="relative inline-block mr-[0.3em]">
-              <span 
-                className="word-base-layer"
-                style={{ 
-                  opacity: 0.3,
-                  color: isDark ? '#999999' : '#666666'
-                }}
-              >
-                {word}
-              </span>
-              <span 
-                className="word-top-layer absolute inset-0"
-                style={{ 
-                  opacity: 0,
-                  color: isDark ? '#ffffff' : '#000000'
-                }}
-              >
-                {word}
-              </span>
-            </span>
-          ))}
-        </div>
+        />
 
 
             <div

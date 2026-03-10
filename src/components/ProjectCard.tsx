@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 
 interface ProjectCardProps {
   image: string;

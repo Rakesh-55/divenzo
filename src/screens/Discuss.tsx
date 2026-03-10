@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 import { FooterSection } from "./HomePageScreen/sections/FooterSection";
 import { AnimatedText } from "@/components/AnimatedText";
+import { PinnedTextReveal } from "@/components/PinnedTextReveal";
 import { SuccessPopup } from "@/components/SuccessPopup";
 import emailjs from "@emailjs/browser";
 
