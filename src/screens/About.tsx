@@ -133,23 +133,18 @@ export default function AboutSection() {
 
   useEffect(() => {
     let ctx = gsap.context(() => {
-
-      
       // 1. Color Background Triggers
       if (teamSectionRef.current && clientsSectionRef.current) {
-        
-        // Transition to Black (at Team Section start)
         ScrollTrigger.create({
           trigger: teamSectionRef.current,
-          start: "top 75%", // Triggers earlier as it enters the view
+          start: "top 75%", 
           onEnter: () => setIsDarkTheme(true),
           onLeaveBack: () => setIsDarkTheme(false),
         });
 
-        // Transition to White (at Clients Section start)
         ScrollTrigger.create({
           trigger: clientsSectionRef.current,
-          start: "top 75%", // Triggers right as Clients enter
+          start: "top 75%",
           onEnter: () => setIsDarkTheme(false),
           onLeaveBack: () => setIsDarkTheme(true),
         });
@@ -171,42 +166,17 @@ export default function AboutSection() {
           }
         );
       }
-
-      // 3. Stats Text Unveil
-      if (statsTextRef.current) {
-        const topLayers = statsTextRef.current.querySelectorAll('.word-top-layer');
-        gsap.fromTo(
-          topLayers,
-          { opacity: 0 },
-          {
-            opacity: 1, stagger: 0.08, ease: "none",
-            scrollTrigger: {
-              trigger: statsTextRef.current,
-              start: "top 70%", end: "top 20%", scrub: true,
-            }
-          }
-        );
-      }
-
-      // 4. Team Design Text Unveil
-      // if (teamDesignTextRef.current) {
-      //   const topLayers = teamDesignTextRef.current.querySelectorAll('.word-top-layer');
-      //   gsap.fromTo(
-      //     topLayers,
-      //     { opacity: 0 },
-      //     {
-      //       opacity: 1, stagger: 0.08, ease: "none",
-      //       scrollTrigger: {
-      //         trigger: teamDesignTextRef.current,
-      //         start: "top 70%", end: "top 20%", scrub: true,
-      //       }
-      //     }
-      //   );
-      // }
-
     });
 
-    return () => ctx.revert();
+    // THE OVERLAP FIX: Forces GSAP to recalculate pin spacing after the new page loads
+    const timeoutId = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
@@ -280,6 +250,7 @@ export default function AboutSection() {
             className="mt-[40px] md:mt-[100px] -mx-4 lg:mx-0 px-4 py-8"
           >
             
+            {/* NEW PINNED TEXT REVEAL */}
             <PinnedTextReveal 
               text="Our work speaks through numbers. Here's what we've achieved so far."
               isDark={isDarkTheme}
