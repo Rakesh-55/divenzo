@@ -180,12 +180,12 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         relative w-full overflow-hidden
         pt-[40px] sm:pt-[50px] lg:pt-[150px]
         pb-[50px] sm:pb-[50px] lg:pb-[50px]
-        px-4 sm:px-8 lg:px-8 xl:px-20
+        px-0
         transition-colors duration-700
         ${isDark ? "dark-section" : ""}
       `}
     >
-      <div className="max-w-[1280px] mx-auto">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-8 xl:px-20">
         {/* ================= HEADER ================= */}
         <header
           ref={headerRef}
@@ -235,15 +235,16 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         className="
           relative w-full
           h-screen
-          flex items-start justify-center
+          flex items-start justify-start lg:justify-center
           overflow-hidden
-          pt-[10vh] lg:pt-[5vh]
+          pt-[5vh] lg:pt-0
         "
       >
         <div
           className="
-            relative w-full max-w-[1280px] mx-auto
-            h-[65vh] sm:h-[75vh] lg:h-auto lg:aspect-video 
+            relative w-full
+            lg:max-w-[1280px] lg:mx-auto
+            h-[85vh] sm:h-[90vh] lg:h-screen
             overflow-hidden
           "
         >

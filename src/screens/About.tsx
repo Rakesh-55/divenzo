@@ -358,7 +358,7 @@ export default function AboutSection() {
 
             {/* ===== TEAM HEADING ===== */}
             <h2 
-              className="[font-family:'Poppins',Helvetica] font-semibold text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[40px] md:mb-[56px]"
+              className="[font-family:'Poppins',Helvetica] font-semibold text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mt-[60px] md:mt-[80px] lg:mt-[120px] mb-[40px] md:mb-[56px]"
             >
               <AnimatedText
                 as="span"
