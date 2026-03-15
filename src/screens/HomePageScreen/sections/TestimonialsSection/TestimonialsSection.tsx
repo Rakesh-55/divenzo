@@ -391,7 +391,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
 
           {/* ===== FAQ ===== */}
-          <div className="flex flex-col gap-4 md:gap-12 mt-4 md:mt-10">
+          <div className="flex flex-col gap-4 md:gap-12 mt-4 md:mt-10 mb-10 md:mb-20">
             <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]">
               <AnimatedText
                 as="span"
