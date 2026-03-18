@@ -220,7 +220,15 @@ export const HeroSection = (): JSX.Element => {
       {/* 🖼 IMAGE + TEXT */}
       <div className="max-w-[1280px] mx-auto w-full relative mt-6 lg:mt-16 lg:pb-[100vh]">
         <div className="relative flex flex-col lg:block items-start gap-10 w-full">
-          <div ref={imageWrapperRef} className="relative w-full lg:absolute lg:top-0 lg:left-0 flex-shrink-0">
+          <div
+            ref={imageWrapperRef}
+            className="
+              relative w-screen left-1/2 -translate-x-1/2
+              lg:w-full lg:left-0 lg:translate-x-0
+              lg:absolute lg:top-0 lg:left-0
+              flex-shrink-0
+            "
+          >
             <img
               ref={imageRef}
               src="/hero_image.png"
