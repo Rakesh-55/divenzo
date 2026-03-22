@@ -101,11 +101,11 @@ export default function TermsAndUse() {
             ref={headingRef}
             className="
               w-full lg:w-[40%]
-              pt-[30px] md:pt-[80px]
+              pt-[40px] md:pt-[80px] lg:pt-[120px]
               px-4 sm:px-10 lg:pl-8 xl:pl-12
             "
           >
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-0 md:mb-2">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[12px] md:mb-[20px]">
               <AnimatedText as="span" className="block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
                 Terms
               </AnimatedText>

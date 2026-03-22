@@ -149,7 +149,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
         {/* ================= HEADER ================= */}
         <header
           ref={headerRef}
-          className="flex flex-col gap-8 lg:gap-12 mb-[40px] lg:mb-[60px]"
+          className="flex flex-col gap-8 lg:gap-12 mb-[32px] lg:mb-[48px]"
         >
           <h2
             ref={titleRef}

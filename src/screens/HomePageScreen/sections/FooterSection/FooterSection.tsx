@@ -196,7 +196,8 @@ export const FooterSection = (): JSX.Element => {
                 <p
                   className="
                     [font-family:'Poppins',Helvetica] font-normal text-white
-                    text-[24px]
+    text-[clamp(15px,4.6vw,24px)]
+    leading-[1.35] sm:leading-[1.4]
                   "
                 >
                   Unleashing brand potential through
@@ -315,8 +316,10 @@ export const FooterSection = (): JSX.Element => {
                 className="
                   flex justify-between items-center w-full
                   font-varela font-bold text-white
-                  text-[min(24vw,330px)] leading-[1.1]
+                  text-[22vw] sm:text-[23vw] md:text-[min(24vw,330px)]
+                  leading-[1.1]
                   whitespace-nowrap overflow-visible
+                  px-[2vw] sm:px-[1vw] md:px-0
                   pb-4 lg:pb-8
                 "
               >

@@ -326,7 +326,7 @@ export default function Discuss() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden">
-        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
+        <div className="max-w-[1280px] mx-auto pt-[40px] md:pt-[80px] lg:pt-[120px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
 
           {/* ===== HEADING ===== */}
           <h2

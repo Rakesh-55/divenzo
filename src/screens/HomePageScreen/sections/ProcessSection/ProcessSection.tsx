@@ -97,7 +97,7 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
             [font-family:'Poppins',Helvetica] font-semibold text-inherit
             text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
             tracking-[0] leading-normal
-            mb-[16px] sm:mb-[20px] lg:mb-[26px]
+            mb-[32px] lg:mb-[48px]
           "
         >
           <AnimatedText

@@ -168,7 +168,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
               md:text-[100px] md:leading-[70px]
               lg:text-[100px] lg:leading-[85px]
               mb-[32px] lg:mb-[56px]
-              lg:mt-[50px]
+              
             "
           >
             <AnimatedText
