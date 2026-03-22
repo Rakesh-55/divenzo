@@ -119,11 +119,11 @@ export default function PrivacyPolicy() {
             className="
               w-full lg:w-[40%]
               flex flex-col justify-start
-              pt-[30px] md:pt-[80px] pb-8 md:pb-16
+              pt-[40px] md:pt-[80px] lg:pt-[120px] pb-8 md:pb-16
               px-4 sm:px-8 lg:px-8 xl:pl-10 xl:pr-4
             "
           >
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-0 md:mb-2">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-black text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[12px] md:mb-[20px]">
               <AnimatedText as="span" className="block" isDarkBg={false} disableColorReveal slideDuration={0.8} slideStagger={0.08}>
                 Privacy
               </AnimatedText>

@@ -333,7 +333,7 @@ export default function Services() {
     >
       {/* HERO */}
       <section className="relative w-full">
-        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-4 md:pb-16 px-4 lg:px-8 xl:px-0">
+        <div className="max-w-[1280px] mx-auto pt-[40px] md:pt-[80px] lg:pt-[120px] pb-4 md:pb-16 px-4 lg:px-8 xl:px-0">
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
             <AnimatedText
               as="span"
@@ -377,7 +377,7 @@ export default function Services() {
       {/* PROCESS */}
       <section ref={processSectionRef} className="relative w-full pt-2 pb-20 px-4 lg:px-8 xl:px-20">
         <div className="max-w-[1280px] mx-auto">
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
             <AnimatedText
               as="span"
               className="block"
@@ -456,7 +456,7 @@ export default function Services() {
       {/* TESTIMONIALS */}
       <section className="pb-24">
         <div className="max-w-[1280px] mx-auto px-4 lg:px-0">
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[16px] md:mb-[26px]">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
             <AnimatedText
               as="span"
               className="block"

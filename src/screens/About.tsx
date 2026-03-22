@@ -189,7 +189,7 @@ export default function AboutSection() {
           color: isDarkTheme ? "#ffffff" : "#000000" 
         }}
       >
-        <div className="max-w-[1280px] mx-auto pt-[30px] md:pt-[80px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
+        <div className="max-w-[1280px] mx-auto pt-[40px] md:pt-[80px] lg:pt-[120px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
 
           {/* ABOUT */}
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">

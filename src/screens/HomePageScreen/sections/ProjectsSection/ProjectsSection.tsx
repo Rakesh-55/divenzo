@@ -185,11 +185,11 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         ${isDark ? "dark-section" : ""}
       `}
     >
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-8 xl:px-20">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-0">
         {/* ================= HEADER ================= */}
         <header
           ref={headerRef}
-          className="flex flex-col gap-[26px] mb-[40px] lg:mb-[60px] z-20 relative"
+          className="flex flex-col gap-[26px] mb-[32px] lg:mb-[48px] z-20 relative"
         >
           <h2
             ref={titleRef}
