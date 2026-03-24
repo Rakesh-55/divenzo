@@ -247,6 +247,7 @@ export default function Discuss() {
   const [showPopup, setShowPopup] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [popupMessage, setPopupMessage] = useState("Email sent successfully!");
+  const [popupType, setPopupType] = useState<"success" | "error">("success");
 
   /* heading + description reveal */
   useEffect(() => {
@@ -276,6 +277,7 @@ export default function Discuss() {
       
       // Validate required fields
       if (!fullName || !email || !phone || !service || !message) {
+        setPopupType("error");
         setPopupMessage("Please fill in all required fields!");
         setShowPopup(true);
         return;
@@ -301,6 +303,7 @@ export default function Discuss() {
         );
 
         // Success - show popup and reset form
+        setPopupType("success");
         setPopupMessage("Email sent successfully! We'll get back to you soon.");
         setShowPopup(true);
 
@@ -313,7 +316,7 @@ export default function Discuss() {
         setService("");
         setMessage("");
       } catch (error) {
-        console.error("Email sending failed:", error);
+        setPopupType("error");
         setPopupMessage("Failed to send email. Please try again or email hello@divenzo.com");
         setShowPopup(true);
       } finally {
@@ -452,6 +455,7 @@ export default function Discuss() {
         isOpen={showPopup} 
         onClose={() => setShowPopup(false)}
         message={popupMessage}
+        type={popupType}
       />
 
       <FooterSection />
