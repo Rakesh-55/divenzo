@@ -189,7 +189,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         {/* ================= HEADER ================= */}
         <header
           ref={headerRef}
-          className="flex flex-col gap-[26px] mb-[32px] lg:mb-[48px] z-20 relative"
+          className="flex flex-col gap-[26px] mb-[36px] md:mb-[56px] z-20 relative"
         >
           <h2
             ref={titleRef}

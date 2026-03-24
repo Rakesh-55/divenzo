@@ -151,7 +151,8 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
       }}
       className={`
         relative w-full
-        py-[40px] sm:py-[50px] lg:py-[150px] lg:pb-[50px]
+        pt-[40px] sm:pt-[50px] lg:pt-[150px]
+        pb-[40px] sm:pb-[50px] lg:pb-[50px]
         px-4 sm:px-8 lg:px-8 xl:px-20
         transition-colors duration-700
         ${isDark ? "dark-section" : ""}
@@ -167,7 +168,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
               sm:text-[56px] sm:leading-[60px]
               md:text-[100px] md:leading-[70px]
               lg:text-[100px] lg:leading-[85px]
-              mb-[32px] lg:mb-[56px]
+              mb-[36px] md:mb-[56px]
               
             "
           >
