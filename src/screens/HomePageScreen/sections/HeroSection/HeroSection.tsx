@@ -137,7 +137,7 @@ export const HeroSection = (): JSX.Element => {
 
         gsap.to(img, {
           width: "100%",
-          height: "45vh",
+          height: "80vh",
           borderRadius: "0px",
           ease: "none",
           scrollTrigger: {
@@ -236,7 +236,7 @@ export const HeroSection = (): JSX.Element => {
               className="
                 block object-cover shadow-xl z-[2]
                 w-full
-                h-[200px] sm:h-[240px]
+                h-[60vh] sm:h-[65vh]
                 lg:w-[400px] lg:h-[228px]
                 will-change-transform
                 flex-shrink-0
@@ -244,7 +244,7 @@ export const HeroSection = (): JSX.Element => {
             />
           </div>
 
-          <div ref={textRef} className="mt-4 lg:mt-0 lg:relative lg:top-[114px] w-full" style={{ zIndex: 3 }}>
+          <div ref={textRef} className="mt-8 lg:mt-0 lg:relative lg:top-[114px] w-full" style={{ zIndex: 3 }}>
             <AnimatedText
               className="
                 [font-family:'Poppins',Helvetica]

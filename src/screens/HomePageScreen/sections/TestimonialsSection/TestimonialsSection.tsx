@@ -197,7 +197,8 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
     <section
       className={`
         relative w-full overflow-x-hidden transition-colors duration-700
-        py-[40px] sm:py-[50px] lg:py-[50px]
+        pt-[40px] sm:pt-[50px] lg:pt-[150px]
+        pb-[40px] sm:pb-[50px] lg:pb-[50px]
         px-4 sm:px-8 lg:px-8 xl:px-20
         ${isDark ? "dark-section" : ""}
       `}
@@ -212,7 +213,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
           <div className="flex flex-col gap-10 md:gap-20">
 
           {/* ===== BRANDS (MARQUEE) ===== */}
-          <div className="flex flex-col gap-6 md:gap-12">
+          <div className="flex flex-col">
   
             <PinnedTextReveal 
               text="Years of collaboration, countless ideas shared, and amazing brands by our side."
@@ -229,8 +230,8 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
           
 
           {/* ===== TESTIMONIALS ===== */}
-          <div className="flex flex-col gap-6 md:gap-12">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]">
+          <div className="flex flex-col">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
               <AnimatedText
                 as="span"
                 className="block"
@@ -392,7 +393,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
           {/* ===== FAQ ===== */}
           <div className="flex flex-col gap-4 md:gap-12 mt-4 md:mt-10 mb-10 md:mb-20">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[32px] lg:mb-[48px]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
               <AnimatedText
                 as="span"
                 className="block"

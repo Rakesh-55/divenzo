@@ -122,7 +122,8 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
       }}
       className={`
         relative w-full overflow-hidden
-        py-[40px] sm:py-[50px] lg:py-[50px]
+        pt-[40px] sm:pt-[50px] lg:pt-[150px]
+        pb-[40px] sm:pb-[50px] lg:pb-[50px]
         px-4 sm:px-8 lg:px-8 xl:px-20
         transition-colors duration-700
         ${isDark ? "dark-section" : ""}
@@ -149,7 +150,7 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
         {/* ================= HEADER ================= */}
         <header
           ref={headerRef}
-          className="flex flex-col gap-8 lg:gap-12 mb-[32px] lg:mb-[48px]"
+          className="flex flex-col gap-8 lg:gap-12 mb-[36px] md:mb-[56px]"
         >
           <h2
             ref={titleRef}

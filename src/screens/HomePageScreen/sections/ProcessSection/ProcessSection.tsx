@@ -84,7 +84,8 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
       }}
       className={`
         w-full
-        py-[50px] sm:py-[50px] lg:py-[150px] lg:pt-[50px]
+        pt-[50px] sm:pt-[50px] lg:pt-[150px]
+        pb-[50px] sm:pb-[50px] lg:pb-[50px]
         px-4 sm:px-8 lg:px-8 xl:px-20
         transition-colors duration-500
         ${isDark ? "dark-section" : ""}
