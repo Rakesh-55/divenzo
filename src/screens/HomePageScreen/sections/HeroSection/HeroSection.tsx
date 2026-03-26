@@ -234,7 +234,7 @@ export const HeroSection = (): JSX.Element => {
               src="/hero_image.png"
               alt="Expanding Image"
               className="
-                block object-cover shadow-xl z-[2]
+                block object-cover z-[2]
                 w-full
                 h-[60vh] sm:h-[65vh]
                 lg:w-[400px] lg:h-[228px]
