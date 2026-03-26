@@ -44,9 +44,9 @@ const team = [
   { image: saikumar, name: "Sai Kumar. D", designation: "Senior Software Developer" },
   { image: ajaykumar, name: "Ajay Kumar", designation: "Brand Designer" },
   { image: divya, name: "Divya. K", designation: "Software Developer" },
-  { image: bhanuprakash, name: "Bhanu Prakash. K", designation: "Product & Ad Photographer" },
+  { image: bhanuprakash, name: "Bhanu Prakash. V", designation: "Product & Ad Photographer" },
   { image: vinaykumar, name: "Vinay Kumar", designation: "Lead Product Designer" },
-  { image: bhavani, name: "Bhavani. V", designation: "Senior UX Designer" },
+  { image: bhavani, name: "Bhavani. V", designation: "Software Developer" },
   { image: srinavas, name: "Srinivas. K", designation: "Marketing & Account Management" },
 ];
 
