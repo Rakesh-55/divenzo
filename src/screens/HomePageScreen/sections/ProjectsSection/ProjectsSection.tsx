@@ -149,9 +149,9 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       ScrollTrigger.create({
         trigger: cardsWrapperRef.current,
         start: "top top",
-        end: () => `+=${(cards.length - 1) * 150}%`,
+        end: () => `+=${(cards.length - 1) * 120}%`,
         pin: true,
-        scrub: 0.5, 
+        scrub: 0.2, 
         snap: {
           snapTo: snapPoints,
           duration: { min: 0.2, max: 0.5 },
