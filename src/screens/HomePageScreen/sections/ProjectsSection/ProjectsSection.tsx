@@ -326,10 +326,10 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
               
               {/* CARD 4 OVERLAY */}
               {project.id === 4 && (
-                <div className="absolute inset-0 z-20 flex flex-col justify-center gap-24 lg:justify-center lg:gap-[110px] p-6 sm:p-8 lg:p-12 xl:p-16 lg:pb-[150px]">
+                <div className="absolute inset-0 z-20 flex flex-col justify-center gap-[clamp(2rem,6vw,7rem)] p-6 sm:p-8 lg:p-12 xl:p-16 lg:pb-[150px]">
                   
                   {/* HEADING */}
-                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-3xl sm:text-4xl md:text-6xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight lg:-mt-20">
+                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-3xl sm:text-4xl md:text-6xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight pb-28">
                     <AnimatedText
                       as="span"
                       className="inline-block"

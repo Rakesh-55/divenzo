@@ -454,7 +454,7 @@ export default function Services() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="pb-24">
+      <section className="pb-20 md:pb-32">
         <div className="max-w-[1280px] mx-auto px-4 lg:px-0">
           <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
             <AnimatedText
