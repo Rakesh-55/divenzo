@@ -7,7 +7,7 @@ import { SuccessPopup } from "@/components/SuccessPopup";
 import emailjs from "@emailjs/browser";
 
 // Initialize EmailJS (replace with your actual Public Key from EmailJS)
-emailjs.init("pl9yUkTJA0K1Bn5QN");
+emailjs.init("GQvJrxnmI5lJ3RFVc");
 
 /* ─────────────────────────────────────────────
    Animated Input / Textarea
@@ -288,7 +288,7 @@ export default function Discuss() {
       try {
         // Send email via EmailJS
         await emailjs.send(
-          "service_vx47azn", // Replace with your EmailJS Service ID
+          "service_dtbvll9", // Replace with your EmailJS Service ID
           "template_a0gp96s", // Replace with your EmailJS Template ID
           {
             to_email: "hello@divenzo.com",
@@ -329,7 +329,7 @@ export default function Discuss() {
   return (
     <>
       <section className="relative w-full bg-white overflow-x-hidden">
-        <div className="max-w-[1280px] mx-auto pt-[40px] md:pt-[80px] lg:pt-[120px] pb-8 md:pb-16 px-4 lg:px-8 xl:px-0">
+        <div className="max-w-[1280px] mx-auto pt-[40px] md:pt-[80px] lg:pt-[120px] pb-20 md:pb-32 px-4 lg:px-8 xl:px-0">
 
           {/* ===== HEADING ===== */}
           <h2

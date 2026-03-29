@@ -436,7 +436,7 @@ export default function AboutSection() {
         {/* ================= CLIENTS SECTION ================= */}
         <section
           ref={clientsSectionRef}
-          className="w-full py-10 md:py-20"
+          className="w-full pt-10 pb-20 md:pb-32"
         >
           <div className="max-w-[1280px] mx-auto px-4 lg:px-8 xl:px-0">
             <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
