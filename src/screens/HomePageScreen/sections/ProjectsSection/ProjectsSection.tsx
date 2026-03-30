@@ -62,7 +62,7 @@ interface ProjectsSectionProps {
 export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element => {
   const headerRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
-  const descRef = useRef<HTMLParagraphElement | null>(null);
+  // const descRef = useRef<HTMLParagraphElement | null>(null);
   const cardsWrapperRef = useRef<HTMLDivElement | null>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
@@ -89,17 +89,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
           opacity: 0,
           duration: 1,
           ease: "power3.out",
-        })
-        .from(
-          descRef.current,
-          {
-            x: 80,
-            opacity: 0,
-            duration: 1.2,
-            ease: "power3.out",
-          },
-          "-=0.6"
-        );
+        });
 
       // ❗ Stacked card animation → ALL SCREENS
       const cards = cardsRef.current.filter(Boolean);
@@ -178,7 +168,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
       }}
       className={`
         relative w-full overflow-hidden
-        pt-[40px] sm:pt-[50px] lg:pt-[150px]
+        pt-[50px] sm:pt-[50px] lg:pt-[150px]
         pb-[50px] sm:pb-[50px] lg:pb-[50px]
         px-0
         transition-colors duration-700
@@ -189,7 +179,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
         {/* ================= HEADER ================= */}
         <header
           ref={headerRef}
-          className="flex flex-col gap-[26px] mb-[36px] md:mb-[56px] z-20 relative"
+          className="flex flex-col gap-8 lg:gap-12 mb-[48px] lg:mb-[86px] z-20 relative"
         >
           <h2
             ref={titleRef}
@@ -214,7 +204,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
           <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
             <AnimatedText
               className="
-                [font-family:'Poppins',Helvetica] font-normal 
+                [font-family:'Poppins',Helvetica] font-normal opacity-80
                 text-[18px] sm:text-[24px] lg:text-[32px]
                 tracking-[0] leading-normal
               "

@@ -220,7 +220,7 @@ export default function AboutSection() {
           <img
             src={about_img}
             alt="about"
-            className="w-full mt-8 mb-[50px] md:mt-12"
+            className="w-full my-[8vh] md:my-[10vh] lg:my-[12vh]"
           />
 
           <div className="ml-0 md:ml-[80px] lg:ml-[200px] xl:ml-[350px] space-y-[16px] md:space-y-[56px]">
