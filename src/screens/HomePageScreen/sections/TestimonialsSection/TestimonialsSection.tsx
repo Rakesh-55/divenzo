@@ -197,8 +197,8 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
     <section
       className={`
         relative w-full overflow-x-hidden transition-colors duration-700
-        pt-[40px] sm:pt-[50px] lg:pt-[150px]
-        pb-[40px] sm:pb-[50px] lg:pb-[50px]
+      pt-[50px] sm:pt-[50px] lg:pt-[150px]
+      pb-[50px] sm:pb-[50px] lg:pb-[50px]
         px-4 sm:px-8 lg:px-8 xl:px-20
         ${isDark ? "dark-section" : ""}
       `}
@@ -231,38 +231,47 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
           {/* ===== TESTIMONIALS ===== */}
           <div className="flex flex-col">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
+            <div className="flex flex-col gap-8 lg:gap-12 mb-[48px] lg:mb-[86px]">
+              <h2
+                className="
+                  [font-family:'Poppins',Helvetica] font-semibold text-inherit
+                  text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
+                  tracking-[0] leading-normal
+                "
+              >
+                <AnimatedText
+                  as="span"
+                  className="block"
+                  isDarkBg={isDark}
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
+                  Testimonials
+                </AnimatedText>
+              </h2>
+
               <AnimatedText
-                as="span"
-                className="block"
+                className="
+                  max-w-full lg:max-w-[930px]
+                  ml-0 lg:ml-auto
+                  [font-family:'Poppins',Helvetica] font-normal opacity-80
+                  text-[18px] sm:text-[24px] lg:text-[32px]
+                  tracking-[0] leading-normal
+                "
                 isDarkBg={isDark}
                 disableColorReveal
                 slideDuration={0.8}
                 slideStagger={0.08}
               >
-                Testimonials
+                We work with forward-thinking clients who value creativity and results. Together, we build experiences that inspire and deliver growth.
               </AnimatedText>
-            </h2>
-             <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
-            <AnimatedText
-              className="
-                [font-family:'Poppins',Helvetica] font-normal text-inherit
-                text-[18px] sm:text-[24px] lg:text-[32px]
-                tracking-[0] leading-normal
-              "
-              isDarkBg={isDark}
-              disableColorReveal
-              slideDuration={0.8}
-              slideStagger={0.08}
-            >
-            We work with forward-thinking clients who value creativity and results. Together, we build experiences that inspire and deliver growth.
-            </AnimatedText>
+            </div>
 
-            
-          </div>
+          
 
             <div
-              className="relative mt-6 md:mt-12"
+              className="relative"
               onMouseEnter={(event) => {
                 document.body.dataset.cursorHidden = "true";
                 if (carouselCursorRef.current) {
@@ -392,36 +401,43 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
 
           {/* ===== FAQ ===== */}
-          <div className="flex flex-col gap-4 md:gap-12 mt-4 md:mt-10 mb-10 md:mb-20">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
+          <div className="flex flex-col mt-4 md:mt-10 mb-10 md:mb-20">
+            <div className="flex flex-col gap-8 lg:gap-12 mb-[48px] lg:mb-[86px]">
+              <h2
+                className="
+                  [font-family:'Poppins',Helvetica] font-semibold text-inherit
+                  text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
+                  tracking-[0] leading-normal
+                "
+              >
+                <AnimatedText
+                  as="span"
+                  className="block"
+                  isDarkBg={isDark}
+                  disableColorReveal
+                  slideDuration={0.8}
+                  slideStagger={0.08}
+                >
+                  FAQ
+                </AnimatedText>
+              </h2>
+
               <AnimatedText
-                as="span"
-                className="block"
+                className="
+                  max-w-full lg:max-w-[930px]
+                  ml-0 lg:ml-auto
+                  [font-family:'Poppins',Helvetica] font-normal opacity-80
+                  text-[18px] sm:text-[24px] lg:text-[32px]
+                  tracking-[0] leading-normal
+                "
                 isDarkBg={isDark}
                 disableColorReveal
                 slideDuration={0.8}
                 slideStagger={0.08}
               >
-                FAQ
+                We're thrilled that you're interested in learning from us. Before you apply, here are a few things to keep in mind. Let’s help you get started on the right path.
               </AnimatedText>
-            </h2>
-               <div className="max-w-full lg:max-w-[930px] ml-0 lg:ml-auto">
-            <AnimatedText
-              className="
-                [font-family:'Poppins',Helvetica] font-normal text-inherit
-                text-[18px] sm:text-[24px] lg:text-[32px]
-                tracking-[0] leading-normal
-              "
-              isDarkBg={isDark}
-              disableColorReveal
-              slideDuration={0.8}
-              slideStagger={0.08}
-            >
-           We're thrilled that you're interested in learning from us. Before you apply, here are a few things to keep in mind. Let’s help you get started on the right path.
-            </AnimatedText>
-
-          
-          </div>
+            </div>
 
             <Accordion type="single" collapsible>
               {faqItems.map((item, index) => (

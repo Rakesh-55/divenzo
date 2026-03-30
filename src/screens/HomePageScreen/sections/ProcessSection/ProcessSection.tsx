@@ -93,42 +93,42 @@ export const ProcessSection = ({ theme }: ProcessSectionProps): JSX.Element => {
     >
       <div className="max-w-[1280px] mx-auto">
         {/* ================= HEADER ================= */}
-        <h2
-          className="
-            [font-family:'Poppins',Helvetica] font-semibold text-inherit
-            text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
-            tracking-[0] leading-normal
-            mb-[32px] lg:mb-[48px]
-          "
-        >
+        <div className="flex flex-col gap-8 lg:gap-12 mb-[48px] lg:mb-[86px]">
+          <h2
+            className="
+              [font-family:'Poppins',Helvetica] font-semibold text-inherit
+              text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
+              tracking-[0] leading-normal
+            "
+          >
+            <AnimatedText
+              as="span"
+              className="block"
+              isDarkBg={isDark}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Process
+            </AnimatedText>
+          </h2>
+
           <AnimatedText
-            as="span"
-            className="block"
+            className="
+              max-w-full lg:max-w-[930px]
+              ml-0 lg:ml-auto
+              [font-family:'Poppins',Helvetica] font-normal opacity-80
+              text-[18px] sm:text-[24px] lg:text-[32px]
+              tracking-[0] leading-normal
+            "
             isDarkBg={isDark}
             disableColorReveal
             slideDuration={0.8}
             slideStagger={0.08}
           >
-            Process
+            A flexible, adaptive process designed to help businesses launch faster and scale with confidence.
           </AnimatedText>
-        </h2>
-
-        <AnimatedText
-          className="
-            max-w-full lg:max-w-[930px]
-            ml-0 lg:ml-auto
-            [font-family:'Poppins',Helvetica] font-normal opacity-80
-            text-[18px] sm:text-[24px] lg:text-[32px]
-            tracking-[0] leading-normal
-            mb-[48px] sm:mb-[64px] lg:mb-[86px]
-          "
-          isDarkBg={isDark}
-          disableColorReveal
-          slideDuration={0.8}
-          slideStagger={0.08}
-        >
-          A flexible, adaptive process designed to help businesses launch faster and scale with confidence.
-        </AnimatedText>
+        </div>
         
 
         {/* ================= STEPS GRID ================= */}

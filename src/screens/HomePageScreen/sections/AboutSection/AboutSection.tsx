@@ -151,7 +151,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
       }}
       className={`
         relative w-full
-        pt-[40px] sm:pt-[50px] lg:pt-[150px]
+        pt-[50px] sm:pt-[50px] lg:pt-[150px]
         pb-[40px] sm:pb-[50px] lg:pb-[50px]
         px-4 sm:px-8 lg:px-8 xl:px-20
         transition-colors duration-700
@@ -160,16 +160,12 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
     >
       <div className="max-w-[1280px] mx-auto">
         {/* ================= ABOUT INTRO ================= */}
-        <div className="mb-[56px]">
+        <div className="flex flex-col gap-8 lg:gap-12 mb-[48px] lg:mb-[86px]">
           <h2
             className="
-              [font-family:'Poppins',Helvetica] font-semibold
-              text-[40px] leading-[48px]
-              sm:text-[56px] sm:leading-[60px]
-              md:text-[100px] md:leading-[70px]
-              lg:text-[100px] lg:leading-[85px]
-              mb-[36px] md:mb-[56px]
-              
+              [font-family:'Poppins',Helvetica] font-semibold text-inherit
+              text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px]
+              tracking-[0] leading-tight
             "
           >
             <AnimatedText
@@ -184,40 +180,30 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
             </AnimatedText>
           </h2>
 
-          <div
-            className="
-              ml-0
-              sm:ml-[80px]
-              md:ml-[120px]
-              lg:ml-[200px]
-              xl:ml-[350px]
-            "
-          >
+          <div className="max-w-full lg:max-w-[800px] ml-0 lg:ml-auto">
             <AnimatedText
               className="
-                [font-family:'Poppins',Helvetica] font-normal
-                text-[20px] sm:text-[24px] lg:text-[32px]
-               leading-normal
-                mb-[32px] lg:mb-[56px]
+                [font-family:'Poppins',Helvetica] font-normal text-inherit opacity-80
+                text-[18px] sm:text-[24px] lg:text-[32px]
+                tracking-[0] leading-normal
               "
               isDarkBg={isDark}
               disableColorReveal
               slideDuration={0.8}
               slideStagger={0.08}
             >
-              As global leaders in UX/UI design, technology and marketing solutions, we are dedicated to simplifying, strengthening, and transforming businesses of all sizes. our mission is to bridge the gap between creativity and technology, crafting seamless experiences that inspire users and drive measurable outcomes for our clients.
+              As global leaders in UX/UI design, technology and marketing solutions, we are dedicated to simplifying, strengthening, and transforming businesses of all sizes. Our mission is to bridge the gap between creativity and technology, crafting seamless experiences that inspire users and drive measurable outcomes for our clients.
             </AnimatedText>
 
             <Link to="/about">
               <Button
                 variant="link"
-                className="relative h-auto w-fit p-0 text-inherit group no-underline hover:no-underline"
+                className="relative h-auto w-fit p-0 mt-[24px] lg:mt-[40px] text-inherit group no-underline hover:no-underline"
               >
                 <span
                   className="
                     [font-family:'Poppins',Helvetica] font-normal
                     text-[20px] sm:text-[24px] lg:text-[32px]
-                    leading-[40px] lg:leading-[51px]
                   "
                 >
                   Discover More
