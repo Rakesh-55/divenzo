@@ -413,21 +413,24 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="ml-0 md:ml-[80px] lg:ml-[200px] xl:ml-[350px] pt-20">
-              <p 
-                className="[font-family:'Poppins',Helvetica] font-normal text-[18px] sm:text-[24px] lg:text-[32px] tracking-[0] leading-[normal]"
-              >
-                <AnimatedText
-                  as="span"
-                  className="block"
-                  isDarkBg={isDarkTheme}
-                  disableColorReveal
-                  slideDuration={0.8}
-                  slideStagger={0.08}
+            <div className="flex flex-col items-end w-full pt-20">
+              <div className="w-full md:w-[85%] lg:w-[70%] xl:w-[60%] max-w-[930px]">
+                <p 
+                  className="[font-family:'Poppins',Helvetica] font-normal text-[18px] sm:text-[24px] lg:text-[32px] tracking-[0] leading-[normal] text-left"
                 >
-                  We’re a team of designers, product managers, developers, and storytellers dedicated to helping businesses of all sizes bring their next big idea to life.
-                </AnimatedText>
-              </p>
+                  <AnimatedText
+                    as="span"
+                    className="block"
+                    isDarkBg={isDarkTheme}
+                    disableColorReveal
+                    slideDuration={0.8}
+                    slideStagger={0.08}
+                  >
+                    We’re a team of designers, product managers, developers, and storytellers 
+                    dedicated to helping businesses of all sizes bring their next big idea to life.
+                  </AnimatedText>
+                </p>
+              </div>
             </div>
 
           </div>
