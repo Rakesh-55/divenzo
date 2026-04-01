@@ -188,34 +188,34 @@ export const ServicesSection = ({ theme }: ServicesSectionProps): JSX.Element =>
             </AnimatedText>
 
             <Link to="/services">
-            <Button
-              variant="link"
-              className="relative h-auto w-fit p-0 pb-4 mt-[32px] lg:mt-[56px] text-inherit hover:text-inherit group no-underline hover:no-underline mb-5"
-            >
-              <span
-                className="
-                  [font-family:'Poppins',Helvetica] font-normal text-inherit
-                  text-[20px] sm:text-[24px] lg:text-[32px] 
-                "
+              <Button
+                variant="link"
+                className="relative h-auto w-fit p-0 pb-4 mt-[32px] lg:mt-[56px] text-inherit hover:text-inherit group no-underline hover:no-underline mb-5"
               >
-                Discover More
-              </span>
-              <span
-                className="
-                  absolute left-0 -bottom-1 h-0.5 w-full
-                  bg-current opacity-40 transition-opacity duration-300
-                  group-hover:opacity-0
-                "
-              />
-              <span
-                className="
-                  absolute left-0 -bottom-1 h-0.5 w-full
-                  bg-current scale-x-0 origin-left
-                  transition-transform duration-500 ease-out
-                  group-hover:scale-x-100
-                "
-              />
-            </Button>
+                <span
+                  className="
+                    [font-family:'Poppins',Helvetica] font-normal text-inherit
+                    text-[20px] sm:text-[24px] lg:text-[32px] 
+                  "
+                >
+                  Discover More
+                </span>
+                <span
+                  className="
+                    absolute left-0 -bottom-1 h-0.5 w-full
+                    bg-current opacity-40 transition-opacity duration-300
+                    group-hover:opacity-0
+                  "
+                />
+                <span
+                  className="
+                    absolute left-0 -bottom-1 h-0.5 w-full
+                    bg-current scale-x-0 origin-left
+                    transition-transform duration-500 ease-out
+                    group-hover:scale-x-100
+                  "
+                />
+              </Button>
             </Link>
           </div>
         </header>

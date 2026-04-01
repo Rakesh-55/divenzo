@@ -334,13 +334,23 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                   
                   <div className="max-w-2xl xl:max-w-4xl space-y-4 lg:space-y-0">
                     
-                    {/* PARAGRAPH */}
-                    <p className="[font-family:'Poppins',Helvetica] font-normal text-white/90 leading-normal text-[15px] sm:text-[18px] md:text-[28px] lg:text-[25px]">
-                      These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.{" "}
+                    {/* PARAGRAPH - Updated with Flexbox for mobile positioning */}
+                    <p className="
+                      [font-family:'Poppins',Helvetica] font-normal text-white/90 leading-normal 
+                      text-[15px] sm:text-[18px] md:text-[28px] lg:text-[25px]
+                      flex flex-col lg:block items-start
+                    ">
+                      <span>
+                        These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.{" "}
+                      </span>
                       
                       <Link
                         to="/projects"
-                        className="inline-block text-white group relative w-fit transition-transform duration-300 hover:scale-105 origin-left lg:ml-2"
+                        className="
+                          inline-block text-white group relative w-fit 
+                          transition-transform duration-300 hover:scale-105 origin-left 
+                          mt-6 lg:mt-0 lg:ml-2
+                        "
                       >
                         <span className="font-medium">View all Projects</span>
                         <span className="absolute left-0 -bottom-1 h-[1px] lg:h-[2px] w-full bg-white/30 transition-opacity duration-300 group-hover:opacity-0" />

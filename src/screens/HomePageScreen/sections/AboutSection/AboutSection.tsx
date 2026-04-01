@@ -198,12 +198,12 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
             <Link to="/about">
               <Button
                 variant="link"
-                className="relative h-auto w-fit p-0 mt-[24px] lg:mt-[40px] text-inherit group no-underline hover:no-underline"
+                className="relative h-auto w-fit p-0 pb-4 mt-[32px] lg:mt-[56px] text-inherit hover:text-inherit group no-underline hover:no-underline mb-5"
               >
                 <span
                   className="
-                    [font-family:'Poppins',Helvetica] font-normal
-                    text-[20px] sm:text-[24px] lg:text-[32px]
+                    [font-family:'Poppins',Helvetica] font-normal text-inherit
+                    text-[20px] sm:text-[24px] lg:text-[32px] 
                   "
                 >
                   Discover More

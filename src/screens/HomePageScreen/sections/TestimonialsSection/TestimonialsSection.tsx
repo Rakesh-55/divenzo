@@ -35,7 +35,7 @@ gsap.registerPlugin(ScrollTrigger);
 const testimonials = [
   {
     quote:
-      "The divenzo team has been exceptional throughout our project. Their dedication and attention to detail resulted in an outstanding final product. We’re absolutely thrilled with the outcome and couldn’t have asked for better. I would highly recommend them to anyone seeking top-notch services.",
+      "The divenzo team has been exceptional throughout our project. Their dedication and attention to detail resulted in an outstanding final product. We’re absolutely thrilled with the outcome and couldn’t have asked for better. I would recommend them to anyone seeking top-notch services.",
     name: "Vijaya Bhaskar",
     title: "Founder, Bhaskara Hospitals",
     image: "/ellipse-9-2.svg",
@@ -149,7 +149,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
         }
       );
 
-      // Forces perfect math after fonts finish rendering
+
       document.fonts.ready.then(() => {
         ScrollTrigger.refresh();
       });
@@ -188,7 +188,6 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
    useEffect(() => {
   const ctx = gsap.context(() => {
-    // Keep existing slide-in only for elements that still use refs
   });
 
   return () => ctx.revert();
@@ -210,7 +209,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
     >
       {/* <div className="w-full pt-[40px] sm:pt-[50px] lg:pt-[50px] pb-[40px] sm:pb-[50px] lg:pb-[50px]"> */}
         <div className="max-w-[1280px] mx-auto relative">
-          <div className="flex flex-col gap-10 md:gap-20">
+          <div className="flex flex-col">
 
           {/* ===== BRANDS (MARQUEE) ===== */}
           <div className="flex flex-col">
@@ -230,8 +229,8 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
           
 
           {/* ===== TESTIMONIALS ===== */}
-          <div className="flex flex-col">
-            <div className="flex flex-col gap-8 lg:gap-12 mb-[48px] lg:mb-[86px]">
+          <div className="flex flex-col mt-20 lg:mt-[150px]">
+            <div className="flex flex-col gap-8 lg:gap-12 mb-[56px] lg:mb-[100px]">
               <h2
                 className="
                   [font-family:'Poppins',Helvetica] font-semibold text-inherit
@@ -319,13 +318,11 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
               }}
             >
               <Carousel
-                // 1. REMOVED the plugins={[plugin.current]} line to stop auto-scrolling
                 opts={{ align: "start", loop: true }}
                 setApi={setCarouselApi}
                 className="w-full"
               >
                 <CarouselContent className="-ml-4 cursor-none">
-                  {/* 2. DUPLICATED the array so Embla has enough cards to create an infinite loop */}
                   {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
                     <CarouselItem
                       key={i}
@@ -401,8 +398,8 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
 
           {/* ===== FAQ ===== */}
-          <div className="flex flex-col mt-4 md:mt-10 mb-10 md:mb-20">
-            <div className="flex flex-col gap-8 lg:gap-12 mb-[48px] lg:mb-[86px]">
+          <div className="flex flex-col mt-20 lg:mt-[150px] mb-10 md:mb-20">
+            <div className="flex flex-col gap-8 lg:gap-12 mb-[56px] lg:mb-[100px]">
               <h2
                 className="
                   [font-family:'Poppins',Helvetica] font-semibold text-inherit
@@ -435,7 +432,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
                 slideDuration={0.8}
                 slideStagger={0.08}
               >
-                We're thrilled that you're interested in learning from us. Before you apply, here are a few things to keep in mind. Let’s help you get started on the right path.
+                We&apos;re thrilled that you&apos;re interested in learning from us. Before you apply, here are a few things to keep in mind. Let’s help you get started on the right path.
               </AnimatedText>
             </div>
 
@@ -465,10 +462,8 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
               ))}
             </Accordion>
           </div>
-            </div>
-          
+          </div>
         </div>
-      {/* </div> */}
     </section>
   );
 };
