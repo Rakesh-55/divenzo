@@ -35,7 +35,7 @@ const servicesData = [
     number: "03.",
     title: "Development",
     description:
-      "We transform your ideas into functional, scalable digital products—ranging from websites and mobile apps to enterprise platforms and solutions.",
+      "We transform your ideas into functional, scalable digital products ranging from websites and mobile apps to enterprise platforms and solutions.",
     image: imgDevelopment,
   },
   {

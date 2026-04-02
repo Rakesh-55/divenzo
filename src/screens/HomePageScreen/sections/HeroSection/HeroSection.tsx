@@ -259,7 +259,7 @@ export const HeroSection = (): JSX.Element => {
               slideDuration={0.8}
               slideStagger={0.08}
             >
-              Digital design isn&apos;t static — it&apos;s alive. Brands today need
+              Digital design isn&apos;t static it&apos;s alive. Brands today need
               movement, meaning, and emotion. We blend strategy, creativity, and
               storytelling to craft experiences that capture attention, spark
               action, and leave a lasting impression.
