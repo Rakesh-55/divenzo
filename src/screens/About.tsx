@@ -27,14 +27,14 @@ gsap.registerPlugin(ScrollTrigger);
 /* ================= DATA ================= */
 
 const brandLogos = [
-  "/client/Haritha_Hospital.png",
+  "/client/haritha_hospital.png",
   "/client/celeb_fiesta.png",
   "/client/ibha_1.png",
-  "/client/Prasad_Pathlabs.png",
-  "/client/Adhya_Productions.png",
-  "/client/Bhaskara_Hospital.png",
-  "/client/NPR_Films.png",
-  "/client/Sew_Design_Studio.png",
+  "/client/prasad_pathlabs.png",
+  "/client/adhya_productions.png",
+  "/client/bhaskara_hospital.png",
+  "/client/npr_films.png",
+  "/client/sew_design_studio.png",
 ];
 
 const team = [
@@ -358,7 +358,7 @@ export default function AboutSection() {
 
             {/* ===== TEAM HEADING ===== */}
             <h2 
-              className="[font-family:'Poppins',Helvetica] font-semibold text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mt-[60px] md:mt-[80px] lg:mt-[120px] mb-[40px] md:mb-[56px]"
+              className="[font-family:'Poppins',Helvetica] font-semibold text-[40px] sm:text-[56px] md:text-[80px] lg:text-[100px] leading-[1] mt-[60px] md:mt-[150px] lg:mt-[205px] mb-[40px] md:mb-[86px]"
             >
               <AnimatedText
                 as="span"
@@ -439,10 +439,11 @@ export default function AboutSection() {
         {/* ================= CLIENTS SECTION ================= */}
         <section
           ref={clientsSectionRef}
-          className="w-full pt-10 pb-20 md:pb-32"
+          className="w-full pt-20 lg:pt-[120px] pb-20 md:pb-32"
         >
           <div className="max-w-[1280px] mx-auto px-4 lg:px-8 xl:px-0">
-            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] leading-[1] mb-[36px] md:mb-[56px]">
+            <div className="flex flex-col gap-8 lg:gap-12 mb-[48px] lg:mb-[86px]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] tracking-[0] leading-normal">
               <AnimatedText
                 as="span"
                 className="block"
@@ -455,17 +456,22 @@ export default function AboutSection() {
               </AnimatedText>
             </h2>
 
-            <div className="ml-0 md:ml-[80px] lg:ml-[200px] xl:ml-[350px]">
-              <AnimatedText
-                className="[font-family:'Poppins',Helvetica] font-normal text-inherit text-[18px] sm:text-[24px] lg:text-[32px] mb-[36px] md:mb-[56px]"
-                isDarkBg={isDarkTheme}
-                disableColorReveal
-                slideDuration={0.8}
-                slideStagger={0.08}
-              >
-                Every client relationship begins with shared passion. That passion fuels the meaningful experiences we create together.
-              </AnimatedText>
-            </div>
+            <AnimatedText
+              className="
+                max-w-full lg:max-w-[930px]
+                ml-0 lg:ml-auto
+                [font-family:'Poppins',Helvetica] font-normal opacity-80
+                text-[18px] sm:text-[24px] lg:text-[32px]
+                tracking-[0] leading-normal
+              "
+              isDarkBg={isDarkTheme}
+              disableColorReveal
+              slideDuration={0.8}
+              slideStagger={0.08}
+            >
+              Every client relationship begins with shared passion. That passion fuels the meaningful experiences we create together.
+            </AnimatedText>
+          </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-5">
               {brandLogos.map((src, index) => (

@@ -144,7 +144,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
             end: "+=150%", 
             scrub: 1, 
             pinSpacing: true,
-            invalidateOnRefresh: true, // <--- THE FIX FOR BREAKPOINTS
+            invalidateOnRefresh: true, 
           },
         }
       );
@@ -229,7 +229,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
           
 
           {/* ===== TESTIMONIALS ===== */}
-          <div className="flex flex-col mt-20 lg:mt-[150px]">
+          <div className="flex flex-col mt-16 lg:mt-[110px]">
             <div className="flex flex-col gap-8 lg:gap-12 mb-[56px] lg:mb-[100px]">
               <h2
                 className="
@@ -398,7 +398,7 @@ export const TestimonialsSection = ({ theme }: TestimonialsSectionProps): JSX.El
 
 
           {/* ===== FAQ ===== */}
-          <div className="flex flex-col mt-20 lg:mt-[150px] mb-10 md:mb-20">
+          <div className="flex flex-col mt-32 lg:mt-[200px] mb-10 md:mb-20">
             <div className="flex flex-col gap-8 lg:gap-12 mb-[56px] lg:mb-[100px]">
               <h2
                 className="

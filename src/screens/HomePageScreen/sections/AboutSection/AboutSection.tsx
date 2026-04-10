@@ -50,51 +50,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
   const isDark = theme ? theme === "dark" : progress < 0.5;
 
   useEffect(() => {
-    // OLD HEADING ANIMATION CODE - Commented out for future use
-    // Can be uncommented if needed for text animation on heading
-    /*
-    if (!headingRef.current) return;
 
-    const el = headingRef.current;
-    const fullText =
-      "Our work speaks through numbers. Here's what we've achieved so far.";
-
-    const words = fullText.split(" ").map((word, i) =>
-      i === 0
-        ? `<span class='word inline-block overflow-hidden'>${word}</span>`
-        : `<span class='word inline-block opacity-60 overflow-hidden'><span class='inner block translate-y-full opacity-0'>${word}</span></span>`
-    );
-
-    el.innerHTML = words.join(" ");
-
-    const innerWords = el.querySelectorAll(".inner");
-
-    gsap.to(innerWords, {
-      y: 0,
-      opacity: 1,
-      duration: 1.2,
-      ease: "power4.out",
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: el,
-        start: "top 85%",
-        end: "top 50%",
-        toggleActions: "play none none reverse",
-      },
-    });
-
-    const grayWords = el.querySelectorAll(".word:not(:first-child)");
-    gsap.to(grayWords, {
-      color: "inherit",
-      stagger: { each: 0.1, amount: 1 },
-      scrollTrigger: {
-        trigger: el,
-        start: "top center",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
-    */
 
     if (cardsRef.current) {
       const cards = cardsRef.current.querySelectorAll(".stat-card");
@@ -112,8 +68,7 @@ export const AboutSection = ({ theme }: AboutSectionProps): JSX.Element => {
             trigger: cardsRef.current,
             start: "top 85%",
             end: "top 30%",
-            scrub: true,          // tie progress to scroll
-            // remove toggleActions since scrub handles reversal automatically
+            scrub: true,          
           },
         }
       );

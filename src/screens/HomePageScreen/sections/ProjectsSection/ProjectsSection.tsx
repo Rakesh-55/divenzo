@@ -300,7 +300,7 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                   {project.mobileImage && (
                     <div className={`bg-transparent p-0 flex items-end justify-center ${
                       index === 0 ? "w-[95%] lg:w-[80%]" :        // Card 1
-                      index === 1 ? "w-[95%] lg:w-[80%] pb-4" :   // Card 2
+                      index === 1 ? "w-[95%] lg:w-[80%] pb-8" :   // Card 2
                       index === 2 ? "w-[70%] lg:w-[75%]" :        // Card 3
                       "w-[90%]"
                     }`}>
@@ -316,10 +316,10 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
               
               {/* CARD 4 OVERLAY */}
               {project.id === 4 && (
-                <div className="absolute inset-0 z-20 flex flex-col justify-center gap-[clamp(2rem,6vw,7rem)] p-6 sm:p-8 lg:p-12 xl:p-16 lg:pb-[150px]">
+                <div className="absolute inset-0 z-20 flex flex-col justify-center gap-8 min-[375px]:gap-[clamp(2rem,6vw,7rem)] p-5 min-[375px]:p-6 sm:p-8 lg:p-12 xl:p-16 lg:pb-[150px]">
                   
                   {/* HEADING */}
-                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-3xl sm:text-4xl md:text-6xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight pb-28">
+                  <h3 className="[font-family:'Poppins',Helvetica] font-normal text-white text-4xl min-[375px]:text-[44px] sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl 2xl:text-8xl min-[1440px]:text-[120px] min-[1440px]:leading-[1.1] leading-tight pb-20 sm:pb-12 lg:pb-28">
                     <AnimatedText
                       as="span"
                       className="inline-block"
@@ -333,23 +333,21 @@ export const ProjectsSection = ({ theme }: ProjectsSectionProps): JSX.Element =>
                   </h3>
                   
                   <div className="max-w-2xl xl:max-w-4xl space-y-4 lg:space-y-0">
-                    
-                    {/* PARAGRAPH - Updated with Flexbox for mobile positioning */}
                     <p className="
                       [font-family:'Poppins',Helvetica] font-normal text-white/90 leading-normal 
-                      text-[15px] sm:text-[18px] md:text-[28px] lg:text-[25px]
+                      text-[16px] min-[375px]:text-[20px] sm:text-[24px] md:text-[28px] lg:text-[25px]
                       flex flex-col lg:block items-start
                     ">
                       <span>
                         These aren't just projects they're stories. Stories of our clients, our craft, and the impact we've created together.{" "}
                       </span>
-                      
+
                       <Link
                         to="/projects"
                         className="
                           inline-block text-white group relative w-fit 
                           transition-transform duration-300 hover:scale-105 origin-left 
-                          mt-6 lg:mt-0 lg:ml-2
+                          mt-3 min-[375px]:mt-6 lg:mt-0 lg:ml-2
                         "
                       >
                         <span className="font-medium">View all Projects</span>

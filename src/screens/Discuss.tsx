@@ -9,12 +9,7 @@ import emailjs from "@emailjs/browser";
 // Initialize EmailJS (replace with your actual Public Key from EmailJS)
 emailjs.init("GQvJrxnmI5lJ3RFVc");
 
-/* ─────────────────────────────────────────────
-   Animated Input / Textarea
-   - Floating label revealed by GSAP on mount
-   - Black underline animates left→right on focus
-   - Text turns black on focus, grey on blur
-   ───────────────────────────────────────────── */
+
 interface AnimatedFieldProps {
   label: string;
   type?: string;
@@ -119,11 +114,7 @@ function AnimatedField({
   );
 }
 
-/* ─────────────────────────────────────────────
-   Animated Select
-   Same floating-label + underline pattern,
-   dropdown options styled visibly (black text on white bg)
-   ───────────────────────────────────────────── */
+
 interface AnimatedSelectProps {
   label: string;
   required?: boolean;

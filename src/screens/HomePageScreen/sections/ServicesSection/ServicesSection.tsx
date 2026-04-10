@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 import imgResearch from "../../../../../public/client/s_research.png";
 import imgMarket from "../../../../../public/client/s_marketing.png";
-import imgDevelopment from "../../../../../public/client/s_evelopment.png";
+import imgDevelopment from "../../../../../public/client/s_development.png";
 import imgDesign from "../../../../../public/client/s_design.png";
 import imgContentWriting from "../../../../../public/client/s_content_writing.png";
 

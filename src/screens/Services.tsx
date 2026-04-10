@@ -270,11 +270,10 @@ export default function Services() {
         
         ScrollTrigger.create({
           trigger: darkSectionRef.current,
-          start: "top 60%", // Turns dark when Services hits 60% of the screen
+          start: "top 60%", 
           
-          // MAGIC FIX: Binds the end of the dark mode explicitly to the Process section
           endTrigger: processSectionRef.current, 
-          end: "top 60%",   // Turns white when Process hits 60% of the screen
+          end: "top 60%",   
           
           onEnter: () => setIsDark(true),
           onLeave: () => setIsDark(false),
@@ -366,7 +365,7 @@ export default function Services() {
             src={service_img} 
             alt="service" 
             className="w-full h-auto mt-8 mb-4 md:mb-12 md:mt-12 lg:mt-[120px]" 
-            onLoad={() => ScrollTrigger.refresh()} // <--- ADD THIS LINE
+            onLoad={() => ScrollTrigger.refresh()} 
           />
         </div>
       </section>
@@ -454,34 +453,38 @@ export default function Services() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="pb-20 md:pb-32">
+      <section className="pt-2 pb-20 md:pb-32">
         <div className="max-w-[1280px] mx-auto px-4 lg:px-0">
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
-            <AnimatedText
-              as="span"
-              className="block"
-              isDarkBg={isDark}
-              disableColorReveal
-              slideDuration={0.8}
-              slideStagger={0.08}
-            >
-              Testimonials
-            </AnimatedText>
-          </h2>
+          
+          {/* 2. Added this flex container to handle the gaps exactly like the home page */}
+          <div className="flex flex-col gap-8 lg:gap-12 mb-[56px] lg:mb-[100px]">
+            <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] tracking-[0] leading-normal">
+              <AnimatedText
+                as="span"
+                className="block"
+                isDarkBg={isDark}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
+                Testimonials
+              </AnimatedText>
+            </h2>
 
-          <p className="[font-family:'Poppins',Helvetica] font-normal opacity-80 text-[18px] sm:text-[24px] lg:text-[32px] max-w-[930px] ml-0 lg:ml-[200px] xl:ml-[350px]">
-            <AnimatedText
-              as="span"
-              className="block"
-              isDarkBg={isDark}
-              disableColorReveal
-              slideDuration={0.8}
-              slideStagger={0.08}
-            >
-              We work with forward-thinking clients who value creativity and results.
-              Together, we build experiences that inspire and deliver growth.
-            </AnimatedText>
-          </p>
+            <p className="max-w-full lg:max-w-[930px] ml-0 lg:ml-[200px] xl:ml-[350px] [font-family:'Poppins',Helvetica] font-normal opacity-80 text-[18px] sm:text-[24px] lg:text-[32px] tracking-[0] leading-normal">
+              <AnimatedText
+                as="span"
+                className="block"
+                isDarkBg={isDark}
+                disableColorReveal
+                slideDuration={0.8}
+                slideStagger={0.08}
+              >
+                We work with forward-thinking clients who value creativity and results.
+                Together, we build experiences that inspire and deliver growth.
+              </AnimatedText>
+            </p>
+          </div>
         </div>
 
         <div

@@ -46,12 +46,12 @@ function RouteCleanup() {
     };
   }, [location.pathname]);
 
-  // Also clean up after paint as a safety net for any stragglers
+  
   useLayoutEffect(() => {
     if (prevPath.current !== location.pathname) {
       prevPath.current = location.pathname;
 
-      // After DOM has been committed for new route, remove any leftover spacers
+      
       requestAnimationFrame(() => {
         document.querySelectorAll(".pin-spacer").forEach((spacer) => {
           const child = spacer.firstElementChild as HTMLElement | null;
