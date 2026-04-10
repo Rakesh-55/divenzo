@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { AboutSection } from "./sections/AboutSection";
 import { FooterSection } from "./sections/FooterSection";
 import { HeroSection } from "./sections/HeroSection";
- import { ProcessSection } from "./sections/ProcessSection";
- import { ProjectsSection } from "./sections/ProjectsSection";
-  import { ServicesSection } from "./sections/ServicesSection";
- import { TestimonialsSection } from "./sections/TestimonialsSection";
+import { ProcessSection } from "./sections/ProcessSection";
+import { ProjectsSection } from "./sections/ProjectsSection";
+import { ServicesSection } from "./sections/ServicesSection";
+import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -46,14 +46,13 @@ export const HomePageScreen = (): JSX.Element => {
       }),
     ];
 
-    // THE OVERLAP FIX: Forces GSAP to recalculate after the route finishes loading
     const timeoutId = setTimeout(() => {
       ScrollTrigger.refresh();
     }, 500);
 
     return () => {
       triggers.forEach((trigger) => trigger.kill());
-      clearTimeout(timeoutId); // Clean up the timeout to prevent memory leaks
+      clearTimeout(timeoutId); 
     };
   }, []);
 

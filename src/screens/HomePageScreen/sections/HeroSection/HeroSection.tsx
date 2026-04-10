@@ -115,7 +115,7 @@ export const HeroSection = (): JSX.Element => {
           ease: "none",
           scrollTrigger: {
             trigger: wrapper,
-            start: "top top+=350", // Adjusted to match new trigger timing
+            start: "top top+=350", 
             end: "top top+=50",
             scrub: 0.5,
           },
@@ -126,7 +126,7 @@ export const HeroSection = (): JSX.Element => {
           ease: "none",
           scrollTrigger: {
             trigger: wrapper,
-            start: "top top+=350", // Adjusted to match new trigger timing
+            start: "top top+=350", 
             end: "top top+=50",
             scrub: 0.5,
           },
@@ -154,13 +154,13 @@ export const HeroSection = (): JSX.Element => {
   }, []);
 
   return (
-    <section className="relative w-full bg-white overflow-visible z-10 px-4 sm:px-8 lg:px-8 xl:px-20 pt-[40px]">
+    <section className="relative w-full bg-white overflow-visible z-10 px-4 sm:px-8 lg:px-8 xl:px-20 pt-[40px] pb-[50px] sm:pb-[60px] lg:pb-[100px]">
       {/* <Navbar /> */}
 
       {/* 🟣 TITLE + ROTATING WORDS */}
       <div className="max-w-[1280px] mx-auto w-full">
         <div className="flex flex-col gap-4 z-10 relative">
-         <h1
+        <h1
           ref={headingRef}
           aria-label="Divenzo"
           className="
@@ -169,6 +169,7 @@ export const HeroSection = (): JSX.Element => {
             text-[min(24vw,330px)] leading-[1.1]
             whitespace-nowrap overflow-visible
             pb-4 lg:pb-8
+            hero-heading
           "
         >
           {"Divenzo".split("").map((char, i) => (
