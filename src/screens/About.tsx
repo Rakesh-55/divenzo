@@ -27,14 +27,14 @@ gsap.registerPlugin(ScrollTrigger);
 /* ================= DATA ================= */
 
 const brandLogos = [
-  "/client/haritha_hospital.png",
-  "/client/celeb_fiesta.png",
-  "/client/ibha_1.png",
-  "/client/prasad_pathlabs.png",
-  "/client/adhya_productions.png",
-  "/client/bhaskara_hospital.png",
-  "/client/npr_films.png",
-  "/client/sew_design_studio.png",
+  "/client/brand_images/haritha_hospital.png",
+  "/client/brand_images/celeb_fiesta.png",
+  "/client/brand_images/ibha_1.png",
+  "/client/brand_images/prasad_pathlabs.png",
+  "/client/brand_images/adhya_productions.png",
+  "/client/brand_images/bhaskara_hospital.png",
+  "/client/brand_images/npr_films.png",
+  "/client/brand_images/sew_design_studio.png",
 ];
 
 const team = [
