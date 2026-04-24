@@ -2,7 +2,7 @@
 import React from "react";
 
 const brandLogos: string[] = [
-  "/client/brand_images/Haritha_Hospital.png",
+  "/client/brand_images/haritha_hospital.png",
   "/client/brand_images/celeb_fiesta.png",
   "/client/brand_images/ibha_1.png",
   "/client/brand_images/Prasad_Pathlabs.png",
