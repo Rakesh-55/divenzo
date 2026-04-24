@@ -2,14 +2,14 @@
 import React from "react";
 
 const brandLogos: string[] = [
-  "/client/brand_images/haritha_hospital.png",
+  "/client/brand_images/Haritha_Hospital.png",
   "/client/brand_images/celeb_fiesta.png",
   "/client/brand_images/ibha_1.png",
-  "/client/brand_images/prasad_pathlabs.png",
-  "/client/brand_images/adhya_productions.png",
-  "/client/brand_images/bhaskara_hospital.png",
-  "/client/brand_images/npr_films.png",
-  "/client/brand_images/sew_design_studio.png",
+  "/client/brand_images/Prasad_Pathlabs.png",
+  "/client/brand_images/Adhya_Productions.png",
+  "/client/brand_images/Bhaskara_Hospital.png",
+  "/client/brand_images/NPR_Films.png",
+  "/client/brand_images/Sew_Design_Studio.png",
 ];
 
 export function BrandMarquee(): JSX.Element {
