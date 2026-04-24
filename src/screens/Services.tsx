@@ -376,7 +376,7 @@ export default function Services() {
       {/* PROCESS */}
       <section ref={processSectionRef} className="relative w-full pt-2 pb-20 px-4 lg:px-8 xl:px-20">
         <div className="max-w-[1280px] mx-auto">
-          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[56px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
+          <h2 className="[font-family:'Poppins',Helvetica] font-semibold text-inherit text-[40px] sm:text-[56px] md:text-[100px] lg:text-[100px] mb-[36px] md:mb-[56px]">
             <AnimatedText
               as="span"
               className="block"
@@ -453,7 +453,7 @@ export default function Services() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="pt-2 pb-20 md:pb-32">
+      <section className="pt-[50px] sm:pt-[50px] lg:pt-[150px] pb-20 md:pb-32">
         <div className="max-w-[1280px] mx-auto px-4 lg:px-0">
           
           {/* 2. Added this flex container to handle the gaps exactly like the home page */}
