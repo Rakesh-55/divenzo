@@ -53,7 +53,7 @@ const team = [
 const statsData = [
   { number: "9+", title: "Projects launched", description: "Helping brands make their mark online." },
   { number: "10K+", title: "Users reached", description: "Our designs engage millions globally" },
-  { number: "98%", title: "Client satisfaction rate", description: "We build long-term partnerships through proven results." },
+  { number: "100%", title: "Client satisfaction rate", description: "We build long-term partnerships through proven results." },
   { number: "1+", title: "Years of expertise", description: "Decades of experience in delivering impactful digital solutions." },
 ];
 
@@ -170,8 +170,8 @@ export default function AboutSection() {
 
     // THE OVERLAP FIX: Forces GSAP to recalculate pin spacing after the new page loads
     const timeoutId = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 500);
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }, 800);
 
     return () => {
       ctx.revert();
@@ -244,23 +244,19 @@ export default function AboutSection() {
             </AnimatedText>
           </div>
 
-          {/* STATS */}
-          <div 
-            ref={statsContainerRef}
-            className="mt-[40px] md:mt-[100px] -mx-4 lg:mx-0 px-4 py-8"
-          >
-            
-            {/* NEW PINNED TEXT REVEAL */}
-            <PinnedTextReveal 
-              text="Our work speaks through numbers. Here's what we've achieved so far."
-              isDark={isDarkTheme}
-              className="
-                [font-family:'Poppins',Helvetica] font-normal 
-                text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
-                leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
-                mb-[40px] lg:mb-[72px]
-              "
-            />
+          
+          <div className="mt-[60px] sm:mt-[80px] lg:mt-[100px] -mx-4 lg:mx-0 px-4 py-8">
+            <div className="mb-[40px] lg:mb-[72px]">
+              <PinnedTextReveal
+                text="Our work speaks through numbers. Here's what we've achieved so far."
+                isDark={isDarkTheme}
+                className="
+                  [font-family:'Poppins',Helvetica] font-normal
+                  text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
+                  leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
+                "
+              />
+            </div>
 
             <div
               ref={cardsRef}
@@ -345,16 +341,17 @@ export default function AboutSection() {
         >
           <div className="max-w-[1280px] mx-auto">
 
-            <PinnedTextReveal 
-              text="Design is more than visuals. It's the trust you earn, the emotion you spark, and the impact that lasts."
-              isDark={isDarkTheme}
-              className="
-                [font-family:'Poppins',Helvetica] font-normal 
-                text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px] tracking-[0] 
-                leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px] 
-                mb-[40px] sm:mb-[72px]
-              "
-            />
+            <div className="mb-[40px] sm:mb-[72px]">
+              <PinnedTextReveal
+                text="Design is more than visuals. It's the trust you earn, the emotion you spark, and the impact that lasts."
+                isDark={isDarkTheme}
+                className="
+                  [font-family:'Poppins',Helvetica] font-normal
+                  text-[28px] sm:text-[36px] md:text-[56px] lg:text-[80px]
+                  leading-[38px] sm:leading-[50px] md:leading-[70px] lg:leading-[90px]
+                "
+              />
+            </div>
 
             {/* ===== TEAM HEADING ===== */}
             <h2 

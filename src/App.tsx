@@ -76,7 +76,7 @@ export default function App() {
       <Navbar />
       <ScrollToTop />
       <RouteCleanup />
-      <main className="pt-header">
+      <main id="main-content" role="main" className="pt-header">
         <Routes>
           <Route path="/" element={<HomePageScreen />} />
           <Route path="/about" element={<About />} />

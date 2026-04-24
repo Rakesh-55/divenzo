@@ -1,22 +1,104 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Basic Meta Tags -->
     <meta charset="utf-8" />
-    <title>Divenzo</title>
-    <link rel="icon" href="/divenzo-logo.png" type="image/png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <style>
-      @import url("https://fonts.googleapis.com/css?family=Poppins:600,500,400,700|Ramabhadra:400|Open+Sans:400");
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Varela+Round&display=swap");
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Divenzo - Digital Design Agency | UX/UI Design & Branding</title>
+    <meta name="description" content="Divenzo is a premier digital design agency specializing in UX/UI design, branding, and digital marketing. We create brand experiences that endure, scale, and connect." />
+    <meta name="keywords" content="digital design agency, UX/UI design, branding, web design, mobile app design, digital marketing, Hyderabad, India" />
+    <meta name="author" content="Divenzo" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
-    </style>
-    <link href="tailwind.css" rel="stylesheet" />
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.divenzo.com/" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/divenzo-logo.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/divenzo-logo.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.divenzo.com/" />
+    <meta property="og:title" content="Divenzo - Digital Design Agency | UX/UI Design & Branding" />
+    <meta property="og:description" content="Divenzo is a premier digital design agency specializing in UX/UI design, branding, and digital marketing. We create brand experiences that endure, scale, and connect." />
+    <meta property="og:image" content="https://www.divenzo.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Divenzo" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.divenzo.com/" />
+    <meta name="twitter:title" content="Divenzo - Digital Design Agency | UX/UI Design & Branding" />
+    <meta name="twitter:description" content="Divenzo is a premier digital design agency specializing in UX/UI design, branding, and digital marketing." />
+    <meta name="twitter:image" content="https://www.divenzo.com/og-image.png" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="msapplication-TileColor" content="#000000" />
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- DNS prefetch -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Varela+Round&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Varela+Round&display=swap"></noscript>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Divenzo",
+      "url": "https://www.divenzo.com",
+      "logo": "https://www.divenzo.com/divenzo-logo.png",
+      "description": "Divenzo is a premier digital design agency specializing in UX/UI design, branding, and digital marketing. We create brand experiences that endure, scale, and connect.",
+      "foundingDate": "2023",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Sanjay Gandhi Nagar, Shapur Nagar",
+        "addressLocality": "IDA Jeedimetla",
+        "addressRegion": "Hyderabad",
+        "postalCode": "500055",
+        "addressCountry": "IN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-93478-28484",
+        "email": "hello@divenzo.com",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        "https://www.instagram.com/divenzo.design",
+        "https://www.linkedin.com/company/divenzo-design-digital-marketing-agency",
+        "https://www.facebook.com/share/19guPkqrpU/?mibextid=wwXIfr"
+      ],
+      "serviceType": ["UX/UI Design", "Branding", "Digital Marketing", "Web Development", "Mobile App Design"],
+      "areaServed": "Worldwide",
+      "knowsAbout": ["Digital Design", "User Experience", "User Interface", "Brand Identity", "Marketing Strategy"]
+    }
+    </script>
+
+    <!-- CSS -->
     <link href="tailwind.css" rel="stylesheet" />
   </head>
   <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-black text-white px-4 py-2 rounded z-50">
+      Skip to main content
+    </a>
+
     <div id="app"></div>
     <script type="module" src="./src/index.tsx"></script>
+
   </body>
 </html>

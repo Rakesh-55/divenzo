@@ -23,7 +23,7 @@ const statsData = [
     description: "Our designs engage millions globally",
   },
   {
-    number: "98%",
+    number: "100%",
     title: "Client satisfaction rate",
     description: "We build long-term partnerships through proven results.",
   },
