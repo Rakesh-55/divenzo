@@ -8,7 +8,7 @@ const brandLogos: string[] = [
   "/client/brand_images/prasad_pathlabs.png",
   "/client/brand_images/adhya_productions.png",
   "/client/brand_images/bhaskara_hospital.png",
-  "/client/brand_images/NPR_Films.png",
+  "/client/brand_images/npr_films.png",
   "/client/brand_images/sew_design_studio.png",
 ];
 
